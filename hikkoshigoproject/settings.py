@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app'
+    'app',
 ]
 
 MIDDLEWARE = [
@@ -121,3 +121,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# 認証関連の設定
+LOGIN_URL = '/login/'                # 未ログイン時にリダイレクトされる先（デフォルトは /accounts/login/）
+LOGIN_REDIRECT_URL = '/home/'        # ログイン成功後に移動する先
+LOGOUT_REDIRECT_URL = '/login/'      # ログアウト後に戻る先
