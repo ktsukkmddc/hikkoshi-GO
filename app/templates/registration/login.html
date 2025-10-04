@@ -7,15 +7,21 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-　<div class="login-container">
+ <div class="login-container">
     <h2>引越しGO</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class=btn-login">ログイン</button>
-    </form>
-    <P><a href="#">新規アカウント登録</a></p>
-    <P><a href="#">パスワードを忘れた方はこちら</a></p>
-　</div>
+
+    <label for="username">メールアドレス</label>
+    <input type="text" id="username" name="username">
+
+    <label for="password">パスワード</label>
+    <input type="password" id="password" name="password">
+
+    <button type="submit">ログイン</button>
+    
+    <div class="links">
+      <a href="#">新規アカウント登録</a><br>
+      <a href="#">パスワードを忘れた方はこちら</a>
+   </div>
+</div> 
 </body>
 </html>
