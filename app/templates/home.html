@@ -7,6 +7,10 @@
 <body>
     <h1>ログイン成功！ホーム画面です。</h1>
     <p>{{ user.email }} さん、ようこそ！</p>
-    <a href="{% url 'logout' %}">ログアウト</a>
+
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+    <button type="submit">ログアウト</button>
+    </form>
 </body>
 </html>
