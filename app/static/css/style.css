@@ -1,200 +1,81 @@
-body {
-  background-color: #f5f5f5;
-  font-family: sans-serif;
-}
-
-.login-container {
-  width: 350px;
-  margin: 100px auto;
-  padding: 30px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
+/* ===== login専用 ===== */
 .login-container h2 {
+  text-align: center;        /* タイトル位置を合わせる */
   margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-}
-
-.login-container label {
-  display: block;
-  text-align: left;
-  margin: 10px 0 5px;
-  font-weight: bold;
 }
 
 .login-container input {
-  width: 100%;
-  box-sizing: border-box;
+  width: 100%;               /* signupと同じ入力欄サイズ */
   padding: 10px;
-  margin-bottom: 15px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 6px;
   font-size: 14px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
 }
 
 .login-container button {
-  background-color: #50e3f6;
-  color: #000; /* 黒文字 */
-  padding: 8px 20px; /* 少し小さめ */
-  border: 1px solid #ccc;   /* 入力枠と同じ色の枠線 */
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
   display: block;
-  margin: 0 auto;
-  margin-top: 20px;
+  width: 30%;                /* signupと同じボタン幅 */
+  margin: 50px auto;         /* 中央寄せ */
+  padding: 10px;
+  background: #50e3f6;
+  border: 1px solid #ccc;
+  color: #000;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 .login-container button:hover {
-  background-color: #04cde7;
+  background: #04cde7;
 }
 
 .login-container .links {
-  margin-top: 10px;/* 全体のリンクブロックの開始位置 */
   text-align: center;
+  margin-top: 50px;
 }
 
 .login-container .links a {
-  display: block;
   color: #555;
   font-size: 14px;
-  text-decoration: underline; /* 常に下線をつける */
-  margin-top: 10px 0;
-}
-
-/* 「新規アカウント登録」だけ余白大きめ */
-.login-container .links a:first-child {
-  margin-top: 60px;   /* ここで全体を下げる（数値は調整可） */
-  margin-bottom: 3px; /* パスワードとの間隔を狭める */
-}
-
-.login-container .links a:hover {
   text-decoration: underline;
 }
 
-body {
-  background-color: #f5f5f5;
-  font-family: sans-serif;
+/* ===== signup専用 ===== */
+.signup-container {}
 
-  display: flex;              /* ✅ 中央寄せのため追加 */
-  justify-content: center;    /* ✅ 横方向の中央寄せ */
-  align-items: center;        /* ✅ 縦方向の中央寄せ */
-  height: 100vh;              /* ✅ 画面全体を基準に */
-  margin: 0;                  /* ✅ 余計な余白を削除 */
-}
-
-
-/* signupページ用スタイル */
-.signup-container {
-    width: 350px;
-    margin: 100px auto;
-    padding: 30px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    font-family: 'Arial', sans-serif;
-}
-
-.signup-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.form-group input {
-    width: 90%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-}
-
-.btn {
-    display: block;
-    width: 30%;
-    margin: 20px auto;
-    padding: 10px;
-    background: #50e3f6;
-    border: #ccc;
-    color: #000000;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.btn:hover {
-    background: #04cde7;
-}
-
-/* パスワードルール表示 */
 .password-field {
-    position: relative;
+  position: relative;
 }
 
 #password-rules-btn {
-    position: absolute;
-    right: -20px;
-    top: 50px;
-    transform: translateY(-50%);
-    background: #ffffff;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    cursor: pointer;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1px;
+  position: absolute;
+  right: -20px;
+  top: 50px;
+  transform: translateY(-50%);
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1px;
 }
 
 .password-rules {
-    display: none;
-    position: static;
-    top: calc(100% + 12px);
-    left: 0%;
-    background-color: #fff; 
-    border: 1px solid #ccc;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    font-size: 14px;
-    width: 300px;
-    margin-top: 20px;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-.login-link {
-    text-align: center;
-    margin-top: 15px;
-}
-
-.login-link a {
-  color: #555;         /* 文字色 */
-  font-size: 14px;        /* 文字サイズ */
-  text-decoration: underline; /* 下線（不要なら none） */
-}
-
-/* ふわっと表示アニメーション */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.fade-in {
-    animation: fadeIn 0.3s ease-in-out;
+  display: none;
+  position: static;
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-size: 14px;
+  width: 300px;
+  margin-top: 20px;
+  animation: fadeIn 0.3s ease-in-out;
 }
