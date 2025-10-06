@@ -25,7 +25,7 @@
         <input type="password" id="id_password" name="password" required>
     </div>
 
-    <button type="submit">ログイン</button>
+    <button type="submit" class="btn">ログイン</button>
     
     {% if form.errors %}
     <p style="color:#d00; margin-top:8px;">メールアドレスまたはパスワードが違います。</p>
@@ -33,7 +33,7 @@
   </form>
 
     <div class="links">
-      <a href="#">新規アカウント登録</a><br>
+      <a href="{% url 'signup' %}">新規アカウント登録</a><br>
       <a href="#">パスワードを忘れた方はこちら</a>
    </div>
 </div> 

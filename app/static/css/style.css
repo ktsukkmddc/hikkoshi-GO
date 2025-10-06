@@ -46,25 +46,37 @@
 .signup-container {}
 
 .password-field {
-  position: relative;
+  display: block;
+}
+
+/* ラベル＋？ を横並びにする行 */
+.password-field .label-row {
+  display: inline-flex;
+  align-items: baseline;       /* 縦位置を中央に */
+  gap: 6px;                  /* ラベルと？の間隔 */
+  margin-bottom: 5px;        /* 下の入力欄との余白 */
+}
+
+/* この2行で共通の label ルールを上書き（横並び用）*/
+.password-field label {
+  display: inline;           /* 共通の display:block を上書き */
+  margin: 0;                 /* 下マージンを消す */
 }
 
 #password-rules-btn {
-  position: absolute;
-  right: -20px;
-  top: 50px;
-  transform: translateY(-50%);
-  background: #ffffff;
+  background: #fff;
   border: 1px solid #ccc;
   border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
-  font-weight: bold;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  line-height: 1px;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(-1px);  /* ← 高さ微調整（ラベルと揃える） */
 }
 
 .password-rules {
@@ -75,7 +87,8 @@
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   font-size: 14px;
-  width: 300px;
+  width: 90%;
+  margin-left: auto; margin-right: auto;
   margin-top: 20px;
   animation: fadeIn 0.3s ease-in-out;
 }

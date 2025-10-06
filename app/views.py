@@ -1,47 +1,25 @@
-from django.shortcuts import render
-
-def login_view(request):
-    return render(request, 'login.html')
-
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from .forms import SignUpForm
 
+
+# --- ログイン処理 ---
 def login_view(request):
     if request.method == "POST":
-        username = request.POST.get('username')   # フォームのnameに合わせる
+        username = request.POST.get('username')  # フォームのnameに合わせる
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)  # ログイン処理
-            return redirect('home')  # ホーム画面へ（後でhomeを作ります）
+            return redirect('home')  # ホーム画面へ
         else:
             messages.error(request, "メールアドレスまたはパスワードが間違っています")
     return render(request, 'login.html')
 
-def home_view(request):
-    return render(request, 'home.html')
 
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-
-@login_required
-def home_view(request):
-    return render(request, 'home.html')
-
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-
-@login_required
-def home_view(request):
-    return render(request, 'home.html')
-
-
-from django.shortcuts import render, redirect
-from django.contrib.auth import login
-from .forms import SignUpForm
-
-
+# --- 新規登録処理 ---
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -52,3 +30,9 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
+
+
+# --- ホーム画面 ---
+@login_required
+def home_view(request):
+    return render(request, 'home.html')

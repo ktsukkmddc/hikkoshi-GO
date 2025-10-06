@@ -1,0 +1,148 @@
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background-color: #fafafa;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== ナビゲーションバー固定設定 ===== */
+.navbar {
+  position: fixed;        /* ← 画面上部に固定 */
+  top: 0;                 /* ← ページ最上部に配置 */
+  left: 0;                /* ← 左端からスタート */
+  width: 100%;            /* ← 横幅を画面いっぱいに広げる */
+  background-color: #ffee00; /* ← 背景色（黄色） */
+  display: flex;          /* ← 中の項目を横並び */
+  justify-content: space-between; /* ← 左右に配置 */
+  align-items: center;    /* ← 縦位置を中央揃え */
+  padding: 15px 40px;     /* ← 上下左右の余白 */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* ← 下に軽い影をつける */
+  z-index: 1000;          /* ← 前面に表示されるようにする */
+}
+
+/* コンテンツがバーに隠れないように */
+.main-content {
+  padding-top: 120px;  /* ← バーの高さ分だけ下げる（数字は好みで調整） */
+}
+
+.navbar .logo {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.navbar .nav-links a {
+  margin-left: 10px;
+  margin-right: 60px;
+  text-decoration: none;
+  color: #333;
+  font-size: 15px;
+}
+
+.navbar .nav-links a:hover {
+  text-decoration: underline;
+}
+
+/* ===== メインコンテンツ ===== */
+.main-container {
+  text-align: center;
+  margin-top: 80px;
+}
+
+/* 引越しまでの日数カード */
+.countdown-card {
+  background-color: #f7f7f7;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: inline-block;
+  padding: 40px 60px;
+  margin-bottom: 50px;
+}
+
+.countdown-card label {
+  font-size: 14px;
+  color: #555;
+}
+
+.date-input {
+  margin-bottom: 15px;
+}
+
+.countdown-card h2 {
+  font-size: 20px;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.countdown {
+  font-size: 36px;
+  font-weight: bold;
+  color: #b44;
+}
+
+/* ===== 達成度バー ===== */
+.progress-section {
+  width: 80%;
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.progress-bar {
+  background: linear-gradient(to right, #f9dede, #d47b7b);
+  height: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progress {
+  height: 100%;
+  background: #b44;
+  border-radius: 10px 0 0 10px;
+  transition: width 0.3s ease;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #555;
+  margin-top: 4px;
+}
+
+/* ===== スマホ（768px以下）対応 ===== */
+@media screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 13px;
+  }
+
+  .main-container {
+    width: 95%;
+    margin: 30px auto;
+  }
+
+  .countdown-box {
+    padding: 20px;
+  }
+
+  .countdown-box h2 {
+    font-size: 18px;
+  }
+
+  .days-left {
+    font-size: 28px;
+  }
+
+  .progress-bar {
+    height: 14px;
+  }
+}

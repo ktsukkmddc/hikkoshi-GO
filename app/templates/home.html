@@ -1,16 +1,58 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>ホーム</title>
+    <title>ホーム画面 | 引越しGO</title>
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
 </head>
 <body>
-    <h1>ログイン成功！ホーム画面です。</h1>
-    <p>{{ user.email }} さん、ようこそ！</p>
+    <!-- ナビゲーションバー -->
+    <nav class="navbar">
+        <div class="logo"><strong>引越しGO</strong></div>
+        <div class="nav-links">
+          <a href="#">タスク</a>
+          <a href="#">メッセージ</a>
+          <a href="#">カレンダー</a>
+          <a href="#">マイページ</a>
+        </div>
+    </nav>
 
-    <form action="{% url 'logout' %}" method="post">
-        {% csrf_token %}
-    <button type="submit">ログアウト</button>
-    </form>
+    <!-- メインコンテンツ -->
+    <main class="main-container">
+        <section class="countdown-card">
+            <div class="date-input">
+                <label for="move-date">引越し日：</label>
+                <input type="date" id="move-date">
+            </div>
+            <h2>引越しまであと</h2>
+            <p class="countdown"><span id="days-left">10</span>日！</p>
+        </section>
+
+        <section class="progress-section">
+            <p>達成度</p>
+            <div class="progress-bar">
+                <div class="progress" style="width: 40%;"></div>
+            </div>
+            <div class="progress-labels">
+                <span>0%</span>
+                <span>100%</span>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 引越し日を設定して残り日数を自動表示
+        const dateInput = document.getElementById("move-date");
+        const daysLeftDisplay = document.getElementById("days-left");
+
+        dateInput.addEventListener("change", () => {
+            const moveDate = new Date(dateInput.value);
+            const today = new Date();
+            const diff = Math.ceil((moveDate - today) / (1000 * 60 * 60 * 24));
+            daysLeftDisplay.textContent = diff > 0 ? diff : 0;
+        });
+    </script>
 </body>
 </html>

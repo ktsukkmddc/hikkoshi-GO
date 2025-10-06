@@ -1,123 +1,190 @@
+/* ===== フォント共通設定 ===== */
+
+/* 全体の基本フォント */
+:root {
+  --font-main: 'Arial', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;  /* 日本語対応 */
+  --font-color: #333;  /* 標準文字色（濃いグレー） */
+  --font-size-base: 14px;  /* 基本文字サイズ */
+  --font-size-title: 24px;  /* 見出しやタイトル用 */
+  --font-weight-bold: 600;  /* 太字 */
+}
+
+.container-common input::placeholder {
+  color: #aaa;  /* プレースホルダー（薄いグレー） */
+}
+
+
 /* ====== 共通設定 ====== */
 
 /* ページ全体（背景・フォント・中央寄せ） */
 body {
-  background-color: #f5f5f5;
-  font-family: sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
+  background-color: #f5f5f5;  /* 全体の背景 */
+  font-family: var(--font-main);
+  color: var(--font-color);
+  font-size: var(--font-size-base);
+  display: flex;  /* 画面全体をフレックスボックスに指定　中央寄せなどのレイアウト調整がしやすい */
+  justify-content: center;  /* 横方向(左右)を中央寄せ */
+  align-items: center;  /* 縦方向(上下)を中央寄せ */
+  height: 100vh;  /* 表示エリア(ブラウザの高さ)を画面全体(100%)に設定 */
+  margin: 0;  /* ブラウザが自動で付ける余白を消す設定　上下左右すべて0 */
 }
 
 /* フォームの共通デザイン */
-.container-common {
-  width: 400px;/* ← 外枠の横幅を統一 */
-  margin: 80px auto;/* ← 位置調整（中央揃え） */
-  padding: 30px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: left;
-  font-family: 'Arial', sans-serif;
-  min-height: 520px;
+.container-common {  /* 真ん中の四角い箱(フォーム・カード)　共通コンテナ */
+  width: 400px;  /* コンテナ(白い枠)の外枠の横幅 */
+  margin: 80px auto;  /* 上下に80pxの余白をつけ、左右はautoで中央揃え */
+  padding: 30px;  /* 内側の余白　文字や入力欄を枠の内側から30px離す設定 */
+  background: #fff;  /* 背景色 */
+  border-radius: 12px;  /* 枠の角を12pxの丸みをつける */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  /* 下方向にほんのり影をつけて、立体感を出す */
+  text-align: left;  /* 文字や入力項目の配置を左寄せ */
+  font-family: 'Arial', sans-serif;  /* ボックス内のフォントをAriel系に統一 */
+  min-height: 520px;  /* コンテナの最小高さを520pxに固定　内容が少なくても一定の高さを保つ */
 }
 
 /* 入力欄（input）を共通化 */
-.container-common input {
-  width: 100%;                      /* ← 横幅を統一 */
-  padding: 10px;                    /* ← 高さを統一 */
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-  margin-bottom: 15px;
-  box-sizing: border-box;           /* ← 幅の計算を安定化 */
+.container-common input {  /* container-commonの中にあるすべての<input>要素に適用 */
+  width: 100%;  /* 入力欄の横幅を親要素(フォーム枠)いっぱいに設定 */
+  padding: 10px;  /* 入力欄内側の余白 */
+  border: 1px solid #ccc;  /* 枠線をグレー#cccで1pxの太さに設定 */
+  border-radius: 6px;  /* 枠の角の丸み設定 */
+  font-family: "Noto Sans JP", sans-serif;  /* 入力文字も同じフォント */
+  font-size: 15px;  /* 入力文字の大きさ */
+  color: #333;  /* 文字色を少し淡く */
+  margin-bottom: 15px;  /* 各入力欄の下に15pxの余白を入れる */
+  box-sizing: border-box;  /* 入力欄の計算方法を「ボーダーとパディングを含めて100%」に設定　これ入れないとpadding増やすと全体の幅がはみ出すことあり */
 }
 
 /* ボタン（登録・ログイン）を共通化 */
-.container-common button {
-  display: block;
-  width: 30%;                      /* ← 横幅を統一 */
-  padding: 10px;
-  background-color: #50e3f6;
-  color: #000;
-  border: 1px solid #ccc;           /* ← 枠線も共通 */
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  margin: 20px auto 0;              /* ← 中央寄せ */
+.container-common button {  /* 共通コンテナにあるすべての<button>のスタイルに適用 */
+  display: block;  /* ブロック要素に変更　これによりmargin:auto;が有効になりボタンを中央揃え可能 */
+  width: 30%;  /* ボタンの幅をフォームの30%に設定 */
+  padding: 10px;  /* ボタン内の文字の上下左右に余白をつける */
+  background-color: #50e3f6;  /* ボタンの背景色 */
+  color: #333;  /* ボタン内の文字色 */
+  border: 1px solid #ccc;  /* ボタンの枠線をグレー#cccで1px */
+  border-radius: 8px;  /* ボタンの角の丸み設定 */
+  font-size: 16px;  /* ボタン内の文字の大きさ */
+  cursor: pointer;  /* カーソルを合わせた時に「クリックできる」設定 */
+  margin: 20px auto 0;  /* ボタン上に20pxの余白をつける　下に他要素が続く場合との間隔を調整　autoで左右中央揃え */
+  font-weight: 500;         /* やや細め（強すぎない太さ） */
+  letter-spacing: 0.5px;    /* 文字間を少し広げて読みやすく */
 }
 
-.container-common button:hover {
+/* ブロック要素とは、横幅いっぱいに広がる要素 のこと　<div> や <p> などが代表例　自動的に 改行されて縦に積み重なる 性質がある */
+/* border: 1px　→　線の太さ */
+/* border: solid　→　線のスタイル(実線) */
+/* border: #ccc;　→　線の色　薄いグレー */
+
+.container-common button:hover {  /* 上のボタンにマウスをのせた時　ホバー時 */
   background-color: #04cde7;
+  transform: translateY(-2px);  /* 少し浮かせる */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);  /* 影を少し強調 */
+  transition: all 0.2s ease-in-out;  /* アニメーションの滑らかさ */
+}
+
+/* ボタンをクリックした瞬間（押し込み感） */
+.container-common button:active {
+  transform: translateY(0);          /* 元の位置に戻る（押し込まれた感じ） */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 影を弱めて沈む感 */
 }
 
 /* 共通タイトル */
-.container-common h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: bold;
+.container-common h2 {  /* .container-common 内にある <h2>（見出し）タグ にだけスタイルを当てる　(ログインやサインアップ画面のタイトル部分) */
+  font-size: 22px;  /* 文字の大きさ */
+  font-weight: 600; /* 標準よりやや細い太さ */
+  color: #555;  /* 淡いグレー　文字色 */
+  text-align: center;  /* テキストを中央揃え */
+  letter-spacing: 0.5px; /* 文字間 */
+  margin-bottom: 50px;  /* タイトルの下に20pxの余白を入れる */
 }
 
 /* ラベル・入力欄 */
-.form-group {
-  margin-bottom: 15px;
+.form-group {  /* htmlにある<div class="form-group"><label>メールアドレス</label>と<input type="email">のセット/グループ */
+  margin-bottom: 15px;  /* タイトルと入力欄のセットの下に15pxの余白を入れる */
 }
 
-.form-group label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
+.form-group label {  /* フォーム項目のタイトル・ラベル */
+  display: block;  /* ブロック要素　次の入力欄と縦に並ぶよう設定　これないと入力欄が横並びになることあり */
+  color: #555;  /* 少し淡いグレー（文字色） */
+  font-weight: 500;  /* やや細め（boldより柔らかい） */
+  font-family: "Noto Sans JP", sans-serif;  /* 読みやすい日本語フォント */
+  font-size: 15px;  /* 小さすぎず優しいサイズ */
+  margin-bottom: 5px;  /* ラベルと入力欄の間に5pxのすき間を空ける */
 }
 
 /* ボタン共通 */
-.btn {
-  display: block;
-  width: 30%;
-  margin: 20px auto;
-  padding: 10px;
-  background: #50e3f6;
-  border: 1px solid #ccc;
-  color: #000;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
+.btn {  /* 全ページ共通のボタンの見た目 */
+  display: block;  /* ブロック要素　次のボタンと縦に並ぶよう設定　これないと入力欄が横並びになることあり */
+  width: 30%;  /* ボタンの幅をフォームの30%に設定 */
+  margin: 20px auto;  /* ボタンの上に20pxの余白を設置　左右は自動で中央寄せにする */
+  padding: 10px;  /* ボタン内の文字の上下左右に余白をつける */
+  background: #50e3f6;  /* 背景色 */
+  border: 1px solid #ccc;  /* 枠の色 */
+  color: #000;  /* ボタンの文字を黒に設定 */
+  border-radius: 8px;  /* ボタンの角の丸み設定 */
+  cursor: pointer;  /* カーソルを合わせた時に「クリックできる」設定 */
+  font-size: 16px;  /* ボタン内の文字の大きさ */
+  font-weight: 500;         /* やや細め（強すぎない太さ） */
+  letter-spacing: 0.5px;    /* 文字間を少し広げて読みやすく */
 }
 
-.btn:hover {
+.btn:hover {  /* 上のボタンにマウスをのせた時　ホバー時 */
   background: #04cde7;
+  transform: translateY(-2px);     /* 少し浮かせる */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* 影を少し強調 */
+  transition: all 0.2s ease-in-out; /* アニメーションの滑らかさ */
+}
+
+/* ボタンをクリックした瞬間（押し込み感） */
+.btn:active {
+  transform: translateY(0);          /* 元の位置に戻る（押し込まれた感じ） */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 影を弱めて沈む感 */
 }
 
 /* リンク（下線つき） */
-.login-link,
+.login-link,  /* login-linkとlinks2つのクラスに共通で適用される */
 .links {
-  text-align: center;
-  margin-top: 15px;
+  text-align: center;  /* 内部の文字（リンク）を中央寄せ */
+  margin-top: 15px;  /* 上の要素（ボタンなど）との間に15pxの余白を取る */
 }
 
-.login-link a,
+.login-link a,  /* .login-link や .links 内にある <a>（リンク文字）に対してのスタイル指定 */
 .links a {
-  color: #555;
-  font-size: 14px;
-  text-decoration: underline;
-}
+  color: #555;  /* 文字色をグレー */
+  font-size: 14px;  /* 文字の大きさ */
+  text-decoration: underline;  /* 常に下線をつけ「リンク」とわかるようにする */
+} 
 
 /* アニメーション（ふわっと表示） */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes fadeIn { /* 下にスッと降りながら出現するような動き */
+  from { opacity: 0; transform: translateY(-5px); }  /* from（開始） → opacity: 0;（透明）で、少し上にずらした状態から始まる */
+  to { opacity: 1; transform: translateY(0); }  /* to（終了） → opacity: 1;（不透明）で、元の位置に戻る */
 }
 
-.fade-in {
+.fade-in {  /* 上で定義したアニメーションfadeInを、class="fade-in"がついた要素に実際に適用 */
   animation: fadeIn 0.3s ease-in-out;
+}
+
+/* ===== スマホ（768px以下）対応 ===== */
+@media screen and (max-width: 768px) {
+  .container-common {
+    width: 90%;  /* 横幅をデバイス幅に合わせる */
+    margin: 40px auto;  /* 上下の余白を少し減らす */
+    padding: 20px;  /* 内側の余白も軽く調整 */
+  }
+
+  .container-common h2 {
+    font-size: 18px;  /* タイトル文字を少し小さく */
+  }
+
+  .container-common input {
+    font-size: 14px;  /* 入力文字サイズも軽く調整 */
+    padding: 8px;
+  }
+
+  .btn {
+    width: 50%;  /* ボタンをやや広めにして押しやすく */
+    font-size: 15px;
+  }
 }
