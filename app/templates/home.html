@@ -32,9 +32,16 @@
 
         <section class="progress-section">
             <p>達成度</p>
+
+            <!-- 数値入力欄を追加 -->
+            <input type="number" id="progress-input" min="0" max="100" value="40" style="width: 80px; padding: 5px;">
+            <span>%</span>
+
+            <!-- バー -->
             <div class="progress-bar">
-                <div class="progress" style="width: 40%;"></div>
+                <div class="progress" id="progress-bar-inner" style="width: 40%;"></div>
             </div>
+
             <div class="progress-labels">
                 <span>0%</span>
                 <span>100%</span>
@@ -43,16 +50,62 @@
     </main>
 
     <script>
-        // 引越し日を設定して残り日数を自動表示
         const dateInput = document.getElementById("move-date");
         const daysLeftDisplay = document.getElementById("days-left");
 
+        // ページ読み込み時に保存された日付を反映
+        window.addEventListener("load", () => {
+            const savedDate = localStorage.getItem("moveDate");  //ページを再読み込みしたときに保存された日付を読み込み
+            if (savedDate) {
+                dateInput.value = savedDate;
+                updateCountdown();  // 差を再計算して「あと◯日」に反映
+            }
+        });
+
+        // 日付変更時に保存・再計算
         dateInput.addEventListener("change", () => {
+            localStorage.setItem("moveDate", dateInput.value);  // 選んだ日付をブラウザ内に保存
+            updateCountdown();  // 差を再計算して「あと◯日」に反映
+        });
+
+        function updateCountdown() {
             const moveDate = new Date(dateInput.value);
             const today = new Date();
+            today.setHours(0, 0, 0, 0);  // 時間をリセット
+
             const diff = Math.ceil((moveDate - today) / (1000 * 60 * 60 * 24));
-            daysLeftDisplay.textContent = diff > 0 ? diff : 0;
-        });
+
+           if (isNaN(diff)) {
+                daysLeftDisplay.textContent = "？";
+            } else if (diff < 0) {
+                daysLeftDisplay.textContent = "0";
+            } else {
+                daysLeftDisplay.textContent = diff;
+            }
+        }
+        // =======================
+        // 達成度バーの自動反映
+        // =======================
+            const progressInput = document.getElementById("progress-input");
+            const progressBarInner = document.getElementById("progress-bar-inner");
+
+        // 入力が変わるたびに反映
+            progressInput.addEventListener("input", () => {
+              let value = Math.min(100, Math.max(0, progressInput.value)); // 0〜100の範囲に制限
+              progressBarInner.style.width = value + "%";
+
+        // 保存（次回開いても反映）
+              localStorage.setItem("progressValue", value);
+            });
+
+// ページ読み込み時に保存データを反映
+            window.addEventListener("load", () => {
+              const savedProgress = localStorage.getItem("progressValue");
+              if (savedProgress !== null) {
+                progressInput.value = savedProgress;
+                progressBarInner.style.width = savedProgress + "%";
+              }
+            });
     </script>
 </body>
 </html>
