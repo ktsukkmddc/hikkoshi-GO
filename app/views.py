@@ -36,3 +36,11 @@ def signup(request):
 @login_required
 def home_view(request):
     return render(request, 'home.html')
+
+@login_required
+def task_view(request):
+    return render(request, 'task.html')
+
+@login_required
+def calendar_view(request):
+    return render(request, 'calendar.html')

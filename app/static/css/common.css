@@ -22,11 +22,16 @@ body {
   font-family: var(--font-main);
   color: var(--font-color);
   font-size: var(--font-size-base);
-  display: flex;  /* 画面全体をフレックスボックスに指定　中央寄せなどのレイアウト調整がしやすい */
-  justify-content: center;  /* 横方向(左右)を中央寄せ */
-  align-items: center;  /* 縦方向(上下)を中央寄せ */
-  height: 100vh;  /* 表示エリア(ブラウザの高さ)を画面全体(100%)に設定 */
   margin: 0;  /* ブラウザが自動で付ける余白を消す設定　上下左右すべて0 */
+  padding: 0;
+}
+
+/* ログイン画面専用の中央寄せ設定 */
+body.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 /* フォームの共通デザイン */

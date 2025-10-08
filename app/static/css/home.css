@@ -48,7 +48,7 @@ body {
 /* ===== メインコンテンツ ===== */
 .main-container {
   text-align: center;
-  margin-top: 80px;
+  margin-top: 150px;
 }
 
 /* 引越しまでの日数カード */
@@ -129,16 +129,18 @@ body {
 .progress-bar {
   background: linear-gradient(to right, #f9dede, #d47b7b);
   height: 22px;
-  border-radius: 10px;
+  border-radius: 15px;
   overflow: hidden;
   margin-top: 8px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);  /* 内側に軽い影 */
 }
 
-.progress {
+.progress-section .progress{
   height: 100%;
   background: linear-gradient(to right, #6fe7dd, #3498db);
-  border-radius: 10px 0 0 10px;
-  transition: width 0.3s ease;
+  border-radius: 15px;
+  transition: width 0.4s ease-in-out; 
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .progress-labels {
@@ -188,7 +190,12 @@ body {
   }
 
    .countdown {
-    font-size: 34px;
+    font-size: 50px;
+    font-weight: 900;
+    color: #d85a5a;
+    margin-top: 15px;
+    letter-spacing: 2px;
+    text-shadow: 1px 2px 4px rgba(0,0,0,0.1);
   }
 
   .main-container {
@@ -216,7 +223,12 @@ body {
   }
 
   .progress-bar {
-    height: 18px;
+    background: #f0f0f0;
+    height: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 8px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);  /* 内側に影をつける */
   }
 
   #progress-input {
