@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}引越しGO{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/common.css' %}">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <!-- ===== ナビバー（全ページ共通） ===== -->
+  <nav class="navbar">
+    <div class="logo"><strong>引越しGO</strong></div>
+    <div class="nav-links">
+      <a href="{% url 'home' %}">ホーム</a>
+      <a href="{% url 'task' %}">タスク</a>
+      <a href="#">メッセージ</a>
+      <a href="{% url 'calendar' %}">カレンダー</a>
+      <a href="#">マイページ</a>
+    </div>
+  </nav>
+
+  <!-- ===== ページごとの中身を差し込む部分 ===== -->
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

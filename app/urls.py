@@ -11,4 +11,7 @@ urlpatterns = [
     path('home/', views.home_view, name='home'),
     path('task/', views.task_view, name='task'),
     path('calendar/', views.calendar_view, name='calendar'),
+    path('password_reset/', auth_views.PasswordResetView.as_view(
+        template_name='password_reset.html'
+    ), name='password_reset'),
 ]

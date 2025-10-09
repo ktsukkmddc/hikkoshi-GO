@@ -44,3 +44,15 @@ def task_view(request):
 @login_required
 def calendar_view(request):
     return render(request, 'calendar.html')
+
+@login_required
+def home(request):
+    return render(request, 'home.html')
+
+@login_required
+def task(request):
+    return render(request, 'task.html')
+
+@login_required
+def calendar(request):
+    return render(request, 'calendar.html')

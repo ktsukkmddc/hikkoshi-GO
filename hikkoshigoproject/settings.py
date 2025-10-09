@@ -130,3 +130,6 @@ LOGIN_REDIRECT_URL = '/home/'        # ログイン成功後に移動する先
 LOGOUT_REDIRECT_URL = '/login/'      # ログアウト後に戻る先
 
 AUTH_USER_MODEL = 'app.User'
+
+# 開発中：メール内容をコンソールに表示
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

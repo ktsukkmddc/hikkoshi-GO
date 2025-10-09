@@ -92,3 +92,21 @@
   margin-top: 20px;
   animation: fadeIn 0.3s ease-in-out;
 }
+
+/*.reset-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px);
+  background-color: #f9f9f9;
+  padding-top: 40px;
+}*/
+
+.reset-card {
+  background: #fff;
+  padding: 40px 50px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 420px;
+}
