@@ -291,3 +291,14 @@ body:not(.login-page):not(.signup-page) {
   white-space: nowrap !important;
   display: inline-block;
 }
+
+/* パスワード再設定メール送信後画面 */
+.back-link {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.back-link a {
+  color: #555;
+  text-decoration: underline;
+}
