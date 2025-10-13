@@ -46,12 +46,7 @@
              <a href="{% url 'login' %}">すでにアカウントをお持ちの方はこちら</a>
         </p>
 
-        <div id="password-rules" class="password-rules">
-                    <p>※10文字以上で入力してください。<br>
-                       ※アルファベット大文字・小文字・数字を組み合わせてください。<br>
-                       ※記号（!、%、@、#、$、&）を1つ以上含めてください。<br>
-                       ※推測されやすい文字列は使用できません。</p>
-                </div>
+        {% include 'partials/password_rules.html' %}
     </div>
 
     <script>
