@@ -80,16 +80,20 @@
 }
 
 .password-rules {
-  position: left;
-  border: 1px solid #ccc;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  font-size: 14px;
-  width: 90%;
-  margin-left: auto; margin-right: auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px 20px;
   margin-top: 20px;
-  animation: fadeIn 0.3s ease-in-out;
+  list-style-position: inside; /* 箇条書きマークを内側に */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  text-align: left;
+  font-size: 11px;
+  color: #333;
+  line-height: 1.6;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /*.reset-container {
@@ -101,9 +105,14 @@
   padding-top: 40px;
 }*/
 
+/* パスワード再設定タイトル下の余白を調整 */
+.reset-card h2 {
+  margin-bottom: 15px; /* ← 以前より詰める */
+}
+
 .reset-card {
   background: #fff;
-  padding: 40px 50px;
+  padding: 30p 50px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -144,4 +153,9 @@
 
 .btn-reset:hover {
   background-color: #04cde7;
+}
+
+/* 説明文とフォームの間を詰める */
+.reset-desc {
+  margin-bottom: 8px; /* ← 詰め気味に */
 }
