@@ -107,6 +107,8 @@
 
 /* パスワード再設定タイトル下の余白を調整 */
 .reset-card h2 {
+  color: #333;
+  font-weight: bold;
   margin-bottom: 15px; /* ← 以前より詰める */
 }
 
@@ -117,6 +119,13 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
   width: 420px;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.reset-card p {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 30px;
 }
 
 /* パスワード再設定の入力欄 */
@@ -134,7 +143,7 @@
 .reset-card label {
   display: block;
   text-align: left;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-bottom: 4px;
   color: #333;
   font-weight: 500;
@@ -149,6 +158,7 @@
   cursor: pointer;
   font-size: 16px;
   transition: 0.2s;
+  border: 1px solid #ccc;
 }
 
 .btn-reset:hover {
@@ -157,5 +167,99 @@
 
 /* 説明文とフォームの間を詰める */
 .reset-desc {
-  margin-bottom: 8px; /* ← 詰め気味に */
+  margin-top: 7px !important;
+  margin-bottom: 25px !important;
+}
+
+.login-link a {
+  display: inline-block;
+  padding: 10px 25px;
+  background-color: #6dd5ed;
+  color: #000;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: nomal;
+  transition: background-color 0.3s;
+}
+
+.login-link a:hover {
+  background-color: #26c6da;
+}
+
+/* ふわっと出るアニメーション */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== スマホ対応（768px以下） ===== */
+@media screen and (max-width: 768px) {
+  .login-container {
+    width: 90% !important;      /* 画面幅に合わせる */
+    margin: 60px auto !important;
+    padding: 20px !important;
+  }
+
+  .login-container input {
+    width: 100% !important;     /* 入力欄も全幅 */
+    font-size: 14px;
+  }
+
+  .login-container button {
+    width: 60% !important;      /* ボタンもやや広めに */
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .login-container .links {
+    font-size: 13px;
+    margin-top: 30px;
+  }
+}
+
+  @media screen and (max-width: 768px) {
+  /* パスワード再設定フォーム用：スマホ時の調整 */
+  .reset-container {
+    display: flex ;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: calc(100vh - 80px);
+    background-color: #f9f9f9;
+    padding: 30px 0px;
+    box-sizing: border-box;
+    width: 100%;
+    overflow-x: hidden; /* 横スクロール防止 */
+  }
+
+  .reset-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 420px;
+    padding: 30px 25px;
+    margin-top: 40px;
+  }
+
+  .reset-card h2 {
+    font-size: 18px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .reset-card p {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+  }
+
+  .btn-reset {
+    width: 70% !important;
+    font-size: 14px !important;
+  }
 }
