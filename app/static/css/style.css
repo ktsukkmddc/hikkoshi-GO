@@ -80,8 +80,7 @@
 }
 
 .password-rules {
-  display: none;
-  position: static;
+  position: left;
   border: 1px solid #ccc;
   padding: 15px;
   border-radius: 8px;
@@ -109,4 +108,40 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
   width: 420px;
+}
+
+/* パスワード再設定の入力欄 */
+.reset-card input {
+  width: 90%;          /* 他ページに合わせる */
+  max-width: 400px;    /* スマホでもバランスよく */
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* ラベルとボタンの統一 */
+.reset-card label {
+  display: block;
+  text-align: left;
+  margin-top: 10px;
+  margin-bottom: 4px;
+  color: #333;
+  font-weight: 500;
+}
+
+.btn-reset {
+  background-color: #50e3f6;
+  color: #000;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+.btn-reset:hover {
+  background-color: #04cde7;
 }
