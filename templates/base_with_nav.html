@@ -4,11 +4,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>{% block title %}引越しGO{% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+  <!-- ===== 共通CSS（全ページで読み込み） ===== -->
   <link rel="stylesheet" href="{% static 'css/common.css' %}">
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <!-- ===== ページ固有のCSS（各ページで上書きできる） ===== -->
+  {% block extra_css %}{% endblock %}
 </head>
+
 <body>
   <!-- ===== ナビバー（全ページ共通） ===== -->
   <nav class="navbar">
@@ -22,7 +27,7 @@
     </div>
   </nav>
 
-  <!-- ===== ページごとの中身を差し込む部分 ===== -->
+  <!-- ===== ページごとのコンテンツ ===== -->
   <main class="main-content">
     {% block content %}{% endblock %}
   </main>
