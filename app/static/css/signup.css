@@ -16,7 +16,7 @@ body {
 
 .signup-wrapper h2 {
   text-align: center;
-  margin: 100px 70px;
+  margin: 40px 70px;
   font-size: 22px;
   font-weight: bold;
 }
@@ -64,6 +64,7 @@ body {
 /* ===== ログインリンク ===== */
 .login-link {
   text-align: center;
+  font-size: 14px;
   margin-top: 20px;
 }
 
@@ -72,30 +73,27 @@ body {
   text-decoration: underline;
 }
 
-/* ===== パスワードルールボタン ===== */
-.label-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-#password-rules-btn {
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 50%;
-  width: 22px;
-  height: 22px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  font-size: 13px;
-  cursor: pointer;
-}
-
 /* ===== アニメーション ===== */
 .fade-in {
   animation: fadeIn 0.3s ease-in-out;
+}
+
+/* ===== パスワードルール（全体のスタイル） ===== */
+.password-rules {
+  border: 1px solid #ccc;      /* 入力欄と同じ枠線 */
+  border-radius: 6px;          /* 角を丸める */
+  background-color: #fff;      /* 背景を白に */
+  padding: 15px 20px;          /* 内側の余白 */
+  margin-top: 25px;            /* 上の間隔 */
+  max-width: 400px;            /* 入力欄と同じ幅 */
+  margin-left: auto;
+  margin-right: auto;
+  list-style-position: inside; /* 箇条書きマークを内側に */
+  text-align: left;            /* 左寄せ */
+  font-size: 13px;             /* 少し小さめの文字サイズ */
+  color: #333;                 /* 文字色 */
+  line-height: 1.6;            /* 行間を広げる */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05); /* ほんの少し影を付ける */
 }
 
 @keyframes fadeIn {
@@ -132,4 +130,27 @@ body {
 .signup-wrapper .form-group label {
   display: block;
   margin-bottom: 6px;
+}
+
+/* ===== 入力欄の横幅を中央寄せで固定 ===== */
+.signup-wrapper form {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 中央寄せ */
+}
+
+.signup-wrapper .form-group {
+  width: 350px; /* 入力欄を少し狭く */
+  text-align: left;
+}
+
+.signup-wrapper .form-group input {
+  width: 100%; /* form-group内で全幅に */
+}
+
+/* ===== スマホ対応 ===== */
+@media screen and (max-width: 768px) {
+  .signup-wrapper .form-group {
+    width: 90%; /* 画面幅に合わせて自動調整 */
+  }
 }
