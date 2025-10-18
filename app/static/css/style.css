@@ -1,12 +1,12 @@
 /* ===== login専用 ===== */
-.login-container h2 {
+/*.login-container h2 {
   text-align: center;        /* タイトル位置を合わせる */
-  margin-bottom: 20px;
+  /*margin-bottom: 20px;
 }
 
 .login-container input {
   width: 100%;               /* signupと同じ入力欄サイズ */
-  padding: 10px;
+  /*padding: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
@@ -17,8 +17,8 @@
 .login-container button {
   display: block;
   width: 30%;                /* signupと同じボタン幅 */
-  margin: 50px auto;         /* 中央寄せ */
-  padding: 10px;
+  /*margin: 50px auto;         /* 中央寄せ */
+  /*padding: 10px;
   background: #50e3f6;
   border: 1px solid #ccc;
   color: #000;
@@ -43,27 +43,25 @@
 }
 
 /* ===== signup専用 ===== */
-.signup-container {}
+/*.signup-container {}
 
 .password-field {
   display: block;
 }
 
 /* ラベル＋？ を横並びにする行 */
-.password-field .label-row {
+/*.password-field .label-row {
   display: inline-flex;
   align-items: baseline;       /* 縦位置を中央に */
-  gap: 6px;                  /* ラベルと？の間隔 */
-  margin-bottom: 5px;        /* 下の入力欄との余白 */
-}
+  /*gap: 6px;                  /* ラベルと？の間隔 */
+  /*margin-bottom: 5px;        /* 下の入力欄との余白 }*/
 
 /* この2行で共通の label ルールを上書き（横並び用）*/
-.password-field label {
+/*.password-field label {
   display: inline;           /* 共通の display:block を上書き */
-  margin: 0;                 /* 下マージンを消す */
-}
+  /*margin: 0;                 /* 下マージンを消す }*/
 
-#password-rules-btn {
+/*#password-rules-btn {
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 50%;
@@ -76,17 +74,16 @@
   font-size: 12px;
   line-height: 1;
   cursor: pointer;
-  transform: translateY(-1px);  /* ← 高さ微調整（ラベルと揃える） */
-}
+  transform: translateY(-1px);  /* ← 高さ微調整（ラベルと揃える） }*/
 
-.password-rules {
+/*.password-rules {
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 16px 20px;
   margin-top: 20px;
   list-style-position: inside; /* 箇条書きマークを内側に */
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  /*box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   text-align: left;
   font-size: 11px;
   color: #333;

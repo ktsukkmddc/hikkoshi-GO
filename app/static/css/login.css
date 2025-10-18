@@ -1,0 +1,87 @@
+/* ===== 全体を中央寄せ ===== */
+body.login-page {
+  background-color: #fafafa;
+  display: flex;
+  justify-content: center; /* 横中央 */
+  align-items: center;     /* 縦中央 */
+  height: 100vh;
+  margin: 0;
+  font-family: 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+}
+
+/* ===== ログイン全体の枠（白いボックスなし） ===== */
+.login-wrapper {
+  text-align: center;
+}
+
+/* ===== タイトル ===== */
+.login-wrapper h2 {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 100px 70px;
+}
+
+/* ===== 入力フォーム ===== */
+.login-wrapper form {
+  display: inline-block; /* 中央に配置 */
+  text-align: left;      /* ラベルと入力欄を左寄せ */
+}
+
+.login-wrapper label {
+  display: block;
+  margin-bottom: 6px;
+  color: #333;
+  font-weight: 500;
+}
+
+.login-wrapper input {
+  width: 400px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+/* ===== ログインボタン ===== */
+.btn {
+  display: block;
+  width: 120px;
+  margin: 20px auto 0;
+  background-color: #50e3f6;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #000;
+  transition: background-color 0.2s;
+}
+
+.btn:hover {
+  background-color: #04cde7;
+}
+
+/* ===== 下部リンク ===== */
+.links {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.links a {
+  color: #333;
+  text-decoration: underline;
+  font-size: 14px;
+}
+
+/* ===== スマホ対応 ===== */
+@media screen and (max-width: 768px) {
+  .login-wrapper input {
+    width: 300px;
+  }
+
+  .btn {
+    width: 120px;
+  }
+}

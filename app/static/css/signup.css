@@ -1,0 +1,135 @@
+/* ===== 共通設定 ===== */
+body {
+  background-color: #fafafa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: 'Arial', 'Hiragino Kaku Gothic ProN', sans-serif;
+  color: #333;
+}
+
+.signup-wrapper {
+  text-align: center;
+}
+
+.signup-wrapper h2 {
+  text-align: center;
+  margin: 100px 70px;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* ===== 入力欄 ===== */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.signup-wrapper input {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+/* ===== ボタン ===== */
+.btn {
+  display: block;
+  width: 120px;
+  margin: 25px auto 0;
+  padding: 10px;
+  background-color: #50e3f6;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  color: #000;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #04cde7;
+}
+
+/* ===== ログインリンク ===== */
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.login-link a {
+  color: #555;
+  text-decoration: underline;
+}
+
+/* ===== パスワードルールボタン ===== */
+.label-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#password-rules-btn {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* ===== アニメーション ===== */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== スマホ対応 ===== */
+@media screen and (max-width: 768px) {
+  .signup-wrapper {
+    width: 90%;
+    padding: 30px 20px;
+  }
+
+  .btn {
+    width: 120px;
+  }
+}
+
+/* ===== ラベルと入力欄を中央寄せ ===== */
+.signup-wrapper form {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 横方向中央寄せ */
+}
+
+/* ラベルと入力欄を同じ幅にする */
+.signup-wrapper .form-group {
+  width: 400px; /* 入力欄と同じ幅 */
+  text-align: left; /* ラベルは左揃え */
+}
+
+/* ラベルと入力欄の間隔を調整 */
+.signup-wrapper .form-group label {
+  display: block;
+  margin-bottom: 6px;
+}

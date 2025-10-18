@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{% block title %}引越しGO{% endblock %}</title>
+
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="{% static 'css/common.css' %}">
+
+  <!-- 各ページごとのCSS -->
+  {% block extra_css %}{% endblock %}
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+  {% block content %}{% endblock %}
+</body>
+</html>

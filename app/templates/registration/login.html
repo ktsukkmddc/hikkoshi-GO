@@ -1,43 +1,41 @@
+{% extends 'base_plain.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ログイン</title>
 
-    <link rel="stylesheet" href="{% static 'css/common.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
+{% block title %}ログイン | 引越しGO{% endblock %}
 
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% block content %}
 <body class="login-page">
- <div class="login-container container-common">
+  <div class="login-wrapper">
     <h2>引越しGO</h2>
 
     <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
+      {% csrf_token %}
 
-    <div class="form-group">
+      <div class="form-group">
         <label for="id_email">メールアドレス</label>
         <input type="email" id="id_email" name="username" required>
-    </div>
+      </div>
 
-    <div class="form-group">
+      <div class="form-group">
         <label for="id_password">パスワード</label>
         <input type="password" id="id_password" name="password" required>
-    </div>
+      </div>
 
-    <button type="submit" class="btn">ログイン</button>
+      <button type="submit" class="btn">ログイン</button>
     
-    {% if form.errors %}
-    <p style="color:#d00; margin-top:8px;">メールアドレスまたはパスワードが違います。</p>
-  {% endif %}
-  </form>
+      {% if form.errors %}
+        <p style="color:#d00; margin-top:8px;">メールアドレスまたはパスワードが違います。</p>
+      {% endif %}
+    </form>
 
     <div class="links">
       <a href="{% url 'signup' %}">新規アカウント登録</a><br>
       <a href="{% url 'password_reset' %}">パスワードを忘れた方はこちら</a>
-   </div>
- </div> 
+    </div>
+  </div> 
 </body>
-</html>
+{% endblock %}
