@@ -103,13 +103,12 @@
 }*/
 
 /* パスワード再設定タイトル下の余白を調整 */
-.reset-card h2 {
+/*.reset-card h2 {
   color: #333;
   font-weight: bold;
-  margin-bottom: 15px; /* ← 以前より詰める */
-}
+  margin-bottom: 15px; /* ← 以前より詰める }*/
 
-.reset-card {
+/*.reset-card {
   background: #fff;
   padding: 30p 50px;
   border-radius: 12px;
@@ -126,10 +125,10 @@
 }
 
 /* パスワード再設定の入力欄 */
-.reset-card input {
+/*.reset-card input {
   width: 90%;          /* 他ページに合わせる */
-  max-width: 400px;    /* スマホでもバランスよく */
-  padding: 10px;
+  /*max-width: 400px;    /* スマホでもバランスよく */
+  /*padding: 10px;
   margin: 8px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -137,7 +136,7 @@
 }
 
 /* ラベルとボタンの統一 */
-.reset-card label {
+/*.reset-card label {
   display: block;
   text-align: left;
   margin-top: 5px;
@@ -163,7 +162,7 @@
 }
 
 /* 説明文とフォームの間を詰める */
-.reset-desc {
+/*.reset-desc {
   margin-top: 7px !important;
   margin-bottom: 25px !important;
 }
@@ -184,7 +183,7 @@
 }
 
 /* ふわっと出るアニメーション */
-@keyframes fadeIn {
+/*/*@keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(10px);
@@ -196,21 +195,21 @@
 }
 
 /* ===== スマホ対応（768px以下） ===== */
-@media screen and (max-width: 768px) {
+/*@media screen and (max-width: 768px) {
   .login-container {
     width: 90% !important;      /* 画面幅に合わせる */
-    margin: 60px auto !important;
+    /*margin: 60px auto !important;
     padding: 20px !important;
   }
 
   .login-container input {
     width: 100% !important;     /* 入力欄も全幅 */
-    font-size: 14px;
+    /*font-size: 14px;
   }
 
   .login-container button {
     width: 60% !important;      /* ボタンもやや広めに */
-    font-size: 14px;
+    /*font-size: 14px;
     padding: 10px;
   }
 
@@ -222,7 +221,7 @@
 
   @media screen and (max-width: 768px) {
   /* パスワード再設定フォーム用：スマホ時の調整 */
-  .reset-container {
+  /*.reset-container {
     display: flex ;
     justify-content: center;
     align-items: flex-start;
@@ -231,10 +230,9 @@
     padding: 30px 0px;
     box-sizing: border-box;
     width: 100%;
-    overflow-x: hidden; /* 横スクロール防止 */
-  }
+    overflow-x: hidden; /* 横スクロール防止 }*/
 
-  .reset-card {
+  /*.reset-card {
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
