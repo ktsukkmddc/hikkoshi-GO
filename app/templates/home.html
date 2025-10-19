@@ -1,72 +1,64 @@
+{% extends 'base_with_nav.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>ホーム画面 | 引越しGO</title>
-    <link rel="stylesheet" href="{% static 'css/common.css' %}">
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-</head>
-<body>
-    <!-- ナビゲーションバー -->
-    <nav class="navbar">
-        <div class="logo"><strong>引越しGO</strong></div>
-        <div class="nav-links">
-          <a href="{% url 'task' %}">タスク</a>
-          <a href="{% url 'calendar' %}">カレンダー</a>
-          <a href="#">メッセージ</a>
-          <a href="#">マイページ</a>
-        </div>
-    </nav>
 
-    <!-- メインコンテンツ -->
-    <main class="main-container">
-        <section class="countdown-card">
-            <div class="date-input">
-                <label for="move-date">引越し日：</label>
-                <input type="date" id="move-date">
-            </div>
-            <h2>引越しまであと</h2>
-            <p class="countdown"><span id="days-left">10</span>日！</p>
-        </section>
+{% block title %}引越しGO | 引越しGO{% endblock %}
 
-        <section class="progress-section">
-            <p>達成度</p>
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
 
-            <!-- 数値入力欄を追加 -->
-            <input type="number" id="progress-input" min="0" max="100" value="40" style="width: 80px; padding: 5px;">
-            <span>%</span>
+{% block content %}
+<div class="home-wrapper">
+  <h2>引越しGO</h2>
 
-            <!-- バー -->
-            <div class="progress-bar">
-                <div class="progress" id="progress-bar-inner" style="width: 40%;"></div>
-            </div>
+  <!-- メインコンテンツ -->
+  <main class="main-container">
+      <section class="countdown-card">
+          <div class="date-input">
+              <label for="move-date">引越し日：</label>
+              <input type="date" id="move-date">
+          </div>
+          <h2>引越しまであと</h2>
+          <p class="countdown"><span id="days-left">10</span>日！</p>
+      </section>
 
-            <div class="progress-labels">
-                <span>0%</span>
-                <span>100%</span>
-            </div>
-        </section>
-    </main>
+      <section class="progress-section">
+          <p>達成度</p>
 
-    <script>
-        const dateInput = document.getElementById("move-date");
-        const daysLeftDisplay = document.getElementById("days-left");
+          <!-- 数値入力欄を追加 -->
+          <input type="number" id="progress-input" min="0" max="100" value="40" style="width: 80px; padding: 5px;">
+          <span>%</span>
 
-        // ページ読み込み時に保存された日付を反映
-        window.addEventListener("load", () => {
-            const savedDate = localStorage.getItem("moveDate");  //ページを再読み込みしたときに保存された日付を読み込み
-            if (savedDate) {
-                dateInput.value = savedDate;
-                updateCountdown();  // 差を再計算して「あと◯日」に反映
-            }
-        });
+          <!-- バー -->
+          <div class="progress-bar">
+              <div class="progress" id="progress-bar-inner" style="width: 40%;"></div>
+          </div>
+
+          <div class="progress-labels">
+              <span>0%</span>
+              <span>100%</span>
+          </div>
+      </section>
+  </main>
+
+  <script>
+      const dateInput = document.getElementById("move-date");
+      const daysLeftDisplay = document.getElementById("days-left");
+
+      // ページ読み込み時に保存された日付を反映
+      window.addEventListener("load", () => {
+          const savedDate = localStorage.getItem("moveDate");  //ページを再読み込みしたときに保存された日付を読み込み
+          if (savedDate) {
+              dateInput.value = savedDate;
+              updateCountdown();  // 差を再計算して「あと◯日」に反映
+          }
+      });
 
         // 日付変更時に保存・再計算
         dateInput.addEventListener("change", () => {
             localStorage.setItem("moveDate", dateInput.value);  // 選んだ日付をブラウザ内に保存
             updateCountdown();  // 差を再計算して「あと◯日」に反映
-        });
+      });
 
         function updateCountdown() {
             const moveDate = new Date(dateInput.value);
@@ -77,35 +69,34 @@
 
            if (isNaN(diff)) {
                 daysLeftDisplay.textContent = "？";
-            } else if (diff < 0) {
+           } else if (diff < 0) {
                 daysLeftDisplay.textContent = "0";
-            } else {
+           } else {
                 daysLeftDisplay.textContent = diff;
-            }
-        }
-        // =======================
-        // 達成度バーの自動反映
-        // =======================
-            const progressInput = document.getElementById("progress-input");
-            const progressBarInner = document.getElementById("progress-bar-inner");
+           }
+      }
+      // =======================
+      // 達成度バーの自動反映
+      // =======================
+      const progressInput = document.getElementById("progress-input");
+      const progressBarInner = document.getElementById("progress-bar-inner");
 
-        // 入力が変わるたびに反映
-            progressInput.addEventListener("input", () => {
-              let value = Math.min(100, Math.max(0, progressInput.value)); // 0〜100の範囲に制限
-              progressBarInner.style.width = value + "%";
+      // 入力が変わるたびに反映
+      progressInput.addEventListener("input", () => {
+          let value = Math.min(100, Math.max(0, progressInput.value)); // 0〜100の範囲に制限
+          progressBarInner.style.width = value + "%";
 
-        // 保存（次回開いても反映）
-              localStorage.setItem("progressValue", value);
-            });
+      // 保存（次回開いても反映）
+          localStorage.setItem("progressValue", value);
+      });
 
-// ページ読み込み時に保存データを反映
-            window.addEventListener("load", () => {
-              const savedProgress = localStorage.getItem("progressValue");
-              if (savedProgress !== null) {
-                progressInput.value = savedProgress;
-                progressBarInner.style.width = savedProgress + "%";
-              }
-            });
-    </script>
-</body>
-</html>
+      // ページ読み込み時に保存データを反映
+      window.addEventListener("load", () => {
+          const savedProgress = localStorage.getItem("progressValue");
+          if (savedProgress !== null) {
+              progressInput.value = savedProgress;
+              progressBarInner.style.width = savedProgress + "%";
+          }
+      });
+  </script>
+{% endblock %}
