@@ -56,3 +56,20 @@ def task(request):
 @login_required
 def calendar(request):
     return render(request, 'calendar.html')
+
+@login_required
+def mypage_view(request):
+    return render(request, 'mypage.html')
+
+# --- マイページ ---
+@login_required
+def account_manage_view(request):
+    return render(request, 'account_manage.html')
+
+@login_required
+def invite_member_view(request):
+    return render(request, 'invite_member.html')
+
+@login_required
+def member_list_view(request):
+    return render(request, 'member_list.html')

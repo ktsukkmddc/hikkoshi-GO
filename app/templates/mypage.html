@@ -1,0 +1,51 @@
+{% extends 'base_with_nav.html' %}
+{% load static %}
+
+{% block title %}マイページ | 引越しGO{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/mypage.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="mypage-wrapper">
+  <h2>マイページ</h2>
+
+  <div class="mypage-buttons">
+    <a href="{% url 'account_manage' %}" class="btn">アカウント管理</a>
+    <a href="{% url 'invite_member' %}" class="btn">メンバー招待</a>
+    <a href="{% url 'member_list' %}" class="btn">登録メンバー照会</a>
+    <button id="logout-btn" class="btn logout">ログアウト</button>
+  </div>
+</div>
+
+<!-- ===== ログアウトモーダル ===== -->
+<div id="logout-modal" class="modal">
+  <div class="modal-content">
+    <p>ログアウトしますか？</p>
+    <div class="modal-buttons">
+      <!-- Django公式推奨：フォームでPOST送信 -->
+      <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-logout">ログアウト</button>
+      </form>
+      <button id="cancel-btn" class="btn cancel">キャンセル</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== モーダルの制御 =====
+  const logoutBtn = document.getElementById('logout-btn');
+  const modal = document.getElementById('logout-modal');
+  const cancelBtn = document.getElementById('cancel-btn');
+
+  logoutBtn.addEventListener('click', () => {
+    modal.style.display = 'flex';
+  });
+
+  cancelBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+</script>
+{% endblock %}
