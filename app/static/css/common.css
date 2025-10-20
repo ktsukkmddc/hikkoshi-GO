@@ -32,12 +32,27 @@ body {
   z-index: 1000;
 }
 
+.logo a {
+  text-decoration: none;
+  color: inherit;     /* 文字色を継承 */
+}
+
+.logo a:hover {
+  opacity: 0.8;       /* ロゴに軽いホバー効果 */
+}
+
 /* ===== ロゴ部分 ===== */
 .navbar .logo {
   font-size: 20px;
   font-weight: bold;
   color: #333;
   white-space: nowrap;
+  text-decoration: underline;
+  
+.logo a:link,
+.logo a:visited {
+  color: #333;       /* ← 常にこの色で統一（紫を上書き） */
+}
 }
 
 /* ===== リンク部分 ===== */
@@ -75,6 +90,14 @@ body {
     flex-wrap: nowrap;          /* 折り返さない */
     justify-content: space-between;
     padding: 10px 20px;
+  }
+
+  .logo a {
+    font-size: 18px;      /* スマホで少し大きく */
+  }
+
+  .logo a:hover {
+    opacity: 0.9;         /* ホバー効果を軽くして自然に */
   }
 
   .navbar .logo {

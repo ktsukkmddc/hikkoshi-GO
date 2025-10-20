@@ -17,13 +17,14 @@
 <body>
   <!-- ===== ナビバー（全ページ共通） ===== -->
   <nav class="navbar">
-    <div class="logo"><strong>引越しGO</strong></div>
+    <div class="logo">
+      <a href="{% url 'home' %}" class="logo-link"><strong>引越しGO</strong></a>
+  </div>
     <div class="nav-links">
-      <a href="{% url 'home' %}">ホーム</a>
       <a href="{% url 'task' %}">タスク</a>
-      <a href="#">メッセージ</a>
+      <a href="{% url 'message' %}">メッセージ</a>
       <a href="{% url 'calendar' %}">カレンダー</a>
-      <a href="#">マイページ</a>
+      <a href="{% url 'mypage' %}">マイページ</a>
     </div>
   </nav>
 

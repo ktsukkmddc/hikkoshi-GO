@@ -1,0 +1,29 @@
+{% extends 'base_with_nav.html' %}
+{% load static %}
+
+{% block title %}メンバー招待 | 引越しGO{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/invite_member.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="invite-wrapper">
+  <h2>メンバー招待</h2>
+
+  <div class="invite-content">
+    <h3>招待方法</h3>
+    <p>1. 招待URL発行ボタンをクリックしてリンクを表示します。</p>
+    <p>2. リンクを招待するメンバーに共有し、登録してもらってください。</p>
+
+    <form method="POST">
+      {% csrf_token %}
+      <button type="submit" class="btn-generate">招待URLを発行</button>
+    </form>
+    
+    {% if invite_url %}
+      <input type="text" id="invite-url" value="{{ invite_url }}" readonly>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -73,3 +73,24 @@ def invite_member_view(request):
 @login_required
 def member_list_view(request):
     return render(request, 'member_list.html')
+
+def message_view(request):
+    return render(request, 'registration/message.html')
+
+def invite_member_view(request):
+    return render(request, 'registration/invite_member.html')
+
+# app/views.py
+import uuid
+from django.shortcuts import render
+
+def invite_member_view(request):
+    invite_url = None  # 初期値（最初は空）
+    
+    if request.method == "POST":
+        # ランダムなUUIDを生成
+        unique_id = uuid.uuid4()
+        # 招待リンクを生成（実際のURL構成に合わせて修正OK）
+        invite_url = f"https://example.com/invite/{unique_id}"
+
+    return render(request, "registration/invite_member.html", {"invite_url": invite_url})

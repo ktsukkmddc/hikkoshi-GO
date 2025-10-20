@@ -117,6 +117,18 @@ body {
   background-color: #e0e0e0;
 }
 
+/* ===== モーダル内ボタン専用hover（共通の.btn:hoverを上書き） ===== */
+
+/* ログアウトボタン（赤く） */
+.modal-buttons .btn.confirm:hover {
+  background-color: #f18a8a !important;
+}
+
+/* キャンセルボタン（グレー） */
+.modal-buttons .btn.cancel:hover {
+  background-color: #e0e0e0 !important;
+}
+
 /* ===== スマホ対応 ===== */
 @media screen and (max-width: 768px) {
   .mypage-wrapper {
@@ -124,13 +136,33 @@ body {
   }
 
   .modal-content {
-    width: 70%;
+    width: 80%;
     padding: 25px;
   }
 
+  /* モーダルボタンのスマホ調整 */
+  .modal-buttons {
+    flex-direction: row; /* 横並びを維持 */
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+  }
+
   .modal-buttons .btn {
-    width: 45%;
-    height: 38px;
+    width: 120px;
+    height: 40px;
     font-size: 14px;
+    white-space: nowrap;     /* ← 文字折り返し禁止 */
+    text-align: center;
+  }
+
+  .modal-buttons .btn.confirm:hover,
+  .modal-buttons .btn.confirm:active {
+    background-color: #f18a8a !important;
+  }
+
+  .modal-buttons .btn.cancel:hover,
+  .modal-buttons .btn.cancel:active {
+    background-color: #e0e0e0 !important;
   }
 }

@@ -1,0 +1,26 @@
+body {
+  background-color: #fafafa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: 'Arial', 'Hiragino Kaku Gothic ProN', sans-serif;
+  color: #333;
+}
+
+.message-wrapper {
+  text-align: center;
+  margin-top: 120px;
+}
+
+.message-wrapper h2 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.message-wrapper p {
+  font-size: 15px;
+  color: #555;
+}

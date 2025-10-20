@@ -1,0 +1,84 @@
+/* ===== 全体設定 ===== */
+.invite-wrapper {
+  text-align: center;
+  margin-top: 80px;
+}
+
+.invite-wrapper h2 {
+  font-size: 26px;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+
+.invite-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* ← ボタン・URL欄を中央揃え */
+}
+
+.invite-content h3 {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.invite-content p {
+  margin: 5px 0;
+  line-height: 1.6;
+}
+
+/* ===== ボタン ===== */
+.btn-generate {
+  display: block;
+  width: 330px;
+  max-width: 90%;
+  padding: 12px;
+  margin: 25px auto 0;
+  background-color: #d0eaf1;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.btn-generate:hover {
+  background-color: #b8dce6;
+}
+
+/* ===== 招待URL欄 ===== */
+#invite-url {
+  width: 270px;
+  padding: 14px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  text-align: center; /* URL文字も中央寄せ（お好み） */
+}
+
+/* ===== スマホ対応 ===== */
+@media screen and (max-width: 768px) {
+  .invite-content {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .invite-wrapper h2 {
+  font-size: 24px;
+  margin-top: 60px;
+  margin-bottom: 30px;
+}
+
+  .btn-generate {
+    width: 100%;
+    max-width: 320px;
+    font-size: 14px;
+    padding: 12px 0;
+  }
+
+  #invite-url {
+    width: 100%;
+    max-width: 320px;
+  }
+}
