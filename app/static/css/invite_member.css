@@ -6,7 +6,7 @@
 
 .invite-wrapper h2 {
   font-size: 26px;
-  margin-top: 40px;
+  margin-top: 10px;
   margin-bottom: 30px;
 }
 
@@ -18,7 +18,7 @@
 
 .invite-content h3 {
   font-size: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
 }
 
 .invite-content p {
@@ -29,7 +29,7 @@
 /* ===== ボタン ===== */
 .btn-generate {
   display: block;
-  width: 330px;
+  width: 300px;
   max-width: 90%;
   padding: 12px;
   margin: 25px auto 0;
@@ -44,6 +44,42 @@
 
 .btn-generate:hover {
   background-color: #b8dce6;
+}
+
+.btn-copy {
+  display: block;
+  width: 210px;
+  padding: 12px;
+  margin: 25px auto 0;
+  background-color: #e6f5ec;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background 0.2s;
+}
+
+.btn-copy:hover {
+  background-color: #c9f0d6;
+}
+
+/* ===== メール共有ボタン ===== */
+.btn-share {
+  display: block;
+  width: 210px;
+  max-width: 90%;
+  padding: 12px;
+  margin: 15px auto 0;
+  background-color: #fbd8f8;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background 0.2s;
+}
+
+.btn-share:hover {
+  background-color: #e3a4e4;
 }
 
 /* ===== 招待URL欄 ===== */
@@ -62,23 +98,40 @@
   .invite-content {
     width: 90%;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 横位置を中央に固定 */
   }
 
   .invite-wrapper h2 {
   font-size: 24px;
   margin-top: 60px;
-  margin-bottom: 30px;
-}
-
-  .btn-generate {
-    width: 100%;
-    max-width: 320px;
-    font-size: 14px;
-    padding: 12px 0;
+  margin-bottom: 10px;
   }
 
+  .btn-generate
   #invite-url {
-    width: 100%;
-    max-width: 320px;
+    width: 85vw;           /* 画面幅の85%に統一 */
+    max-width: 320px;      /* PC幅と統一しておく */
+    font-size: 14px;
+    padding: 12px;
+    box-sizing: border-box; /* 内側余白を含めて幅を計算 */
+  }
+
+  /* ボタンの文字折返し防止 */
+  .btn-generate {
+    white-space: nowrap;
+  }
+
+  .btn-copy {
+    width: 60%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .btn-share {
+    width: 60%;
+    font-size: 14px;
+    padding: 10px;
   }
 }

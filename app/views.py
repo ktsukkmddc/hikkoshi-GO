@@ -3,6 +3,9 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import SignUpForm
+from django.http import JsonResponse
+from django.urls import reverse
+import uuid
 
 
 # --- ログイン処理 ---
@@ -85,12 +88,15 @@ import uuid
 from django.shortcuts import render
 
 def invite_member_view(request):
-    invite_url = None  # 初期値（最初は空）
-    
-    if request.method == "POST":
-        # ランダムなUUIDを生成
-        unique_id = uuid.uuid4()
-        # 招待リンクを生成（実際のURL構成に合わせて修正OK）
-        invite_url = f"https://example.com/invite/{unique_id}"
+    """メンバー招待ページの表示"""
+    return render(request, "registration/invite_member.html")
 
-    return render(request, "registration/invite_member.html", {"invite_url": invite_url})
+
+def generate_invite_url(request):
+    """UUID付きの招待URLを生成して返す"""
+    if request.method == "POST":
+        unique_id = str(uuid.uuid4())
+        # signup画面（仮）のURLにUUIDを付加
+        invite_url = request.build_absolute_uri(reverse('signup')) + f"?invite={unique_id}"
+        return JsonResponse({'invite_url': invite_url})
+    return JsonResponse({'error': 'Invalid request'}, status=400)

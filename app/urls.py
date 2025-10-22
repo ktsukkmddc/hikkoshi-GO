@@ -14,6 +14,7 @@ urlpatterns = [
     path('mypage/', views.mypage_view, name='mypage'),
     path('account_manage/', views.account_manage_view, name='account_manage'),
     path('invite_member/', views.invite_member_view, name='invite_member'),
+    path('generate_invite_url/', views.generate_invite_url, name='generate_invite_url'),
     path('member_list/', views.member_list_view, name='member_list'),
     path('message/', views.message_view, name='message'),
     path('password_reset/', auth_views.PasswordResetView.as_view(

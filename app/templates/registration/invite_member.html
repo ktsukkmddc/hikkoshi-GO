@@ -16,14 +16,78 @@
     <p>1. 招待URL発行ボタンをクリックしてリンクを表示します。</p>
     <p>2. リンクを招待するメンバーに共有し、登録してもらってください。</p>
 
-    <form method="POST">
-      {% csrf_token %}
-      <button type="submit" class="btn-generate">招待URLを発行</button>
-    </form>
-    
-    {% if invite_url %}
-      <input type="text" id="invite-url" value="{{ invite_url }}" readonly>
-    {% endif %}
+    <button id="generate-btn" class="btn-generate">招待URLを発行</button>
+    <input type="text" id="invite-url" readonly placeholder="ここに招待URLが表示されます">
+    <button id="copy-btn" class="btn-copy">コピー</button>
+    <button type="button" id="email-share-btn" class="btn-share">メールで共有</button>
   </div>
 </div>
+
+<script>
+document.getElementById("generate-btn").addEventListener("click", function() {
+  fetch("{% url 'generate_invite_url' %}", {
+    method: "POST",
+    headers: {
+      "X-CSRFToken": "{{ csrf_token }}",
+    },
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.invite_url) {
+      const input = document.getElementById("invite-url");
+      input.value = data.invite_url;
+      input.select();
+      document.execCommand("copy"); // PCでは自動コピー
+      alert("招待URLをコピーしました!");
+    } else {
+      alert("URLの生成に失敗しました。");
+    }
+  })
+  .catch(error => console.error("Error:", error));
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const copyBtn = document.getElementById("copy-btn");
+  const inviteUrl = document.getElementById("invite-url");
+
+  copyBtn.addEventListener("click", () => {
+    if (inviteUrl.value.trim() === "") {
+      alert("先にURLを発行してください。");
+      return;
+    }
+
+    navigator.clipboard.writeText(inviteUrl.value)
+      .then(() => {
+        copyBtn.textContent = "コピーしました！";
+        copyBtn.style.backgroundColor = "#c9f0d6"; // 緑っぽく変化
+        setTimeout(() => {
+          copyBtn.textContent = "コピー";
+          copyBtn.style.backgroundColor = "";
+        }, 1500);
+      })
+      .catch(err => alert("コピーに失敗しました: " + err));
+  });
+});
+</script>
+
+<script>
+document.getElementById("email-share-btn").addEventListener("click", function() {
+  const inviteUrl = document.getElementById("invite-url").value;
+  if (!inviteUrl) {
+    alert("先に招待URLを発行してください。");
+    return;
+  }
+
+  // メール本文と件名
+  const subject = encodeURIComponent("【引越しGO】メンバー招待リンクのお知らせ");
+  const body = encodeURIComponent(
+    `こんにちは！\n\n引越しGOのメンバー招待リンクです。\n下記のURLから登録をお願いします。\n\n${inviteUrl}\n\nよろしくお願いします！`
+  );
+
+  // メールアプリを起動
+  window.location.href = `mailto:?subject=${subject}&body=${body}`;
+});
+</script>
 {% endblock %}

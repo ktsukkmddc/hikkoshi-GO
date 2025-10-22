@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+import uuid
 
 
 class UserManager(BaseUserManager):
@@ -24,16 +25,15 @@ class UserManager(BaseUserManager):
             raise ValueError('Superuser must have is_superuser=True.')
 
         return self.create_user(email, password, **extra_fields)
-
-
-class User(AbstractUser):
-    username = None
-    email = models.EmailField(unique=True)
-
+    
+class CustomUser(AbstractUser):
+    """拡張ユーザーモデル"""
+    invite_code = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    email = models.EmailField(unique=True)  # メールを必須＆一意に
+    # 今後の拡張用（例：電話番号など）
+    
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
-
-    objects = UserManager()  # ← カスタムマネージャーを使う！
+    REQUIRED_FIELDS = ['username']
 
     def __str__(self):
         return self.email
