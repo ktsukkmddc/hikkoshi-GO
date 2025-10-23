@@ -1,0 +1,40 @@
+.error-wrapper {
+  text-align: center;
+  margin-top: 120px;
+  color: #333;
+  font-family: 'Arial', 'Hiragino Kaku Gothic ProN', sans-serif;
+}
+
+.error-wrapper h2 {
+  color: #d9534f; /* 赤っぽい警告色 */
+  font-size: 22px;
+  margin-bottom: 25px;
+}
+
+.error-wrapper p {
+  font-size: 16px;
+  margin-bottom: 40px;
+}
+
+.btn-back {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #d0eaf1;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+  text-decoration: none;
+  color: #333;
+  transition: background 0.2s;
+}
+
+.btn-back:hover {
+  background-color: #b8dce6;
+}
+
+/* スマホ対応 */
+@media screen and (max-width: 768px) {
+  .error-wrapper {
+    margin-top: 180px;
+    padding: 0 20px;
+  }
+}

@@ -1,0 +1,16 @@
+{% extends 'base_plain.html' %}
+{% load static %}
+
+{% block title %}招待リンクエラー | 引越しGO{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/invite_error.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="error-wrapper">
+  <h2>招待リンクに問題があります</h2>
+  <p>{{ message }}</p>
+  <a href="{% url 'login' %}" class="btn-back">ログイン画面に戻る</a>
+</div>
+{% endblock %}

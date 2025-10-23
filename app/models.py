@@ -1,5 +1,8 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+from django.utils import timezone
+from datetime import timedelta
+from django.conf import settings
 import uuid
 
 
@@ -28,12 +31,40 @@ class UserManager(BaseUserManager):
     
 class CustomUser(AbstractUser):
     """拡張ユーザーモデル"""
+    username = None
     invite_code = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     email = models.EmailField(unique=True)  # メールを必須＆一意に
     # 今後の拡張用（例：電話番号など）
     
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = []
 
     def __str__(self):
         return self.email
+
+    
+class Invite(models.Model):
+    """招待リンク管理モデル"""
+    code = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    inviter = models.ForeignKey(
+        settings.AUTH_USER_MODEL,  # 誰が招待したか
+        on_delete=models.CASCADE,
+        related_name='sent_invites'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField(blank=True, null=True)  # 有効期限
+    is_used = models.BooleanField(default=False)  # 使用済みか
+
+    def save(self, *args, **kwargs):
+        """初回保存時に有効期限を設定（例：24時間後）"""
+        if not self.expires_at:
+            self.expires_at = timezone.now() + timedelta(hours=24)
+        super().save(*args, **kwargs)
+
+    def is_expired(self):
+        """期限切れかどうか"""
+        return timezone.now() > self.expires_at
+
+    def __str__(self):
+        inviter_email = self.inviter.email if self.inviter else "Unknown"
+        return f"{self.code}（by {self.inviter.email}）"

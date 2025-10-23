@@ -7,7 +7,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html',
         authentication_form=EmailAuthenticationForm), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
-    path('signup/', views.signup, name='signup'),
+    path('signup/', views.signup_view, name='signup'),
     path('home/', views.home_view, name='home'),
     path('task/', views.task_view, name='task'),
     path('calendar/', views.calendar_view, name='calendar'),
