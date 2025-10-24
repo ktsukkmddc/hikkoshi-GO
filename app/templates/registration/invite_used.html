@@ -1,0 +1,16 @@
+{% extends 'base_plain.html' %}
+{% load static %}
+
+{% block title %}招待リンク使用済み | 引越しGO{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/invite_error.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="error-wrapper">
+  <h2>この招待リンクはすでに使用されています</h2>
+  <p>すでに登録が完了しているため、このリンクは無効です。</p>
+  <a href="{% url 'login' %}" class="btn-back">ログイン画面に戻る</a>
+</div>
+{% endblock %}

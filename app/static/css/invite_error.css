@@ -1,12 +1,24 @@
+/* ===== 全体設定 ===== */
+body {
+  background-color: #f9f9f9;
+  font-family: 'Arial', 'Hiragino Kaku Gothic ProN', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  margin: 0;
+  padding-top: 100px;
+}
+
 .error-wrapper {
   text-align: center;
-  margin-top: 120px;
+  margin-top: 50px;
   color: #333;
   font-family: 'Arial', 'Hiragino Kaku Gothic ProN', sans-serif;
 }
 
 .error-wrapper h2 {
-  color: #d9534f; /* 赤っぽい警告色 */
+  color: #fc251e; /* 赤っぽい警告色 */
   font-size: 22px;
   margin-bottom: 25px;
 }
@@ -29,12 +41,26 @@
 
 .btn-back:hover {
   background-color: #b8dce6;
+  transform: scale(1.007); /* ← ちょっと浮く感じ */
 }
 
 /* スマホ対応 */
 @media screen and (max-width: 768px) {
   .error-wrapper {
-    margin-top: 180px;
+    margin-top: 150px;
     padding: 0 20px;
+  }
+
+   .error-wrapper h2 {
+    font-size: 20px;
+  }
+
+  .error-wrapper p {
+    font-size: 15px;
+  }
+
+  .btn-back {
+    width: 80%;
+    font-size: 15px;
   }
 }

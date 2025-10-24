@@ -82,21 +82,26 @@ def signup_view(request):
         try:
             invite = Invite.objects.get(code=invite_code)
         except Invite.DoesNotExist:
-            return render(request, 'registration/invite_error.html', {
-                'message': 'この招待リンクは無効です。'
-            })
+        # 無効なリンク
+            return render(request, 'registration/invite_invalid.html')
+        
+        invite.refresh_from_db()  # 最新状態を取得（管理画面で変更した直後でも反映される）
+
+        print("=== 招待リンクチェック ===")
+        print("コード:", invite.code)
+        print("期限:", invite.expires_at)
+        print("現在:", timezone.now())
+        print("期限切れ判定:", invite.is_expired())
+        print("使用済み判定:", invite.is_used)
+        print("=========================")
 
         # 有効期限チェック
         if invite.is_expired():
-            return render(request, 'registration/invite_error.html', {
-                'message': 'この招待リンクは期限切れです。'
-            })
+            return render(request, 'registration/invite_expired.html')
 
         # 使用済みチェック
         if invite.is_used:
-            return render(request, 'registration/invite_error.html', {
-                'message': 'この招待リンクはすでに使用されています。'
-            })
+            return render(request, 'registration/invite_used.html')
 
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)

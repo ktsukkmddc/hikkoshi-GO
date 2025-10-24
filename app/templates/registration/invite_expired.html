@@ -1,0 +1,16 @@
+{% extends 'base_plain.html' %}
+{% load static %}
+
+{% block title %}招待リンク期限切れ | 引越しGO{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/invite_error.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="error-wrapper">
+  <h2>招待リンクの有効期限が切れています</h2>
+  <p>リンクの有効期限が過ぎています。<br>招待を再送してもらってください。</p>
+  <a href="{% url 'login' %}" class="btn-back">ログイン画面に戻る</a>
+</div>
+{% endblock %}
