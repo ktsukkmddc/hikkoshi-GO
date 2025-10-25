@@ -25,8 +25,8 @@
     {% endif %}
 
     <div class="form-group">
-      <label for="id_name">名前</label>
-      {{ form.name }}
+      <label for="id_full_name">名前(フルネーム):</label>
+      {{ form.full_name }}
       {% if form.name.errors %}
         <div class="error" style="color:red; font-size:13px;">
           {{ form.name.errors|striptags }}

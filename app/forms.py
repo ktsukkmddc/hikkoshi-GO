@@ -24,6 +24,8 @@ class EmailAuthenticationForm(AuthenticationForm):
         
         
 class CustomUserCreationForm(UserCreationForm):
+    full_name = forms.CharField(label='氏名（フルネーム）', max_length=50, required=True)
+    
     class Meta:
         model = CustomUser
-        fields = ['email', 'password1', 'password2']
+        fields = ['full_name', 'email', 'password1', 'password2']

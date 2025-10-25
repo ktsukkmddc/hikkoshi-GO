@@ -24,6 +24,13 @@
   padding-right: 10px;  /* スクロールバーの分だけ余白 */
 }
 
+.member-card p {
+  text-align: left;      /* ← テキストを左寄せ */
+  margin-left: 20px;     /* ← 左に少し余白を足して整える（調整可） */
+  margin-right: 20px;    /* ← 右も軽くバランス取りたい場合 */
+  margin: 10px 20px;
+}
+
 .member-list::-webkit-scrollbar {
   width: 8px;
 }

@@ -34,15 +34,17 @@ class CustomUser(AbstractUser):
     username = None
     invite_code = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     email = models.EmailField(unique=True)  # メールを必須＆一意に
+    full_name = models.CharField(max_length=50, blank=True, null=True)  # フルネーム（漢字・かな対応）
+
     # 今後の拡張用（例：電話番号など）
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.email
+        return self.full_name or self.email
 
-    
+
 class Invite(models.Model):
     """招待リンク管理モデル"""
     code = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)

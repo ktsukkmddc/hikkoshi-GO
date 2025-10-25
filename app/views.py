@@ -113,6 +113,7 @@ def signup_view(request):
         if form.is_valid():
             print("フォーム有効です")
             user = form.save(commit=False)
+            user.full_name = form.cleaned_data['full_name']
             
             # invite_codeをユーザーにセット（保存前に）
             if invite_code:

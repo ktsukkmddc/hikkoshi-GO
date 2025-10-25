@@ -12,8 +12,8 @@
 
   <div class="member-list">
     {% for member in members %}
-    <div class="member-card" data-member="{{ member.first_name }}" data-email="{{ member.email }}">
-      <p>名前：{{ member.first_name }}</p>
+    <div class="member-card" data-member="{{ member.full_name }}" data-email="{{ member.email }}">
+      <p>名前：{{ member.full_name }}</p>
       <p>メールアドレス：{{ member.email }}</p>
     </div>
     {% empty %}
