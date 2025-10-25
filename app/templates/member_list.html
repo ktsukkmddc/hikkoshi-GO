@@ -1,8 +1,85 @@
 {% extends 'base_with_nav.html' %}
-{% block title %}登録メンバー照会 | 引越しGO{% endblock %}
+{% load static %}
+
+{% block title %}登録メンバー | 引越しGO{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/member_list.css' %}">
+{% endblock %}
+
 {% block content %}
-  <div class="page-wrapper">
-    <h2>登録メンバー照会</h2>
-    <p>登録済みのメンバー一覧を表示します。</p>
+<div class="member-wrapper">
+  <h2>登録メンバー</h2>
+
+  <div class="member-list">
+    {% for member in members %}
+    <div class="member-card" data-member="{{ member.first_name }}" data-email="{{ member.email }}">
+      <p>名前：{{ member.first_name }}</p>
+      <p>メールアドレス：{{ member.email }}</p>
+    </div>
+    {% empty %}
+    <p>登録メンバーはいません。</p>
+    {% endfor %}
+
+    <!-- テスト用ダミーデータ（スクロール確認用） -->
+  <div class="member-card">
+    <p>名前：テストユーザー1</p>
+    <p>メールアドレス：test1@example.com</p>
   </div>
+  <div class="member-card">
+    <p>名前：テストユーザー2</p>
+    <p>メールアドレス：test2@example.com</p>
+  </div>
+  <div class="member-card">
+    <p>名前：テストユーザー3</p>
+    <p>メールアドレス：test3@example.com</p>
+  </div>
+  <div class="member-card">
+    <p>名前：テストユーザー4</p>
+    <p>メールアドレス：test4@example.com</p>
+  </div>
+  <div class="member-card">
+    <p>名前：テストユーザー5</p>
+    <p>メールアドレス：test5@example.com</p>
+  </div>
+  </div>
+<div>
+
+<!-- ===== モーダル ===== -->
+<div id="messageModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h3>宛先：<span id="targetName"></span></h3>
+
+    <form id="messageForm" method="POST" action="{% url 'save_message' %}">
+      {% csrf_token %}
+      <input type="hidden" name="receiver_email" id="receiverEmail">
+      <textarea name="content" id="messageText" rows="4" placeholder="メッセージを入力してください" required></textarea>
+      <button type="submit" id="sendMessageBtn">登録</button>
+    </form>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("messageModal");
+  const closeBtn = document.querySelector(".close");
+  const targetName = document.getElementById("targetName");
+  const receiverEmail = document.getElementById("receiverEmail");
+
+  // --- メンバークリックでモーダルを開く ---
+  document.querySelectorAll(".member-card").forEach(card => {
+    card.addEventListener("click", () => {
+      const name = card.dataset.member;
+      const email = card.dataset.email;
+      targetName.textContent = name;
+      receiverEmail.value = email;
+      modal.style.display = "flex";
+    });
+  });
+
+  // --- モーダルを閉じる処理 ---
+  closeBtn.onclick = () => modal.style.display = "none";
+  window.onclick = e => { if (e.target == modal) modal.style.display = "none"; };
+});
+</script>
 {% endblock %}

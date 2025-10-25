@@ -1,0 +1,163 @@
+.member-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* ← 中央寄せを保証 */
+  justify-content: center;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.member-wrapper h2 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.member-list {
+  max-height: 70vh;     /* 画面の約70%でスクロール発生 */
+  overflow-y: auto;     /* 縦スクロール許可 */
+  width: 100%;            /* 横幅を確保 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;    /* カード中央寄せ */
+  gap: 10px;              /* カード間の余白 */
+  padding-right: 10px;  /* スクロールバーの分だけ余白 */
+}
+
+.member-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.member-list::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.member-card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1px;
+  margin: 5px 0;
+  width: 90%;
+  max-width: 330px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.2s;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.member-card:hover {
+  transform: scale(1.02);
+  background-color: #f0e6ee;
+}
+
+/* ===== モーダル ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 24px 28px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.modal-content h3 {
+  font-weight: 400;  /* ← 細字に変更（通常） */
+  font-size: 15px;
+  margin-bottom: 14px;
+}
+
+.close {
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+  font-weight: 100;
+  font-family: "Arial", sans-serif;
+  color: #555}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  margin-top: 12px;
+  padding: 1px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: none;
+  box-sizing: border-box;
+}
+
+#sendMessageBtn {
+  margin-top: 16px;
+  padding: 10px 20px;
+  background-color: #50e3f6;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 140px;
+}
+
+#sendMessageBtn:hover {
+  background-color: #04cde7;
+}
+
+/* ===== スマホ対応（768px以下） ===== */
+@media screen and (max-width: 768px) {
+  .member-wrapper {
+    margin-top: 100px;
+    align-items: center;
+  }
+
+  .member-list {
+    -webkit-overflow-scrolling: touch; /* スムーズスクロール（iOS対応） */
+  }
+
+  .member-list::-webkit-scrollbar {
+    width: 3px; /* ← スマホ用にさらに細く */
+    height: 3px;
+  }
+
+  .member-list::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+
+  .member-list::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .member-card {
+    width: 95%;
+    margin: 5px auto;
+    padding: 5px;
+    font-size: 15px;
+  }
+
+  .modal-content {
+    width: 92%;
+    padding: 18px;
+  }
+
+  textarea {
+    height: 100px;
+  }
+
+  #sendMessageBtn {
+    width: 40%;
+    font-size: 16px;
+  }
+}

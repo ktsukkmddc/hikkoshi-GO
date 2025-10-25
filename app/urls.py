@@ -17,6 +17,7 @@ urlpatterns = [
     path('generate_invite_url/', views.generate_invite_url, name='generate_invite_url'),
     path('member_list/', views.member_list_view, name='member_list'),
     path('message/', views.message_view, name='message'),
+    path('save_message/', views.save_message_view, name='save_message'),
     path('password_reset/', auth_views.PasswordResetView.as_view(
         template_name='password_reset.html'
     ), name='password_reset'),

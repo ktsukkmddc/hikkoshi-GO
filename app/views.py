@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.utils import timezone
 from .forms import CustomUserCreationForm
 from .models import Invite
+from .models import Invite, CustomUser, Message
 import uuid
 
 
@@ -47,7 +48,9 @@ def account_manage_view(request):
 
 @login_required
 def member_list_view(request):
-    return render(request, 'member_list.html')
+    """登録メンバー一覧を表示"""
+    members = CustomUser.objects.exclude(id=request.user.id)  # 自分以外を表示
+    return render(request, 'member_list.html', {'members': members})
 
 def message_view(request):
     return render(request, 'registration/message.html')
@@ -132,3 +135,16 @@ def signup_view(request):
         'form': form,
         'invite_code': invite_code  # HTML側にも渡す
     })
+    
+
+@login_required
+def save_message_view(request):
+    """モーダルからのメッセージ登録処理"""
+    if request.method == 'POST':
+        receiver_email = request.POST.get('receiver_email')
+        content = request.POST.get('content')
+
+        receiver = CustomUser.objects.filter(email=receiver_email).first()
+        if receiver and content:
+            Message.objects.create(sender=request.user, receiver=receiver, content=content)
+        return redirect('member_list')

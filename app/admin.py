@@ -1,8 +1,7 @@
 # app/admin.py
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
-from .models import Invite
+from .models import CustomUser, Invite, Message
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
@@ -17,3 +16,10 @@ class InviteAdmin(admin.ModelAdmin):
     list_display = ("code", "created_at", "expires_at", "is_used")
     list_filter = ("is_used",)
     search_fields = ("code",)
+
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ("sender", "receiver", "content", "created_at")
+    search_fields = ("sender__email", "receiver__email", "content")
+    list_filter = ("created_at",)
+    ordering = ("-created_at",)  # 新しい順に表示
