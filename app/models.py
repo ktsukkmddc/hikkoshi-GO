@@ -35,6 +35,7 @@ class CustomUser(AbstractUser):
     invite_code = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     email = models.EmailField(unique=True)  # メールを必須＆一意に
     full_name = models.CharField(max_length=50, blank=True, null=True)  # フルネーム（漢字・かな対応）
+    move_date = models.DateField(null=True, blank=True)  # 引越し予定日
 
     # 今後の拡張用（例：電話番号など）
     

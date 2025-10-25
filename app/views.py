@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.contrib import messages
+from django.contrib.auth import authenticate, login, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
 from django.urls import reverse
 from django.utils import timezone
@@ -44,7 +45,24 @@ def mypage_view(request):
 
 @login_required
 def account_manage_view(request):
-    return render(request, 'account_manage.html')
+    """アカウント管理画面（名前・メール・引越し予定日を編集）"""
+    user = request.user
+    
+    if request.method == "POST":
+        full_name = request.POST.get("full_name")
+        email = request.POST.get("email")
+        move_date = request.POST.get("move_date")
+        
+        # 入力値を反映
+        user.full_name = full_name
+        user.email = email
+        user.move_date = move_date if move_date else None
+        user.save()
+        
+        messages.success(request, "アカウント情報を更新しました。")
+        return redirect("account_manage")
+    
+    return render(request, 'account_manage.html', {"user": user})
 
 @login_required
 def member_list_view(request):
