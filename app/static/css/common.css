@@ -4,6 +4,28 @@
   --font-color: #333;  /* 標準文字色（濃いグレー） */
 }
 
+/* ===== 全ページ共通・安定レイアウト初期化 ===== */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* main要素の余白を全ページで統一 */
+main {
+  display: block;
+  width: 100%;
+  padding-top: 70px; /* ナビバー分の余白 */
+  box-sizing: border-box;
+}
+
 /* ページ全体（背景・フォント・中央寄せ） */
 body {
   background-color: #fafafa;  /* 全体の背景 */
@@ -11,11 +33,12 @@ body {
   color: var(--font-color);
   margin: 0;  /* ブラウザが自動で付ける余白を消す設定　上下左右すべて0 */
   padding: 0;
+  overflow-x: hidden;
 }
 
 /* ===== ナビバー（共通）===== */
 .navbar {
-  position: flex;
+  display: flex;
   justify-content: space-between; /* 左右に配置 */
   top: 0;
   left: 0;

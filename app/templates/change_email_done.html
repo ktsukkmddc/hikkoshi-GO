@@ -1,0 +1,16 @@
+{% extends 'base_with_nav.html' %}
+{% load static %}
+
+{% block title %}確認メール送信 | 引越しGO{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/change_email.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="change-email-wrapper">
+  <h2>確認メールを送信しました。</h2>
+  <p>{{ user.email }} 宛に確認メールをお送りしました。</p>
+  <p>メール内のリンクをクリックして、新しいメールの確認を完了してください。</p>
+</div>
+{% endblock %}

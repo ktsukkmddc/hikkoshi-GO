@@ -11,43 +11,109 @@
 <div class="account-wrapper">
   <h2>アカウント管理</h2>
 
-  <form method="POST">
-    {% csrf_token %}
-    
-    <div class="form-group">
-      <label for="full_name">名前（フルネーム）</label>
-      <input
-        type="text"
-        id="full_name"
-        name="full_name"
-        value="{% if user.full_name and user.full_name != 'None' %}{{ user.full_name }}{% else %}未設定{% endif %}"
-        required
-      >
+  <div class="info-group">
+    <label>名前（フルネーム）</label>
+    <div class="info-row">
+      <span id="display-fullname">
+        {% if user.full_name and user.full_name != 'None' %}
+          {{ user.full_name }}
+        {% else %}
+           未設定
+        {% endif %}
+      </span>
+      <a href="#" id="edit-name" class="edit-link">編集する</a>
     </div>
+  </div>
 
-    <div class="form-group">
-      <label for="email">メールアドレス</label>
-      <input type="email" id="email" name="email" value="{{ user.email }}" required>
+  <div class="info-group">
+    <label>メールアドレス</label>
+    <div class="info-row">
+      <span id="display-email">{{ user.email }}</span>
+      <a href="{% url 'change_email' %}" class="edit-link">変更する</a>
     </div>
+  </div>
 
-    <div class="form-group">
-      <label for="move_date">引越し予定日</label>
-      <input type="date" id="move_date" name="move_date" value="{{ user.move_date|date:'Y-m-d' }}">
+  <div class="form-group">
+    <label for="move_date">引越し予定日</label>
+    <input type="date" id="move_date" name="move_date" value="{{ user.move_date|date:'Y-m-d' }}">
     </div>
-
-    <button type="submit" class="save-btn">保存</button>
-  </form>
 
   <div class="password-change">
     <a href="{% url 'password_change' %}" class="password-btn">パスワードを変更する</a>
   </div>
-
-  {% if messages %}
-  <div class="message-area">
-    {% for message in messages %}
-      <p>{{ message }}</p>
-    {% endfor %}
-  </div>
-  {% endif %}
 </div>
+
+<div id="nameModal" class="modal">
+  <div class="modal-content">
+    <h3>名前を編集してください</h3>
+    <form method="POST" id="nameForm">
+      {% csrf_token %}
+      <input
+        type="text"
+        name="full_name"
+        id="full_name_input"
+        placeholder="名前(フルネーム)を入力"
+        value="{% if user.full_name and user.full_name != 'None' %}{{ user.full_name }}{% endif %}"
+        required
+      >
+      <div class="modal-buttons">
+        <button type="submit" class="btn-save">保存</button>
+        <button type="button" id="cancelModal" class="btn-cancel">キャンセル</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // ===== モーダル表示制御 =====
+  const modal = document.getElementById('nameModal');
+  const editBtn = document.getElementById('edit-name');
+  const cancelBtn = document.getElementById('cancelModal');
+  const displayName = document.getElementById('display-fullname');
+  const nameInput = document.getElementById('full_name_input');
+
+  // モーダルを開く
+  editBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    modal.style.display = 'block';
+
+    // 現在の名前を取得
+    const currentName = displayName.textContent.trim();
+
+    // 「未設定」「None」「空欄」ならプレースホルダーのみを表示
+    if (currentName === '未設定' || currentName === 'None' || currentName === '') {
+      nameInput.value = '';
+    } else {
+      nameInput.value = currentName;
+    }
+
+    nameInput.focus();
+  });
+
+  // 閉じる
+  cancelBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  // 背景クリックで閉じる
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) modal.style.display = 'none';
+  });
+
+  // ===== フォーム送信後に即反映 =====
+  document.getElementById('nameForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const response = await fetch("", {
+      method: "POST",
+      body: formData,
+      headers: { "X-Requested-With": "XMLHttpRequest" }
+    });
+    if (response.ok) {
+      const newName = formData.get("full_name");
+      displayName.textContent = newName || "未設定";
+      modal.style.display = "none";
+    }
+  });
+</script>
 {% endblock %}

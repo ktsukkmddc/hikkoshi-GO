@@ -20,6 +20,9 @@ urlpatterns = [
     path('member_list/', views.member_list_view, name='member_list'),
     path('message/', views.message_view, name='message'),
     path('save_message/', views.save_message_view, name='save_message'),
+    path('change_email/', views.change_email_view, name='change_email'),
+    path('change_email/done/', views.change_email_done_view, name='change_email_done'),
+    path('confirm_email/<uuid:token>/', views.confirm_email_view, name='confirm_email'),
     path('password_reset/', auth_views.PasswordResetView.as_view(
         template_name='password_reset.html'
     ), name='password_reset'),

@@ -55,7 +55,7 @@ body.login-page {
   padding: 10px;
   font-size: 16px;
   cursor: pointer;
-  color: #000;
+  color: #333;
   transition: background-color 0.2s;
 }
 

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
@@ -9,6 +9,9 @@ from django.utils import timezone
 from .forms import CustomUserCreationForm
 from .models import Invite
 from .models import Invite, CustomUser, Message
+from django.core.mail import send_mail
+from django.contrib.sites.shortcuts import get_current_site
+
 import uuid
 
 
@@ -31,17 +34,21 @@ def login_view(request):
 def home_view(request):
     return render(request, 'home.html')
 
+
 @login_required
 def task_view(request):
     return render(request, 'task.html')
+
 
 @login_required
 def calendar_view(request):
     return render(request, 'calendar.html')
 
+
 @login_required
 def mypage_view(request):
     return render(request, 'mypage.html')
+
 
 @login_required
 def account_manage_view(request):
@@ -63,6 +70,7 @@ def account_manage_view(request):
         return redirect("account_manage")
     
     return render(request, 'account_manage.html', {"user": user})
+
 
 @login_required
 def member_list_view(request):
@@ -167,3 +175,63 @@ def save_message_view(request):
         if receiver and content:
             Message.objects.create(sender=request.user, receiver=receiver, content=content)
         return redirect('member_list')
+
+
+@login_required
+def change_email_view(request):
+    user = request.user
+    
+    """メールアドレス変更フォーム"""
+    if request.method == "POST":
+        new_email = request.POST.get("new_email")
+        password = request.POST.get("password")
+        password_confirm = request.POST.get("password_confirm")
+
+        if password != password_confirm:
+            messages.error(request, "パスワードが一致しません。")
+            return render(request, "change_email.html")
+        
+        # トークン生成
+        token = uuid.uuid4()
+        user.new_email = new_email
+        user.email_change_token = token
+        user.save()
+
+        # 確認メール送信
+        current_site = get_current_site(request)
+        confirm_url = f"http://{current_site.domain}{reverse('confirm_email', args=[token])}"
+
+        send_mail(
+            subject="【引越しGO】メールアドレス確認のお願い",
+            message=f"{user.username} さん\n\n以下のリンクをクリックしてメールアドレス変更を完了してください。\n\n{confirm_url}\n\nこのメールに覚えがない場合は無視してください。",
+            from_email="noreply@hikkoshi-go.com",
+            recipient_list=[new_email],
+        )
+
+        # 確認メール送信（開発中はコンソール出力）
+        print(f"確認メールを {new_email} 宛に送信しました。")
+
+        # 成功メッセージを一時保存してリダイレクト
+        messages.success(request, f"{new_email} 宛に確認メールを送信しました。")
+        return redirect("change_email_done")
+
+    return render(request, "change_email.html", {"user": user})
+
+
+@login_required
+def change_email_done_view(request):
+    """確認メール送信完了画面"""
+    return render(request, "change_email_done.html")
+
+def confirm_email_view(request, token):
+    """メールアドレス確認リンクからアクセス"""
+    user = get_object_or_404(CustomUser, email_change_token=token)
+
+    if user.new_email:
+        user.email = user.new_email
+        user.new_email = None
+        user.email_change_token = None
+        user.save()
+        messages.success(request, "メールアドレスを更新しました。")
+
+    return redirect("account_manage")

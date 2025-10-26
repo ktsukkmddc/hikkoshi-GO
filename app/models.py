@@ -36,6 +36,10 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)  # メールを必須＆一意に
     full_name = models.CharField(max_length=50, blank=True, null=True)  # フルネーム（漢字・かな対応）
     move_date = models.DateField(null=True, blank=True)  # 引越し予定日
+    
+    # メール変更用フィールド
+    new_email = models.EmailField(null=True, blank=True)
+    email_change_token = models.UUIDField(default=uuid.uuid4, null=True, blank=True)
 
     # 今後の拡張用（例：電話番号など）
     
