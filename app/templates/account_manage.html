@@ -35,8 +35,26 @@
 
   <div class="form-group">
     <label for="move_date">引越し予定日</label>
-    <input type="date" id="move_date" name="move_date" value="{{ user.move_date|date:'Y-m-d' }}">
+    <input
+        type="text"
+        id="move_date"
+        name="move_date"
+        placeholder="クリックして日付を選択"
+        readonly
+    >
+  </div>
+
+  <!-- カレンダーモーダル -->
+<div id="calendarModal" class="modal">
+  <div class="modal-content calendar-content">
+    <h3>日付を選択してください</h3>
+    <input type="date" id="calendarInput">
+    <div class="modal-buttons">
+      <button id="selectDate" class="btn-save">決定</button>
+      <button id="cancelCalendar" class="btn-cancel">キャンセル</button>
     </div>
+  </div>
+</div>
 
   <div class="password-change">
     <a href="{% url 'password_change' %}" class="password-btn">パスワードを変更する</a>
@@ -65,39 +83,32 @@
 </div>
 
 <script>
-  // ===== モーダル表示制御 =====
-  const modal = document.getElementById('nameModal');
+  // ===== 名前モーダル表示制御 =====
+  const nameModal = document.getElementById('nameModal');
   const editBtn = document.getElementById('edit-name');
-  const cancelBtn = document.getElementById('cancelModal');
+  const nameCancelBtn = document.getElementById('cancelModal');
   const displayName = document.getElementById('display-fullname');
   const nameInput = document.getElementById('full_name_input');
 
   // モーダルを開く
   editBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    modal.style.display = 'block';
+    nameModal.style.display = 'flex';
 
     // 現在の名前を取得
     const currentName = displayName.textContent.trim();
-
-    // 「未設定」「None」「空欄」ならプレースホルダーのみを表示
-    if (currentName === '未設定' || currentName === 'None' || currentName === '') {
-      nameInput.value = '';
-    } else {
-      nameInput.value = currentName;
-    }
-
+    nameInput.value = (currentName === '未設定' || currentName === 'None' || currentName === '') ? '' : currentName;
     nameInput.focus();
   });
 
   // 閉じる
-  cancelBtn.addEventListener('click', () => {
-    modal.style.display = 'none';
+  nameCancelBtn.addEventListener('click', () => {
+    nameModal.style.display = 'none';
   });
 
   // 背景クリックで閉じる
   window.addEventListener('click', (e) => {
-    if (e.target === modal) modal.style.display = 'none';
+    if (e.target === nameModal) nameModal.style.display = 'none';
   });
 
   // ===== フォーム送信後に即反映 =====
@@ -110,10 +121,37 @@
       headers: { "X-Requested-With": "XMLHttpRequest" }
     });
     if (response.ok) {
-      const newName = formData.get("full_name");
-      displayName.textContent = newName || "未設定";
-      modal.style.display = "none";
+      displayName.textContent = formData.get("full_name") || "未設定";
+      nameModal.style.display = "none";
     }
+  });
+
+  // ===== カレンダーモーダル表示制御 =====
+  const calendarModal = document.getElementById('calendarModal');
+  const calendarInput = document.getElementById('calendarInput');
+  const moveDateInput = document.getElementById('move_date');
+  const selectBtn = document.getElementById('selectDate');
+  const calendarCancelBtn = document.getElementById('cancelCalendar');
+
+  // 日付欄をクリック → カレンダーを開く
+  moveDateInput.addEventListener('click', () => {
+    calendarModal.style.display = 'flex';
+  });
+
+  // 決定ボタンで反映
+  selectBtn.addEventListener('click', () => {
+    moveDateInput.value = calendarInput.value;
+    calendarModal.style.display = 'none';
+  });
+
+  // キャンセルボタン
+  calendarCancelBtn.addEventListener('click', () => {
+    calendarModal.style.display = 'none';
+  });
+
+  // 背景クリックでも閉じる
+  window.addEventListener('click', (e) => {
+    if (e.target === calendarModal) calendarModal.style.display = 'none';
   });
 </script>
 {% endblock %}

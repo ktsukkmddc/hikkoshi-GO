@@ -12,7 +12,6 @@ main {
   width: 100%;
 }
 
-
 .account-wrapper {
   text-align: center;
   margin: 50px auto;
@@ -53,6 +52,7 @@ main {
   align-items: center;
   width: 350px;
   margin: 0 auto;
+  font-size: 14px;
 }
 
 .edit-link {
@@ -62,7 +62,15 @@ main {
   font-size: 14px;
 }
 
-/* ===== モーダル ===== */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;          /* ← 固定幅350pxを削除し、親要素に合わせる */
+  box-sizing: border-box;
+}
+
+/* ===== 名前モーダル ===== */
 .modal {
   display: none;
   position: fixed;
@@ -158,6 +166,37 @@ main {
   color: #666;
 }
 
+/* カレンダーモーダル専用 */
+.calendar-content {
+  background-color: #fff;
+  margin: 0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.calendar-content h3 {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.calendar-content input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+
 /* ===== パスワード変更リンク ===== */
 .password-change {
   text-align: center;
@@ -192,6 +231,7 @@ main {
   margin: 40px auto;               /* 上下の間隔と中央寄せ */
   max-width: 420px;                /* 幅を固定（フォームに合わせる） */
   background-color: #fff;
+  font-size: 14px;
 }
 
 .form-group label {
@@ -205,11 +245,6 @@ main {
   border-radius: 4px;
   border: 1px solid #ccc;
 }
-
-#move_date {
-  margin-left: 130px;
-}
-
 
 
 /* ===== スマホ対応 ===== */
@@ -240,47 +275,29 @@ main {
   .form-group label {
     display: block;
     text-align: left;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     font-size: 15px;
     color: #555;
-  }
-
-  /* ===== 中身のテキストやリンク行 ===== */
-  .info-row {
-    max-width: 380px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;                 /* 固定幅を解除 */
-    margin: 0 auto;
-    box-sizing: border-box;
-  }
-
-  .edit-link {
-    font-size: 15px;
-    text-decoration: underline;
-    color: #333;
+    width: 100%;
   }
 
   /* ===== 日付入力欄 ===== */
   .form-group {
+    display: flex;
     flex-direction: column;      /* ラベルとinputを縦並びに */
     align-items: flex-start; /* ← 左寄せに */
-  }
-
-  .form-group label {
-    margin-bottom: 10px;      /* ← ラベルとinputの間に余白 */
+    gap: 8px;
   }
 
   .form-group input[type="date"] {
     width: 100%;
-    box-sizing: border-box;
-    max-width: none;
-    align-items: flex-start;
+    max-width: 100%;
     padding: 10px;
     font-size: 15px;
     border-radius: 6px;
     border: 1px solid #ccc;
+    box-sizing: border-box;
+    margin-left: 0;
   }
 
   /* ===== パスワード変更ボタン ===== */
