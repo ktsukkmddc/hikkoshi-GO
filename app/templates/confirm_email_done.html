@@ -1,0 +1,16 @@
+{% extends 'base_with_nav.html' %}
+{% load static %}
+
+{% block title %}メールアドレス変更完了 | 引越しGO{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/change_email.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="change-email-wrapper confirm-page">
+  <h2>メールアドレスの変更が完了しました</h2>
+  <p>新しいメールアドレスが正常に登録されました。</p>
+  <a href="{% url 'account_manage' %}" class="return-link">アカウント管理に戻る</a>
+</div>
+{% endblock %}

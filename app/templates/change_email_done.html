@@ -8,9 +8,11 @@
 {% endblock %}
 
 {% block content %}
-<div class="change-email-wrapper">
-  <h2>確認メールを送信しました。</h2>
-  <p>{{ user.email }} 宛に確認メールをお送りしました。</p>
-  <p>メール内のリンクをクリックして、新しいメールの確認を完了してください。</p>
+<div class="change-email-wrapper done-page">
+  <h2>確認メールを送信しました</h2>
+  <p>{{ request.user.new_email }} 宛に確認メールを<br>
+    お送りしました。</p>
+  <p>メール内のリンクをクリックして、新しい<br>
+    メールアドレスの確認を完了してください。</p>
 </div>
 {% endblock %}

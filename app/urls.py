@@ -2,6 +2,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 from .forms import EmailAuthenticationForm
+from django.shortcuts import redirect
 
 urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html',
@@ -23,6 +24,7 @@ urlpatterns = [
     path('change_email/', views.change_email_view, name='change_email'),
     path('change_email/done/', views.change_email_done_view, name='change_email_done'),
     path('confirm_email/<uuid:token>/', views.confirm_email_view, name='confirm_email'),
+    path('', lambda request: redirect('home'), name='root_redirect'),
     path('password_reset/', auth_views.PasswordResetView.as_view(
         template_name='password_reset.html'
     ), name='password_reset'),

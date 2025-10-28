@@ -8,15 +8,16 @@ body {
 
 .change-email-wrapper {
   text-align: center;
-  margin: 40px auto;
+  margin: 15px auto;
   max-width: 400px;   /* ← スマホ時のはみ出し防止 */
   width: 90%;
 }
 
 .change-email-wrapper h2 {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: bold;
-  margin-bottom: 40px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 /* ===== フォーム全体 ===== */
@@ -30,7 +31,7 @@ form {
 .form-group {
   text-align: left;
   width: 90%;
-  margin-bottom: 11px;
+  margin-bottom: 7px;
 }
 
 .form-group label {
@@ -83,17 +84,78 @@ form {
   background-color: #04cde7;
 }
 
-/* ===== メッセージエリア ===== */
-.message-area {
-  margin-top: 25px;
-  font-size: 14px;
-  color: #e74c3c;
+/* ===== change_email_done専用の調整 ===== */
+.done-page {
+  margin-top: 120px; /* ← h2タイトルを少し下げる */
 }
+
+.done-page h2 {
+  margin-bottom: 70px;
+}
+
+.done-page p {
+  font-size: 14px;   /* ← 通常より小さく */
+  color: #555;
+  line-height: 1.6;
+}
+
+/* 完了画面ボタンリンク */
+.return-link {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 18px;
+  background-color: #50e3f6;
+  color: #000;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.return-link:hover {
+  background-color: #04cde7;
+}
+
+
+
+
+/* ===== confirm_email_done専用の調整 ===== */
+.confirm-page {
+  margin-top: 100px; /* ← h2タイトルを少し下げる */
+}
+
+.confirm-page h2 {
+  margin-bottom: 70px;
+}
+
+.confirm-page p {
+  font-size: 14px;   /* ← 通常より小さく */
+  color: #555;
+  line-height: 1.6;
+}
+
+/* 完了画面ボタンリンク */
+.return-link {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 18px;
+  background-color: #50e3f6;
+  color: #000;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.return-link:hover {
+  background-color: #04cde7;
+}
+
+
+
 
 /* ===== スマホ対応 ===== */
 @media screen and (max-width: 768px) {
   .change-email-wrapper {
-    margin: 110px 20px;
+    margin: 75px 20px;
     width: 100%;
     padding: 0 10px;
   }
@@ -113,8 +175,30 @@ form {
     padding: 14px 0;
     margin-top: 5px;
   }
-  
-  h2 {
-    margin-bottom: 25px;          /* ← タイトル下も少し詰める（以前より短く） */
+
+  /* ===== change_email_done専用の調整 ===== */
+.done-page {
+  margin-top: 120px; /* ← h2タイトルを少し下げる */
+  }
+
+  .done-page p {
+  font-size: 14px;   /* ← 通常より小さく */
+  color: #555;
+  line-height: 1.6;
+  }
+
+  /* ===== change_email_done専用の調整 ===== */
+.confirm-page {
+  margin-top: 120px; /* ← h2タイトルを少し下げる */
+  }
+
+  .confirm-page h2 {
+  font-size: 22px;
+  }
+
+  .confirm-page p {
+  font-size: 14px;   /* ← 通常より小さく */
+  color: #555;
+  line-height: 1.6;
   }
 }

@@ -234,4 +234,4 @@ def confirm_email_view(request, token):
         user.save()
         messages.success(request, "メールアドレスを更新しました。")
 
-    return redirect("account_manage")
+    return render(request, "confirm_email_done.html")
