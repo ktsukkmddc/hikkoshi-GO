@@ -13,16 +13,20 @@ body {
 /* ===== 全体のラッパー ===== */
 .home-wrapper {
   text-align: center;
-  margin-top: 0; /* ナビバー分 + 余白 */
+  margin-top: 25px; /* ナビバー分 + 余白 */
 }
 
 /* ===== タイトル ===== */
 .home-wrapper h2 {
-  margin-top: 50px;
-  margin-bottom: 40px;
+  margin-top: 30px;
+  margin-bottom: 0px;
   font-size: 27px;
   font-weight: bold;
   text-align: center;
+}
+
+.home-wrapper .main-container {
+  margin-top: 0px; /* ← 上の余白を詰める */
 }
 
 /* ===== メインコンテンツ ===== */
@@ -37,10 +41,10 @@ body {
   border-radius: 16px;
   box-shadow: 0 3px 8px rgba(0,0,0,0.1);
   display: inline-block;
-  padding: 40px 20px;
+  padding: 40px 30px;
   margin-bottom: 0 auto 40px;
   text-align: center;
-  width: 320px;
+  width: 380px;
 }
 
 .countdown-card label {
@@ -144,14 +148,19 @@ body {
     padding: 0 10px;
   }
 
+  .home-wrapper h2 {
+    margin-top: 60px;     /* ← スマホでさらに詰める */
+    margin-bottom: 0px;  /* ← タイトルとカードの間もさらに狭く */
+  }
+
   body {
     font-size: 15px;
   }
 
   /* カード全体 */
   .countdown-card {
-    width: 90%;
-    margin: 0 auto;
+    width: 110%;
+    margin: 0 10px;
   }
 
   .countdown-card h2 {
@@ -173,7 +182,7 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    width: 95%;
+    width: 100%;
     margin: 30px auto;
   }
 
