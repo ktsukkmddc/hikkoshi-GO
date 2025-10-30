@@ -33,28 +33,36 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <label for="move_date">引越し予定日</label>
-    <input
-        type="text"
-        id="move_date"
-        name="move_date"
-        placeholder="クリックして日付を選択"
-        readonly
-    >
-  </div>
+  <form method="POST" action="">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="move_date">引越し予定日</label>
+      <input
+          type="text"
+          id="move_date"
+          name="move_date"
+          placeholder="クリックして日付を選択"
+          readonly
+          value="{{ user.move_date|default_if_none:'' }}"
+      >
+    </div>
 
   <!-- カレンダーモーダル -->
-<div id="calendarModal" class="modal">
-  <div class="modal-content calendar-content">
-    <h3>日付を選択してください</h3>
-    <input type="date" id="calendarInput">
-    <div class="modal-buttons">
-      <button id="selectDate" class="btn-save">決定</button>
-      <button id="cancelCalendar" class="btn-cancel">キャンセル</button>
+    <div id="calendarModal" class="modal">
+      <div class="modal-content calendar-content">
+        <h3>日付を選択してください</h3>
+        <input type="date" id="calendarInput">
+        <div class="modal-buttons">
+          <button id="selectDate" class="btn-save">決定</button>
+          <button id="cancelCalendar" class="btn-cancel">キャンセル</button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+
+    <div class="form-buttons" style="text-align:center; margin-top:20px;">
+      <button type="submit" class="btn-save">保存</button>
+    </div>
+  </form> 
 
   <div class="password-change">
     <a href="{% url 'password_change' %}" class="password-btn">パスワードを変更する</a>

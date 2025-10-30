@@ -32,7 +32,12 @@ def login_view(request):
 # --- ホーム・共通画面 ---
 @login_required
 def home_view(request):
-    return render(request, 'home.html')
+    user = request.user
+    move_date = user.move_date  # ← DBに登録されている日付を取得
+    
+    return render(request, 'home.html', {
+        "move_date": move_date,
+    })
 
 
 @login_required
@@ -55,15 +60,21 @@ def account_manage_view(request):
     """アカウント管理画面（名前・メール・引越し予定日を編集）"""
     user = request.user
     
-    if request.method == "POST":
-        full_name = request.POST.get("full_name")
-        email = request.POST.get("email")
-        move_date = request.POST.get("move_date")
+    if request.method == "POST" and request.headers.get("x-requested-with") == "XMLHttpRequest":
+        full_name = request.POST.get("full_name", "").strip()
+        user.full_name = full_name
+        user.save(update_fields=["full_name"])
+        return JsonResponse({"status": "ok"})
+    
+    elif request.method == "POST":
+        full_name = request.POST.get("full_name") or user.full_name
+        email = request.POST.get("email") or user.email
+        move_date = request.POST.get("move_date") or user.move_date
         
         # 入力値を反映
         user.full_name = full_name
         user.email = email
-        user.move_date = move_date if move_date else None
+        user.move_date = move_date
         user.save()
         
         messages.success(request, "アカウント情報を更新しました。")

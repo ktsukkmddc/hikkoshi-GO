@@ -45,10 +45,16 @@
       const dateInput = document.getElementById("move-date");
       const daysLeftDisplay = document.getElementById("days-left");
 
+      const serverMoveDate = "{{ move_date|default:'' }}";
+
       // ページ読み込み時に保存された日付を反映
       window.addEventListener("load", () => {
-          const savedDate = localStorage.getItem("moveDate");  //ページを再読み込みしたときに保存された日付を読み込み
-          if (savedDate) {
+          const savedDate = localStorage.getItem("moveDate");
+
+          if (serverMoveDate) {
+              dateInput.value = serverMoveDate;
+              updateCountdown();
+          } else if (savedDate) {  
               dateInput.value = savedDate;
               updateCountdown();  // 差を再計算して「あと◯日」に反映
           }
