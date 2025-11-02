@@ -37,14 +37,24 @@
     {% csrf_token %}
     <div class="form-group">
       <label for="move_date">引越し予定日</label>
-      <input
-          type="text"
+      <div class="date-row">
+        <input
+            type="text"
+            id="move_date_display"
+            placeholder="クリックして日付を選択"
+            readonly
+            value="{% if user.move_date %}{{ user.move_date|date:'Y年n月j日' }}{% endif %}"
+        >
+
+        <input 
+          type="hidden"
           id="move_date"
           name="move_date"
-          placeholder="クリックして日付を選択"
-          readonly
-          value="{{ user.move_date|default_if_none:'' }}"
-      >
+          value="{{ user.move_date|date:'Y-m-d' }}"
+        >
+
+        <button type="submit" class="btn-save">保存</button>
+      </div>
     </div>
 
   <!-- カレンダーモーダル -->
@@ -58,14 +68,14 @@
         </div>
       </div>
     </div>
-
-    <div class="form-buttons" style="text-align:center; margin-top:20px;">
-      <button type="submit" class="btn-save">保存</button>
-    </div>
   </form> 
 
-  <div class="password-change">
-    <a href="{% url 'password_change' %}" class="password-btn">パスワードを変更する</a>
+  <div class="info-group">
+    <label>パスワード</label>
+    <div class="info-row">
+      <span>************</span>
+      <a href="{% url 'password_change' %}" class="edit-link">変更する</a>
+    </div>
   </div>
 </div>
 
@@ -137,18 +147,32 @@
   // ===== カレンダーモーダル表示制御 =====
   const calendarModal = document.getElementById('calendarModal');
   const calendarInput = document.getElementById('calendarInput');
-  const moveDateInput = document.getElementById('move_date');
+  const displayInput      = document.getElementById('move_date_display');
+  const hiddenInput       = document.getElementById('move_date');
   const selectBtn = document.getElementById('selectDate');
   const calendarCancelBtn = document.getElementById('cancelCalendar');
 
-  // 日付欄をクリック → カレンダーを開く
-  moveDateInput.addEventListener('click', () => {
+  displayInput.addEventListener('click', () => {
+    if (hiddenInput.value) {
+      calendarInput.value = hiddenInput.value;
+    } else {
+      calendarInput.value = "";
+    }
     calendarModal.style.display = 'flex';
   });
 
   // 決定ボタンで反映
   selectBtn.addEventListener('click', () => {
-    moveDateInput.value = calendarInput.value;
+    const selected = calendarInput.value;
+    if (selected) {
+      // 送信用 hidden input に保存
+      document.getElementById('move_date').value = selected;
+
+      // 表示用 input に「2025年11月8日」形式で反映
+      const date = new Date(selected);
+      const formatted = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+      document.getElementById('move_date_display').value = formatted;
+    }
     calendarModal.style.display = 'none';
   });
 

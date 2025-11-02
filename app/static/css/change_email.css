@@ -105,7 +105,7 @@ form {
   margin-top: 20px;
   padding: 10px 18px;
   background-color: #50e3f6;
-  color: #000;
+  color: #555;
   border-radius: 6px;
   text-decoration: none;
   transition: background-color 0.3s;
@@ -114,9 +114,6 @@ form {
 .return-link:hover {
   background-color: #04cde7;
 }
-
-
-
 
 /* ===== confirm_email_done専用の調整 ===== */
 .confirm-page {
@@ -139,7 +136,7 @@ form {
   margin-top: 20px;
   padding: 10px 18px;
   background-color: #50e3f6;
-  color: #000;
+  color: #555;
   border-radius: 6px;
   text-decoration: none;
   transition: background-color 0.3s;
@@ -148,8 +145,6 @@ form {
 .return-link:hover {
   background-color: #04cde7;
 }
-
-
 
 
 /* ===== スマホ対応 ===== */

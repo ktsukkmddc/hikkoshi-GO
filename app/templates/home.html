@@ -45,7 +45,7 @@
       const dateInput = document.getElementById("move-date");
       const daysLeftDisplay = document.getElementById("days-left");
 
-      const serverMoveDate = "{{ move_date|default:'' }}";
+      const serverMoveDate = "{{ move_date|date:'Y-m-d'|default:'' }}";
 
       // ページ読み込み時に保存された日付を反映
       window.addEventListener("load", () => {
@@ -70,7 +70,6 @@
             const moveDate = new Date(dateInput.value);
             const today = new Date();
             today.setHours(0, 0, 0, 0);  // 時間をリセット
-
             const diff = Math.ceil((moveDate - today) / (1000 * 60 * 60 * 24));
 
            if (isNaN(diff)) {
