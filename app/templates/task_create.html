@@ -1,0 +1,88 @@
+{% extends 'base_with_nav.html' %}
+{% load static %}
+
+{% block title %}タスク新規登録 | 引越しGO{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/task_create.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="task-create-wrapper">
+  <h2>新規登録</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+    
+    <!-- ▼ タスク名（選択＋自由入力） -->
+    <div class="form-group">
+      <label for="task_name">タスク</label>
+      <select id="task_name" name="task_name">
+        <option value="">選択してください</option>
+        {% for value, label in form.fields.task_name.choices %}
+          <option value="{{ value }}">{{ label }}</option>
+        {% endfor %}
+      </select>
+
+      <input type="text" name="custom_task" id="custom_task" placeholder="任意のタスク入力">
+    </div>
+
+    <!-- ▼ 日付 -->
+    <div class="form-group">
+      <label for="task_date_display">日付</label>
+      <input
+        type="text"
+        id="task_date_display"
+        placeholder="クリックして日付を選択"
+        readonly
+      >
+
+      <input
+        type="date"
+        id="task_date_picker"
+        style="display:none;"
+        onchange="updateTaskDate(this)"
+      >
+
+      <input
+        type="hidden"
+        id="task_date"
+        name="date"
+      >
+    </div>
+
+    <!-- ▼ 時間 -->
+    <div class="form-group">
+      <label>時間</label>
+      <input type="time" name="start_time"> 〜
+      <input type="time" name="end_time">
+    </div>
+
+    <!-- ▼ メモ -->
+    <div class="form-group">
+      <label>メモ</label>
+      <textarea name="memo" rows="3" placeholder="メモを入力してください"></textarea>
+    </div>
+
+    <!-- ▼ 登録ボタン -->
+    <div class="form-buttons">
+      <button type="submit" class="btn-submit">登録</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  const display = document.getElementById("task_date_display");
+  const picker = document.getElementById("task_date_picker");
+  const hidden = document.getElementById("task_date");
+
+  display.addEventListener("click", () => picker.showPicker());
+
+  function updateTaskDate(e) {
+    const date = new Date(e.value);
+    const formatted = `${date.getFullYear()}年${date.getMonth()+1}月${date.getDate()}日`;
+    display.value = formatted;
+    hidden.value = e.value;
+  }
+</script>
+{% endblock %}

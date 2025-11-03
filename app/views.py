@@ -6,8 +6,8 @@ from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
 from django.urls import reverse
 from django.utils import timezone
-from .forms import CustomUserCreationForm
-from .models import Invite
+from .forms import CustomUserCreationForm, TaskForm
+from .models import Invite, Task
 from .models import Invite, CustomUser, Message
 from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
@@ -246,3 +246,55 @@ def confirm_email_view(request, token):
         messages.success(request, "メールアドレスを更新しました。")
 
     return render(request, "confirm_email_done.html")
+
+
+@login_required
+def task_create_view(request):
+    if request.method == 'POST':
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.created_by = request.user
+            task.save()
+            return redirect('task_list')
+    else:
+        form = TaskForm()
+        
+    return render(request, 'task_create.html', {'form': form})
+
+
+@login_required
+def task_list_view(request):
+    tasks = Task.objects.all().order_by('date')  # 全員のタスクを日付順に表示
+    return render(request, 'task_list.html', {'tasks': tasks})
+
+
+@login_required
+def toggle_task_completion(request, task_id):
+    """タスク完了／未完を切り替える"""
+    task = get_object_or_404(Task, id=task_id)
+    task.is_completed = not task.is_completed
+    task.save()
+    return JsonResponse({'status': 'ok', 'is_completed': task.is_completed})
+
+
+@login_required
+def delete_task_view(request, task_id):
+    """タスク削除処理"""
+    task = get_object_or_404(Task, id=task_id)
+    task.delete()
+    return JsonResponse({'status': 'ok'})
+
+
+@login_required
+def task_edit_view(request, task_id):
+    task = get_object_or_404(Task, id=task_id)  # 権限を絞るなら created_by=request.user を足す
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('task_list')
+    else:
+        form = TaskForm(instance=task)
+
+    return render(request, 'task_edit.html', {'form': form})

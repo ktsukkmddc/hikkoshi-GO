@@ -13,7 +13,11 @@ urlpatterns = [
     
     # === ログイン必須ページ ===
     path('home/', login_required(views.home_view), name='home'),
-    path('task/', login_required(views.task_view), name='task'),
+    path('task/create/', login_required(views.task_create_view), name='task_create'),
+    path('task/', views.task_list_view, name='task_list'),
+    path('task/toggle/<int:task_id>/', views.toggle_task_completion, name='toggle_task_completion'),
+    path('task/delete/<int:task_id>/', views.delete_task_view, name='delete_task'),
+    path('task/edit/<int:task_id>/', login_required(views.task_edit_view), name='task_edit'),
     path('calendar/', login_required(views.calendar_view), name='calendar'),
     path('mypage/', login_required(views.mypage_view), name='mypage'),
     path('account/', login_required(views.account_manage_view), name='account_manage'),

@@ -1,0 +1,146 @@
+{% extends 'base_with_nav.html' %}
+{% load static %}
+
+{% block title %}タスク一覧 | 引越しGO{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/task_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="task-list-wrapper">
+  <h2>タスク一覧</h2>
+  <button class="new-task-btn" onclick="location.href='/task/create/'">＋ 新規登録</button>
+
+  <div class="task-container" id="task-container">
+    {% for task in tasks %}
+      <div class="task-row" data-id="{{ task.id }}">
+        <!-- チェックボックス（カードの外） -->
+        <input type="checkbox" class="task-checkbox" data-id="{{ task.id }}" {% if task.is_completed %}checked{% endif %}>
+
+        <!-- タスクカード -->
+        <div class="task-card {% if task.is_completed %}completed{% endif %}"
+             onclick="openModal('{{ task.id }}', '{{ task.custom_task|default:task.task_name }}', '{{ task.date|date:'Y年n月j日' }}', '{{ task.start_time }}〜{{ task.end_time }}', '{{ task.memo|default:'（なし）' }}')">
+          <p><strong>{{ task.custom_task|default:task.task_name }}</strong></p>
+          <p>{{ task.date|date:"Y年n月j日" }}　{{ task.start_time }}〜{{ task.end_time }}</p>
+          <p>{{ task.memo|default:"（なし）" }}</p>
+        </div>
+
+        <!-- 削除ボタン（カードの外） -->
+        <button class="delete-btn" data-id="{{ task.id }}">削除</button>
+      </div>
+    {% empty %}
+      <p>まだタスクが登録されていません。</p>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- 詳細モーダル -->
+<div id="taskModal" class="modal">
+  <div class="modal-content">
+    <h3 id="modal-task-name"></h3>
+    <p id="modal-task-date"></p>
+    <p id="modal-task-time"></p>
+    <p id="modal-task-memo"></p>
+    <div class="modal-buttons">
+      <button id="editTaskBtn" class="modal-btn modal-edit">修正</button>
+      <button id="closeModalBtn" class="modal-btn modal-close">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// === CSRFトークン取得 ===
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      cookie = cookie.trim();
+      if (cookie.startsWith(name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
+const container = document.getElementById('task-container');
+
+// === 並び替え（未完→完了） ===
+function resortTasks() {
+  const rows = Array.from(container.children);
+  const incomplete = rows.filter(r => !r.querySelector('.task-checkbox').checked);
+  const complete = rows.filter(r => r.querySelector('.task-checkbox').checked);
+  container.innerHTML = '';
+  [...incomplete, ...complete].forEach(r => container.appendChild(r));
+}
+
+// === チェック切替 ===
+container.addEventListener('change', async (e) => {
+  const box = e.target.closest('.task-checkbox');
+  if (!box) return;
+  const row = box.closest('.task-row');
+  const card = row.querySelector('.task-card');
+  const taskId = box.dataset.id;
+
+  // 見た目の更新
+  card.classList.toggle('completed', box.checked);
+  resortTasks();
+
+  // サーバー更新
+  try {
+    const res = await fetch(`/task/toggle/${taskId}/`);
+    const data = await res.json();
+    card.classList.toggle('completed', data.is_completed);
+    resortTasks();
+  } catch (err) {
+    console.error('更新エラー:', err);
+  }
+});
+
+// === 削除処理 ===
+container.addEventListener('click', async (e) => {
+  const btn = e.target.closest('.delete-btn');
+  if (!btn) return;
+  if (!confirm('このタスクを削除しますか？')) return;
+  const taskId = btn.dataset.id;
+
+  try {
+    const res = await fetch(`/task/delete/${taskId}/`, {
+      method: 'POST',
+      headers: { 'X-CSRFToken': csrftoken }
+    });
+    if (res.ok) {
+      btn.closest('.task-row').remove();
+    } else {
+      alert('削除に失敗しました');
+    }
+  } catch {
+    alert('通信エラーが発生しました');
+  }
+});
+
+// === 詳細モーダル ===
+const modal = document.getElementById('taskModal');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const editTaskBtn = document.getElementById('editTaskBtn');
+
+function openModal(id, name, date, time, memo) {
+  document.getElementById('modal-task-name').textContent = name;
+  document.getElementById('modal-task-date').textContent = date;
+  document.getElementById('modal-task-time').textContent = time;
+  document.getElementById('modal-task-memo').textContent = memo;
+  editTaskBtn.onclick = () => location.href = `/task/edit/${id}/`;
+  modal.style.display = 'block';
+}
+
+closeModalBtn.onclick = () => modal.style.display = 'none';
+window.onclick = e => { if (e.target === modal) modal.style.display = 'none'; };
+
+// 初期並び替え
+resortTasks();
+</script>
+{% endblock %}

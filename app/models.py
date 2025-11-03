@@ -1,4 +1,5 @@
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser, BaseUserManager, User
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
@@ -6,6 +7,9 @@ from django.conf import settings
 import uuid
 
 
+# ==========================
+# Custom User Manager
+# ==========================
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
@@ -28,28 +32,36 @@ class UserManager(BaseUserManager):
             raise ValueError('Superuser must have is_superuser=True.')
 
         return self.create_user(email, password, **extra_fields)
-    
+
+
+# ==========================
+# Custom User Model
+# ==========================   
 class CustomUser(AbstractUser):
     """拡張ユーザーモデル"""
     username = None
     invite_code = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     email = models.EmailField(unique=True)  # メールを必須＆一意に
     full_name = models.CharField(max_length=50, blank=True, null=True)  # フルネーム（漢字・かな対応）
-    move_date = models.DateField(null=True, blank=True)  # 引越し予定日
+    move_date = models.DateField(null=True, blank=True)
     
-    # メール変更用フィールド
+    # メール変更用
     new_email = models.EmailField(null=True, blank=True)
     email_change_token = models.UUIDField(default=uuid.uuid4, null=True, blank=True)
 
-    # 今後の拡張用（例：電話番号など）
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+    
+    objects = UserManager()
 
     def __str__(self):
         return self.full_name or self.email
 
 
+# ==========================
+# 招待管理モデル
+# ==========================
 class Invite(models.Model):
     """招待リンク管理モデル"""
     code = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
@@ -59,7 +71,7 @@ class Invite(models.Model):
         related_name='sent_invites'
     )
     created_at = models.DateTimeField(auto_now_add=True)
-    expires_at = models.DateTimeField(blank=True, null=True)  # 有効期限
+    expires_at = models.DateTimeField(blank=True, null=True)
     is_used = models.BooleanField(default=False)  # 使用済みか
 
     def save(self, *args, **kwargs):
@@ -75,8 +87,11 @@ class Invite(models.Model):
     def __str__(self):
         inviter_email = self.inviter.email if self.inviter else "Unknown"
         return f"{self.code}（by {self.inviter.email}）"
+ 
     
-
+# ==========================
+# メッセージ管理モデル
+# ==========================
 class Message(models.Model):
     sender = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -93,3 +108,38 @@ class Message(models.Model):
 
     def __str__(self):
         return f"{self.sender} → {self.receiver}: {self.content[:15]}"
+    
+ 
+# ==========================
+# タスク管理モデル（完了／未完対応）
+# ==========================   
+User = get_user_model()
+
+class Task(models.Model):
+    TASK_CHOICES = [
+        ('内見', '内見'),
+        ('新居の決定', '新居の決定'),
+        ('賃貸借契約', '賃貸借契約'),
+        ('引越し日決定', '引越し日決定'),
+        ('引越し業者選び', '引越し業者選び'),
+        ('現住所の賃貸契約解約の連絡', '現住所の賃貸契約解約の連絡'),
+        ('引越し業者に依頼', '引越し業者に依頼'),
+        ('粗大ごみの収集依頼・不用品の処分', '粗大ごみの収集依頼・不用品の処分'),
+        ('梱包資材の準備', '梱包資材の準備'),
+        ('その他', 'その他'),
+    ]
+    
+    created_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True, related_name="tasks"
+    )
+    task_name = models.CharField(max_length=100, choices=TASK_CHOICES)
+    custom_task = models.CharField(max_length=100, blank=True, null=True)  # 自由入力
+    date = models.DateField()
+    start_time = models.TimeField(null=True, blank=True)
+    end_time = models.TimeField(null=True, blank=True)
+    memo = models.TextField(blank=True)
+    is_completed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.custom_task or self.task_name
