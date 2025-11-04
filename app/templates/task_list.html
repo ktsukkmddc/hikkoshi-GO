@@ -9,8 +9,10 @@
 
 {% block content %}
 <div class="task-list-wrapper">
-  <h2>タスク一覧</h2>
-  <button class="new-task-btn" onclick="location.href='/task/create/'">新規登録</button>
+  <div class="task-header">
+    <h2>タスク一覧</h2>
+    <button class="new-task-btn" onclick="location.href='/task/create/'">新規登録</button>
+  </div>
 
   <div class="task-scroll-area">
     <div class="task-container" id="task-container">
