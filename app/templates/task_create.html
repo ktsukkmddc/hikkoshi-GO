@@ -27,29 +27,33 @@
       <input type="text" name="custom_task" id="custom_task" placeholder="任意のタスク入力">
     </div>
 
-    <!-- ▼ 日付 -->
-    <div class="form-group">
-      <label for="task_date_display">日付</label>
-      <input
-        type="text"
-        id="task_date_display"
-        placeholder="クリックして日付を選択"
-        readonly
-      >
+  <!-- ▼ 日付 -->
+<div class="form-group">
+  <label for="task_date">日付</label>
+  <input 
+    type="text" 
+    id="task_date_display" 
+    placeholder="クリックして日付を選択" 
+    readonly
+  >
+  <input 
+    type="hidden" 
+    id="task_date" 
+    name="date"
+  >
+</div>
 
-      <input
-        type="date"
-        id="task_date_picker"
-        style="display:none;"
-        onchange="updateTaskDate(this)"
-      >
-
-      <input
-        type="hidden"
-        id="task_date"
-        name="date"
-      >
+<!-- ▼ カレンダーモーダル -->
+<div id="calendarModal" class="modal">
+  <div class="modal-content calendar-content">
+    <h3>日付を選択してください</h3>
+    <input type="date" id="calendarInput">
+    <div class="modal-buttons">
+      <button type="button" id="selectDate" class="btn-save">決定</button>
+      <button type="button" id="cancelCalendar" class="btn-cancel">キャンセル</button>
     </div>
+  </div>
+</div>
 
     <!-- ▼ 時間 -->
     <div class="form-group">
@@ -75,17 +79,40 @@
 </div>
 
 <script>
-  const display = document.getElementById("task_date_display");
-  const picker = document.getElementById("task_date_picker");
-  const hidden = document.getElementById("task_date");
+  // ===== カレンダーモーダル表示制御 =====
+  const calendarModal = document.getElementById('calendarModal');
+  const calendarInput = document.getElementById('calendarInput');
+  const displayInput  = document.getElementById('task_date_display');
+  const hiddenInput   = document.getElementById('task_date');
+  const selectBtn     = document.getElementById('selectDate');
+  const cancelBtn     = document.getElementById('cancelCalendar');
 
-  display.addEventListener("click", () => picker.showPicker());
+  // カレンダーを開く
+  displayInput.addEventListener('click', () => {
+    calendarInput.value = hiddenInput.value || "";
+    calendarModal.style.display = 'flex';
+  });
 
-  function updateTaskDate(e) {
-    const date = new Date(e.value);
-    const formatted = `${date.getFullYear()}年${date.getMonth()+1}月${date.getDate()}日`;
-    display.value = formatted;
-    hidden.value = e.value;
-  }
+  // 決定ボタン
+  selectBtn.addEventListener('click', () => {
+    const selected = calendarInput.value;
+    if (selected) {
+      hiddenInput.value = selected;
+      const date = new Date(selected);
+      const formatted = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+      displayInput.value = formatted;
+    }
+    calendarModal.style.display = 'none';
+  });
+
+  // キャンセル
+  cancelBtn.addEventListener('click', () => {
+    calendarModal.style.display = 'none';
+  });
+
+  // 背景クリックで閉じる
+  window.addEventListener('click', (e) => {
+    if (e.target === calendarModal) calendarModal.style.display = 'none';
+  });
 </script>
 {% endblock %}

@@ -1,0 +1,159 @@
+{% extends 'base_with_nav.html' %}
+{% load static %}
+
+{% block title %}カレンダー | 引越しGO{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/calendar.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="calendar-wrapper">
+    <div class="calendar-header">
+        <h2>カレンダー</h2>
+        <a href="{% url 'task_create' %}" class="btn-new">新規登録</a>
+    </div>
+
+    <div id="calendar"></div>
+</div>
+
+<script id="tasks-data" type="application/json">{{ tasks_json|safe }}</script>
+
+<!-- ▼ モーダル（クリックした日のタスク一覧） -->
+<div id="taskModal" class="modal">
+  <div class="modal-content">
+    <span id="closeModal" class="close">&times;</span>
+    <h3 id="modalDate"></h3>
+    <div id="taskList"></div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const today = new Date();
+  const calendar = document.getElementById("calendar");
+  const modal = document.getElementById("taskModal");
+  const closeModal = document.getElementById("closeModal");
+  const modalDate = document.getElementById("modalDate");
+  const taskList = document.getElementById("taskList");
+
+  // === カレンダー生成（日曜始まり） ===
+  const renderCalendar = (year, month) => {
+    calendar.innerHTML = "";
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const startDay = firstDay.getDay(); // 0=日曜
+    const totalDays = lastDay.getDate();
+
+    // 見出し
+    const header = document.createElement("div");
+    header.className = "calendar-head";
+    header.innerHTML = `
+      <button id="prevMonth">◀</button>
+      <span>${year}年 ${month + 1}月</span>
+      <button id="nextMonth">▶</button>
+    `;
+    calendar.appendChild(header);
+
+    // 曜日
+    const daysOfWeek = ["日", "月", "火", "水", "木", "金", "土"];
+    const dayRow = document.createElement("div");
+    dayRow.className = "calendar-row header";
+    dayRow.innerHTML = daysOfWeek.map(d => `<div class="cell">${d}</div>`).join("");
+    calendar.appendChild(dayRow);
+
+    // 日付セル生成
+    let date = 1;
+    for (let i = 0; i < 6; i++) {
+      const row = document.createElement("div");
+      row.className = "calendar-row";
+      for (let j = 0; j < 7; j++) {
+        const cell = document.createElement("div");
+        cell.className = "cell";
+        if (i === 0 && j < startDay) {
+          cell.textContent = "";
+        } else if (date > totalDays) {
+          cell.textContent = "";
+        } else {
+          cell.textContent = date;
+          cell.dataset.date = `${year}-${String(month + 1).padStart(2, "0")}-${String(date).padStart(2, "0")}`;
+          cell.addEventListener("click", () => openModal(cell.dataset.date));
+          date++;
+        }
+        row.appendChild(cell);
+      }
+      calendar.appendChild(row);
+    }
+
+    // === 予定のある日をハイライト ===
+    const raw = document.getElementById("tasks-data").textContent || "[]";
+    const tasks = JSON.parse(raw);
+
+    // 日付をローカル日付（JST）として扱う
+    const taskDateSet = new Set(tasks.map(t => (t.date || "").slice(0, 10)));
+
+    const todayStr = new Date().toISOString().slice(0, 10);
+
+    document.querySelectorAll("#calendar .cell").forEach(cell => {
+      const d = cell.dataset.date;        // 日付セルだけが持つ属性
+      if (!d) return;                      // ← 見出し・空セルは無視（これがポイント）
+
+      if (taskDateSet.has(d)) {
+        cell.classList.add("has-task");
+      }
+      if (d === todayStr) {
+        cell.classList.add("today");
+      }
+    });
+
+    // === 月移動 ===
+    document.getElementById("prevMonth").onclick = () => {
+      const newMonth = month - 1 < 0 ? 11 : month - 1;
+      const newYear = month - 1 < 0 ? year - 1 : year;
+      renderCalendar(newYear, newMonth);
+    };
+
+    document.getElementById("nextMonth").onclick = () => {
+      const newMonth = month + 1 > 11 ? 0 : month + 1;
+      const newYear = month + 1 > 11 ? year + 1 : year;
+      renderCalendar(newYear, newMonth);
+    };
+  };
+
+  // === モーダル開く ===
+  const openModal = (date) => {
+    modalDate.textContent = date;
+    modal.style.display = "flex";
+    taskList.innerHTML = "読み込み中...";
+
+    fetch(`/calendar/day/?date=${date}`)
+      .then(res => res.json())
+      .then(data => {
+        // === 日付フォーマットを「2025年11月11日」に変換 ===
+        const [y, m, d] = date.split("-");
+        modalDate.textContent = `${y}年${parseInt(m)}月${parseInt(d)}日`;
+
+        // === タスク一覧描画 ===
+        if (data.tasks.length === 0) {
+          taskList.innerHTML = "<p>この日のタスクはありません。</p>";
+        } else {
+          taskList.innerHTML = data.tasks.map(t => `
+            <div class="task-item">
+              <strong>${t.title || t.task_name || '(無題のタスク)'}</strong><br>
+              ${t.start_time ? `${t.start_time} 〜 ${t.end_time || ''}` : ''}<br>
+              <small>${t.memo || ''}</small>
+            </div>
+          `).join("");
+        }
+      });
+  };
+
+  // === モーダル閉じる ===
+  closeModal.onclick = () => modal.style.display = "none";
+  window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
+
+  // 初期表示
+  renderCalendar(today.getFullYear(), today.getMonth());
+});
+</script>
+{% endblock %}

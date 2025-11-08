@@ -6,6 +6,12 @@ from .models import CustomUser, Task
 
 User = get_user_model()
 
+TASK_CHOICES = [
+    ('荷造り', '荷造り'),
+    ('清掃', '清掃'),
+    ('手続き', '手続き'),
+]
+
 class EmailAuthenticationForm(AuthenticationForm):
     username = forms.EmailField(
         label="メールアドレス",
@@ -32,6 +38,11 @@ class CustomUserCreationForm(UserCreationForm):
         
         
 class TaskForm(forms.ModelForm):
+    task_name = forms.ChoiceField(
+        choices=[('', '選択してください')] + Task.TASK_CHOICES,
+        required=False
+    )
+    
     class Meta:
         model = Task
         fields = ['task_name', 'custom_task', 'date', 'start_time', 'end_time', 'memo']

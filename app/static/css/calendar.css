@@ -1,0 +1,245 @@
+/* ===== カレンダー全体 ===== */
+.calendar-wrapper {
+  transform: scale(0.9);
+  transform-origin: top center;
+  width: 95%;
+  max-width: 800px;
+  margin: 30px auto;
+  text-align: center;
+  font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+  color: #333;
+}
+
+/* ===== ヘッダー（タイトル＋ボタン） ===== */
+.calendar-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.calendar-header h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.calendar-header .btn-new {
+  position: absolute;
+  right: 0;
+}
+
+.btn-new {
+  background-color: #50e3f6;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: 0.2s;
+  font-size: 13px;
+  margin-top: 40px;
+}
+.btn-new:hover {
+  background-color: #04cde7;
+}
+
+/* ===== カレンダー構造 ===== */
+#calendar {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  padding: 10px;
+}
+
+.calendar-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.calendar-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.cell {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+  margin: 2px 2px;
+  height: 70px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+.cell:hover {
+  background-color: #f0f8ff;
+}
+
+/* 日曜と土曜を色分け */
+.cell:nth-child(1) { color: #e57373; } /* 日曜：赤 */
+.cell:nth-child(7) { color: #2196f3; } /* 土曜：青 */
+
+/* 予定がある日をハイライト */
+.cell.has-task {
+  background-color: #e1f5fe;
+  border-color: #81d4fa;
+}
+
+/* 今日 */
+.cell.today {
+  outline: 2px solid #fd7db9;
+  background-color: #fee1f9;
+  outline-offset: -2px;
+}
+
+/* ===== モーダル ===== */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+#modalDate {
+  font-size: 15px;       /* ←ここで日付のフォントサイズ変更 */
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 30px;
+  width: 90%;
+  max-width: 420px;
+  max-height: 80%;
+  overflow-y: auto;
+  text-align: left;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+#modalDate {
+  font-weight: normal; /* 細字に変更 */
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #888;
+}
+.close:hover {
+  color: #333;
+}
+
+#taskList p {
+  font-size: 15px;       /* ← フォントサイズ調整（例: 15px） */
+  color: #333;           /* ← 文字色を少し濃く */
+  text-align: center;    /* ← 真ん中寄せ */
+  margin-top: 20px;      /* ← 少し余白 */
+}
+
+/* ===== タスクリスト（モーダル内） ===== */
+.task-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px 10px !important;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  padding: 8px 0;
+}
+
+.task-item:hover {
+  background-color: #f0e6ee;
+  transition: background-color 0.3s ease; /* スムーズなアニメーション */
+}
+
+.task-item strong {
+  color: #333;
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.task-item small {
+  display: block;
+  color: #666;
+  margin-top: 4px;
+  font-size: 13px;
+}
+
+/* 時間部分を細かく指定（<time>タグがないため） */
+.task-item br + text,
+.task-item br + span,
+.task-item {
+  font-size: 12px !important;
+  color: #333;
+}
+
+#taskList {
+  max-height: 400px;        /* 4件以上でスクロール */
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+/* === タスクがある日 === */
+.has-task {
+  background-color: #fff3cd;  /* 柔らかい黄色 */
+  border: 2px solid #f0c36d;
+  border-radius: 8px;
+}
+
+/* ===== モーダル内スクロールバー調整 ===== */
+#taskList::-webkit-scrollbar {
+  width: 3px;  /* ← スクロールバーの太さを細く */
+}
+
+#taskList::-webkit-scrollbar-track {
+  background: #f1f1f1; /* トラック部分（背景） */
+  border-radius: 10px;
+}
+
+#taskList::-webkit-scrollbar-thumb {
+  background: #bbb; /* スクロール部分（つまみ） */
+  border-radius: 10px;
+}
+
+#taskList::-webkit-scrollbar-thumb:hover {
+  background: #999; /* ホバー時に少し濃く */
+}
+
+/* ===== スマホ対応 ===== */
+@media screen and (max-width: 768px) {
+  .calendar-wrapper {
+    margin-top: 120px;
+  }
+
+  .calendar-head {
+    font-size: 16px;
+  }
+
+  .cell {
+    height: 55px;
+    font-size: 12px;
+    padding: 6px;
+  }
+}

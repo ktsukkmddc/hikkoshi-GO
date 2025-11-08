@@ -6,13 +6,17 @@ from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.safestring import mark_safe
+from django.db.models import Count
 from .forms import CustomUserCreationForm, TaskForm
 from .models import Invite, Task
 from .models import Invite, CustomUser, Message
 from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
+from datetime import date
+import calendar as pycal
 
-import uuid
+import uuid, json
 
 
 # --- ログイン処理 ---
@@ -255,11 +259,18 @@ def task_create_view(request):
         if form.is_valid():
             task = form.save(commit=False)
             task.created_by = request.user
+
+            # ▼ ここを修正：選択がなければ custom_task を使用
+            if not task.task_name and task.custom_task:
+                task.task_name = task.custom_task
+
             task.save()
             return redirect('task_list')
+        else:
+            print("フォームエラー:", form.errors)
     else:
         form = TaskForm()
-        
+
     return render(request, 'task_create.html', {'form': form})
 
 
@@ -298,3 +309,73 @@ def task_edit_view(request, task_id):
         form = TaskForm(instance=task)
 
     return render(request, 'task_edit.html', {'form': form})
+
+
+@login_required
+def calendar_view(request):
+    """月カレンダー表示。週ごとにグリッド化してテンプレートに渡す"""
+    today = date.today()
+    year = int(request.GET.get('year', today.year))
+    month = int(request.GET.get('month', today.month))
+
+    # 日曜始まりのカレンダー
+    cal = pycal.Calendar(firstweekday=6)
+    weeks = cal.monthdatescalendar(year, month)
+
+    # 該当月のタスク一覧を取得（date, task_name, start_time, end_time, memo）
+    month_start = date(year, month, 1)
+    if month == 12:
+        month_end = date(year + 1, 1, 1)
+        
+    else:
+        month_end = date(year, month + 1, 1)
+
+    # タスク抽出
+    tasks = (
+        Task.objects.filter(
+            created_by=request.user,
+            date__gte=month_start,
+            date__lt=month_end
+        )
+    ).values('date', 'task_name', 'start_time', 'end_time', 'memo')
+    
+    # JSON化
+    tasks_data = list(tasks)
+    task_dates_set =  {t['date'].isoformat() for t in tasks_data if t.get('date')}
+
+    # contextへ
+    context = {
+        'year': year,
+        'month': month,
+        'weeks': weeks,
+        'task_dates_set':task_dates_set,
+        'tasks_json': mark_safe(json.dumps(tasks_data, default=str)),  # ← ここが重要！
+        'today': today,
+    }
+
+    return render(request, 'calendar.html', context)
+
+
+@login_required
+def day_tasks_json(request):
+    """日付クリックでモーダルに表示するタスク一覧(JSON)"""
+    ymd = request.GET.get('date')
+    if not ymd:
+        return JsonResponse({'tasks': []})
+
+    items = (
+        Task.objects.filter(created_by=request.user, date=ymd)
+        .order_by('start_time', 'end_time', 'id')
+    )
+
+    data = [
+        {
+            'id': t.id,
+            'title': t.custom_task or t.task_name or '',
+            'start_time': t.start_time.strftime('%H:%M') if t.start_time else '',
+            'end_time': t.end_time.strftime('%H:%M') if t.end_time else '',
+            'memo': t.memo or '',
+        }
+        for t in items
+    ]
+    return JsonResponse({'tasks': data})

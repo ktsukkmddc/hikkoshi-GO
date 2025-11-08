@@ -47,4 +47,8 @@ urlpatterns = [
     path('password_reset/', auth_views.PasswordResetView.as_view(
         template_name='password_reset.html'
     ), name='password_reset'),
+    
+    # === カレンダー ===
+    path('calendar/', views.calendar_view, name='calendar'),
+    path('calendar/day/', views.day_tasks_json, name='day_tasks_json'),
 ]
