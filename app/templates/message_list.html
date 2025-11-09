@@ -1,0 +1,40 @@
+{% extends 'base_with_nav.html' %}
+{% load static %}
+
+{% block title %}掲示板 | 引越しGO{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/message_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="message-list-wrapper">
+  <h2>掲示板</h2>
+
+  <div class="message-header">
+    <form method="GET" class="search-form">
+        <input type="text" name="q" placeholder="検索..." value="{{ request.GET.q }}">
+        <button type="submit">検索</button>
+    </form>
+
+    <a href="{% url 'message_register' %}" class="btn-new-message">新規登録</a>
+  </div>
+
+  <!-- メッセージ一覧 -->
+  {% if messages %}
+    <div class="message-cards">
+      {% for msg in messages %}
+        <div class="message-card">
+          <p class="message-from">
+            {{ msg.sender.full_name }} → @{{ msg.receiver.full_name }}
+          </p>
+          <p class="message-content">{{ msg.content }}</p>
+          <p class="message-date">{{ msg.created_at|date:"Y/m/d H:i" }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="no-message">まだメッセージはありません。</p>
+  {% endif %}
+</div>
+{% endblock %}

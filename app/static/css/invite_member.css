@@ -29,7 +29,7 @@
 /* ===== ボタン ===== */
 .btn-generate {
   display: block;
-  width: 300px;
+  width: 230px;
   max-width: 90%;
   padding: 12px;
   margin: 25px auto 0;
@@ -37,7 +37,7 @@
   border: 1px solid #aaa;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 13px;
   text-align: center;
   transition: background 0.2s;
 }
@@ -48,14 +48,14 @@
 
 .btn-copy {
   display: block;
-  width: 210px;
+  width: 230px;
   padding: 12px;
   margin: 25px auto 0;
   background-color: #e6f5ec;
   border: 1px solid #aaa;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 13px;
   transition: background 0.2s;
 }
 
@@ -66,15 +66,15 @@
 /* ===== メール共有ボタン ===== */
 .btn-share {
   display: block;
-  width: 210px;
+  width: 230px;
   max-width: 90%;
   padding: 12px;
-  margin: 15px auto 0;
+  margin: 10px auto 0;
   background-color: #fbd8f8;
   border: 1px solid #aaa;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 13px;
   transition: background 0.2s;
 }
 
@@ -84,7 +84,7 @@
 
 /* ===== 招待URL欄 ===== */
 #invite-url {
-  width: 270px;
+  width: 230px;
   padding: 14px;
   margin-top: 20px;
   border: 1px solid #ccc;
@@ -96,7 +96,7 @@
 /* ===== スマホ対応 ===== */
 @media screen and (max-width: 768px) {
   .invite-content {
-    width: 90%;
+    width: 100%;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -109,12 +109,17 @@
   margin-bottom: 10px;
   }
 
-  .btn-generate
+  .invite-content p {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .btn-generate,
   #invite-url {
     width: 85vw;           /* 画面幅の85%に統一 */
-    max-width: 320px;      /* PC幅と統一しておく */
-    font-size: 14px;
-    padding: 12px;
+    max-width: 200px;      /* PC幅と統一しておく */
+    font-size: 13px;
+    padding: 10px;
     box-sizing: border-box; /* 内側余白を含めて幅を計算 */
   }
 
@@ -127,6 +132,7 @@
     width: 60%;
     font-size: 14px;
     padding: 10px;
+    margin-bottom: 14px;
   }
 
   .btn-share {

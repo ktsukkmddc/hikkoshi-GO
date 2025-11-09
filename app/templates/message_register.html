@@ -1,0 +1,35 @@
+{% extends 'base_with_nav.html' %}
+{% load static %}
+
+{% block title %}メッセージ | 引越しGO{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/message_register.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="message-wrapper">
+  <h2>メッセージ</h2>
+  <p class="sub-text">メッセージを入力して登録できます。</p>
+
+  <form method="POST" action="">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label for="receiver">@宛先</label>
+      <select id="receiver" name="receiver" required>
+        <option value="">選択してください</option>
+        {% for member in members %}
+          <option value="{{ member.id }}">@{{ member.full_name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="content">メッセージ</label>
+      <textarea id="content" name="content" rows="4" placeholder="メッセージ内容を入力" required></textarea>
+    </div>
+
+    <button type="submit" class="btn-register">登録</button>    
+  </form>
+</div>
+{% endblock %}

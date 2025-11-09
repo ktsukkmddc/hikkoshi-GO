@@ -139,9 +139,15 @@ class Task(models.Model):
     ]
     
     created_by = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, blank=True, related_name="tasks"
+        'CustomUser',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="tasks"
     )
-    task_name = models.CharField(max_length=100, choices=TASK_CHOICES)
+    #User, on_delete=models.SET_NULL, null=True, blank=True, related_name="tasks"
+    
+    task_name = models.CharField(max_length=100, blank=True)
     custom_task = models.CharField(max_length=100, blank=True, null=True)  # 自由入力
     date = models.DateField()
     start_time = models.TimeField(null=True, blank=True)

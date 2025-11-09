@@ -5,9 +5,22 @@ from .models import CustomUser, Invite, Message
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
-    list_display = ('username', 'email', 'invite_code', 'is_staff', 'is_active')
-    search_fields = ('username', 'email')
+    list_display = ('email', 'full_name', 'invite_code', 'is_staff', 'is_active')
+    search_fields = ('email', 'full_name')
     ordering = ('email',)
+    
+    # username を使わない構成に修正
+    fieldsets = (
+        (None, {'fields': ('email', 'password', 'full_name', 'invite_code')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active')}),
+    )
+    
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'full_name', 'password1', 'password2', 'is_staff', 'is_active'),
+        }),
+    )
 
 admin.site.register(CustomUser, CustomUserAdmin)
 

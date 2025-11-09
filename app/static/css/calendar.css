@@ -39,7 +39,7 @@
   text-decoration: none;
   transition: 0.2s;
   font-size: 13px;
-  margin-top: 40px;
+  margin-top: 60px;
 }
 .btn-new:hover {
   background-color: #04cde7;
@@ -51,7 +51,7 @@
   flex-direction: column;
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  border: 1px solid #da61fc;
   padding: 10px;
 }
 
@@ -229,6 +229,21 @@
 
 /* ===== スマホ対応 ===== */
 @media screen and (max-width: 768px) {
+
+  .btn-new {
+    margin-top:100px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #calendar {
+    width: 96vw;
+    max-width: 400px;
+    margin-left: -15px;
+    margin-top: 80px;
+  }
+
   .calendar-wrapper {
     margin-top: 120px;
   }

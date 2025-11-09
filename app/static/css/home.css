@@ -107,15 +107,6 @@ body {
   margin-bottom: 6px;
 }
 
-#progress-input {
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 5px 8px;
-  font-size: 14px;
-  width: 80px;
-}
-
 .progress-bar {
   background: linear-gradient(to right, #f9dede, #d47b7b);
   height: 22px;
@@ -144,7 +135,7 @@ body {
 /* ===== スマホ（768px以下）対応 ===== */
 @media screen and (max-width: 768px) {
   .home-wrapper {
-    margin-top: 60px;  /* ← タイトル位置をさらに調整 */
+    margin-top: 50px;  /* ← タイトル位置をさらに調整 */
     padding: 0 10px;
   }
 
@@ -160,7 +151,7 @@ body {
   /* カード全体 */
   .countdown-card {
     width: 110%;
-    margin: 0 10px;
+    margin: 0px 10px;
   }
 
   .countdown-card h2 {
@@ -183,7 +174,7 @@ body {
     align-items: center;
     gap: 20px;
     width: 100%;
-    margin: 30px auto;
+    margin-top: 0px;
   }
 
   .countdown-box {

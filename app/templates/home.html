@@ -23,20 +23,17 @@
       </section>
 
       <section class="progress-section">
-          <p>達成度</p>
+          <p class="progress-label">達成度</p>
 
-          <!-- 数値入力欄を追加 -->
-          <input type="number" id="progress-input" min="0" max="100" value="40" style="width: 80px; padding: 5px;">
-          <span>%</span>
-
-          <!-- バー -->
+          <!-- 達成バー -->
           <div class="progress-bar">
-              <div class="progress" id="progress-bar-inner" style="width: 40%;"></div>
+            <div class="progress" id="progress-bar-inner" style="width: {{ progress_rate }}%;"></div>
           </div>
 
           <div class="progress-labels">
-              <span>0%</span>
-              <span>100%</span>
+            <span>0%</span>
+            <span>{{ progress_rate }}%</span>
+            <span>100%</span>
           </div>
       </section>
   </main>
@@ -80,28 +77,5 @@
                 daysLeftDisplay.textContent = diff;
            }
       }
-      // =======================
-      // 達成度バーの自動反映
-      // =======================
-      const progressInput = document.getElementById("progress-input");
-      const progressBarInner = document.getElementById("progress-bar-inner");
-
-      // 入力が変わるたびに反映
-      progressInput.addEventListener("input", () => {
-          let value = Math.min(100, Math.max(0, progressInput.value)); // 0〜100の範囲に制限
-          progressBarInner.style.width = value + "%";
-
-      // 保存（次回開いても反映）
-          localStorage.setItem("progressValue", value);
-      });
-
-      // ページ読み込み時に保存データを反映
-      window.addEventListener("load", () => {
-          const savedProgress = localStorage.getItem("progressValue");
-          if (savedProgress !== null) {
-              progressInput.value = savedProgress;
-              progressBarInner.style.width = savedProgress + "%";
-          }
-      });
   </script>
 {% endblock %}

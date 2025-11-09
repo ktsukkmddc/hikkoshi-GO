@@ -9,13 +9,11 @@ from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.db.models import Count
 from .forms import CustomUserCreationForm, TaskForm
-from .models import Invite, Task
-from .models import Invite, CustomUser, Message
+from .models import Invite, Task, CustomUser, Message
 from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
 from datetime import date
 import calendar as pycal
-
 import uuid, json
 
 
@@ -39,8 +37,18 @@ def home_view(request):
     user = request.user
     move_date = user.move_date  # ← DBに登録されている日付を取得
     
+    total_tasks = Task.objects.count()
+    completed_tasks = Task.objects.filter(is_completed=True).count() # 完了済みタスク数
+    
+    # タスクが1件もない場合は0%にする
+    if total_tasks == 0:
+        progress_rate = 0
+    else:
+        progress_rate = int((completed_tasks / total_tasks) * 100)
+    
     return render(request, 'home.html', {
         "move_date": move_date,
+        "progress_rate": progress_rate,
     })
 
 
@@ -92,9 +100,6 @@ def member_list_view(request):
     """登録メンバー一覧を表示"""
     members = CustomUser.objects.exclude(id=request.user.id)  # 自分以外を表示
     return render(request, 'member_list.html', {'members': members})
-
-def message_view(request):
-    return render(request, 'registration/message.html')
 
 
 # --- メンバー招待ページ ---
@@ -313,7 +318,7 @@ def task_edit_view(request, task_id):
 
 @login_required
 def calendar_view(request):
-    """月カレンダー表示。週ごとにグリッド化してテンプレートに渡す"""
+    """全てのタスクをカレンダーに反映"""
     today = date.today()
     year = int(request.GET.get('year', today.year))
     month = int(request.GET.get('month', today.month))
@@ -321,38 +326,25 @@ def calendar_view(request):
     # 日曜始まりのカレンダー
     cal = pycal.Calendar(firstweekday=6)
     weeks = cal.monthdatescalendar(year, month)
-
-    # 該当月のタスク一覧を取得（date, task_name, start_time, end_time, memo）
-    month_start = date(year, month, 1)
-    if month == 12:
-        month_end = date(year + 1, 1, 1)
-        
-    else:
-        month_end = date(year, month + 1, 1)
-
-    # タスク抽出
+    
+    # 「全タスク」を取得（期間指定なし）
     tasks = (
         Task.objects.filter(
-            created_by=request.user,
-            date__gte=month_start,
-            date__lt=month_end
+            created_by=request.user
         )
-    ).values('date', 'task_name', 'start_time', 'end_time', 'memo')
+        .values('date', 'task_name', 'start_time', 'end_time', 'memo')
+    )
     
     # JSON化
     tasks_data = list(tasks)
-    task_dates_set =  {t['date'].isoformat() for t in tasks_data if t.get('date')}
-
-    # contextへ
     context = {
         'year': year,
         'month': month,
         'weeks': weeks,
-        'task_dates_set':task_dates_set,
-        'tasks_json': mark_safe(json.dumps(tasks_data, default=str)),  # ← ここが重要！
+        'tasks_json': mark_safe(json.dumps(tasks_data, default=str)),
         'today': today,
     }
-
+        
     return render(request, 'calendar.html', context)
 
 
@@ -379,3 +371,43 @@ def day_tasks_json(request):
         for t in items
     ]
     return JsonResponse({'tasks': data})
+
+
+@login_required
+def message_register_view(request):
+    """メッセージ登録画面"""
+    members = CustomUser.objects.exclude(id=request.user.id)  # 自分以外の全メンバー
+
+    if request.method == "POST":
+        receiver_id = request.POST.get("receiver")
+        content = request.POST.get("content")
+
+        if receiver_id and content:
+            receiver = CustomUser.objects.get(id=receiver_id)
+            Message.objects.create(
+                sender=request.user,
+                receiver=receiver,
+                content=content
+            )
+            return redirect("message_list")  # 一覧ページへ遷移
+
+    return render(request, "message_register.html", {"members": members})
+
+
+@login_required
+def message_list_view(request):
+    """メッセージ一覧（掲示板）"""
+    query = request.GET.get("q")
+    messages = Message.objects.all().order_by('-created_at')  # 新しい順に表示
+    
+    # キーワードが入力された場合のみフィルタ
+    if query:
+        messages = messages.filter(
+            content__icontains=query
+        ) | messages.filter(
+            sender__full_name__icontains=query
+        ) | messages.filter(
+            receiver__full_name__icontains=query
+        )
+
+    return render(request, "message_list.html", {"messages": messages})
