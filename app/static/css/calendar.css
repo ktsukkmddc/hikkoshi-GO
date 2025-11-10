@@ -124,6 +124,7 @@
 .modal-content {
   background: #fff;
   padding: 25px 30px;
+  border: 1px solid #0c3bd5;
   border-radius: 30px;
   width: 90%;
   max-width: 420px;
@@ -152,10 +153,10 @@
 }
 
 #taskList p {
-  font-size: 15px;       /* ← フォントサイズ調整（例: 15px） */
-  color: #333;           /* ← 文字色を少し濃く */
-  text-align: center;    /* ← 真ん中寄せ */
-  margin-top: 20px;      /* ← 少し余白 */
+  font-size: 15px;
+  color: #333;
+  text-align: center;
+  margin-top: 20px;
 }
 
 /* ===== タスクリスト（モーダル内） ===== */
@@ -165,7 +166,7 @@
   border-radius: 10px;
   padding: 10px 10px !important;
   margin-bottom: 10px;
-  border-bottom: 1px solid #ddd;
+  border: 1px solid #0ce26d;
   padding: 8px 0;
 }
 

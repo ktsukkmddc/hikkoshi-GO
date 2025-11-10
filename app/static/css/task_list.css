@@ -49,7 +49,7 @@ body {
   background-color: #50e3f6;
   color: #333;
   border: 1px solid #ccc;
-  padding: 7px 17px;
+  padding: 6px 15px;
   border-radius: 6px;
   font-size: 14px;
   cursor: pointer;
@@ -90,6 +90,7 @@ body {
   cursor: pointer;
   position: relative;
 }
+
 .task-checkbox:checked::after {
   content: "✓";
   font-size: 28px;
@@ -110,6 +111,7 @@ body {
   transition: all 0.1s ease;
   text-align: left;
   cursor: pointer;
+
 }
 .task-card:hover {
   transform: scale(1.02);
@@ -173,11 +175,11 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  border: 1px solid #0c3bd5;
   background-color: #fff;
-  padding: 25px;
+  padding: 15px;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  width: 320px;
+  width: 350px;
   text-align: center; 
 }
 

@@ -13,7 +13,7 @@ body {
 /* ===== 全体のラッパー ===== */
 .home-wrapper {
   text-align: center;
-  margin-top: 25px; /* ナビバー分 + 余白 */
+  margin-top: 20px; /* ナビバー分 + 余白 */
 }
 
 /* ===== タイトル ===== */
@@ -38,8 +38,8 @@ body {
 /* 引越しまでの日数カード */
 .countdown-card {
   background-color: #fff;  /* 白背景 */
+  border: 1px solid #96bb10;
   border-radius: 16px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
   display: inline-block;
   padding: 40px 30px;
   margin-bottom: 0 auto 40px;

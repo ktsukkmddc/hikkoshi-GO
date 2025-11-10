@@ -25,9 +25,9 @@
 }
 
 .member-card p {
-  text-align: left;      /* ← テキストを左寄せ */
-  margin-left: 20px;     /* ← 左に少し余白を足して整える（調整可） */
-  margin-right: 20px;    /* ← 右も軽くバランス取りたい場合 */
+  text-align: left;
+  margin-left: 20px;
+  margin-right: 20px;
   margin: 10px 20px;
 }
 
@@ -47,10 +47,9 @@
   margin: 5px 0;
   width: 90%;
   max-width: 330px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   cursor: pointer;
   transition: transform 0.15s ease, background-color 0.2s;
-  border: 1px solid #ccc;
+  border: 1px solid #1e6ddc;
   font-size: 14px;
 }
 
@@ -84,7 +83,7 @@
 }
 
 .modal-content h3 {
-  font-weight: 400;  /* ← 細字に変更（通常） */
+  font-weight: 400;
   font-size: 15px;
   margin-bottom: 14px;
 }
@@ -134,7 +133,7 @@ textarea {
   }
 
   .member-list::-webkit-scrollbar {
-    width: 3px; /* ← スマホ用にさらに細く */
+    width: 3px;
     height: 3px;
   }
 

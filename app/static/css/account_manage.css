@@ -29,7 +29,7 @@ main {
 .info-group {
   margin-bottom: 70px;
   text-align: left;
-  border: 1px solid #ccc;          /* 枠線 */
+  border: 1px solid #d74a4a;          /* 枠線 */
   border-radius: 10px;             /* 角を丸める */
   padding: 20px 25px;              /* 内側の余白 */
   margin: 30px auto;               /* 上下の間隔と中央寄せ */
@@ -66,7 +66,7 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;          /* ← 固定幅350pxを削除し、親要素に合わせる */
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -86,11 +86,11 @@ main {
 
 .modal-content {
   background-color: #fff;
-  margin: 0;                  /* ← 既存にあれば削除してOK */
+  margin: 0;
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* 完全中央配置 */
+  transform: translate(-50%, -50%);
   padding: 25px 30px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -108,7 +108,7 @@ main {
 /* ===== モーダル内入力欄の調整 ===== */
 .modal-content input[type="text"] {
   width: 100%;
-  max-width: 350px;   /* ← ここで幅を広げる（以前は100〜150px程度だったはず） */
+  max-width: 350px;
   padding: 8px 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -122,9 +122,9 @@ main {
 /* ===== モーダルのボタン配置 ===== */
 .modal-buttons {
   display: flex;
-  justify-content: center;   /* ボタン全体を中央寄せ */
-  gap: 50px;                 /* ボタン間の間隔を広げる */
-  margin-top: 20px;          /* 上に余白を追加 */
+  justify-content: center;
+  gap: 50px;
+  margin-top: 20px;
 }
 
 /* ===== 各ボタンの基本スタイル ===== */
@@ -203,7 +203,7 @@ main {
   align-items: center;
   justify-content: flex-start;
   gap: 15px;  /* ← ラベルとinputの横間隔をここで調整（10〜20pxが目安） */
-  border: 1px solid #ccc;          /* 枠線 */
+  border: 1px solid #d74a4a;
   border-radius: 10px;
   padding: 30px 25px;              /* 内側の余白 */
   margin: 40px auto;               /* 上下の間隔と中央寄せ */
@@ -226,7 +226,7 @@ main {
 
 .form-group .btn-save {
   background-color: #26c6da;
-  color: #fff;
+  color: #b0abab;
   border: none;
   padding: 8px 16px;
   border-radius: 6px;

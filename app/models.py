@@ -158,3 +158,22 @@ class Task(models.Model):
     
     def __str__(self):
         return self.custom_task or self.task_name
+    
+    
+# ==========================
+# 引越し情報（全ユーザー共通）
+# ==========================
+class MoveInfo(models.Model):
+    move_date = models.DateField(null=True, blank=True)  # 共通の引越し日
+    updated_by = models.ForeignKey(
+        'CustomUser',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='updated_moveinfo'
+    )
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        date = self.move_date.strftime("%Y-%m-%d") if self.move_date else "未設定"
+        return f"引越し日: {date}"

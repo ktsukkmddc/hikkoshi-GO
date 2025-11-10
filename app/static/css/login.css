@@ -23,8 +23,8 @@ body.login-page {
 
 /* ===== 入力フォーム ===== */
 .login-wrapper form {
-  display: inline-block; /* 中央に配置 */
-  text-align: left;      /* ラベルと入力欄を左寄せ */
+  display: inline-block;
+  text-align: left;
 }
 
 .login-wrapper label {

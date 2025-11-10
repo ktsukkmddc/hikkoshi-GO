@@ -35,7 +35,7 @@ body {
 .btn {
   width: 300px;
   padding: 12px 0;
-  border: 1px solid #858585;
+  border: 1px solid #02c0f5;
   border-radius: 8px;
   background-color: #f5f5f5;
   font-size: 14px;
@@ -76,6 +76,7 @@ body {
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  border: 1px solid #024c61;
   width: 320px;
   max-width: 90%;
 }
@@ -100,14 +101,15 @@ body {
   border-radius: 6px;
   border: 1px solid #858585;
   transition: background 0.2s;
+  background-color: #fac9c9;
 }
 
 /* ===== 個別ボタン色 ===== */
 .btn.confirm {
-  background-color: #eab8b8;
+  background-color: #f9dede;
 }
 .btn.confirm:hover {
-  background-color: #f18a8a;
+  background-color: #f07676;
 }
 
 .btn.cancel {

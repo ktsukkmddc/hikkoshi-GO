@@ -34,6 +34,7 @@ urlpatterns = [
     # === メッセージ関連 ===
     path('message/register/', login_required(views.message_register_view), name='message_register'),
     path("message/list/", login_required(views.message_list_view), name="message_list"),
+    path('message/save/', login_required(views.save_message_view), name='save_message'),
     
     # === メールアドレス変更 ===
     path('change_email/', login_required(views.change_email_view), name='change_email'),

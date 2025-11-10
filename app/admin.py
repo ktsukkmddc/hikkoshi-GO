@@ -1,7 +1,7 @@
 # app/admin.py
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, Invite, Message
+from .models import CustomUser, Invite, Message, MoveInfo
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
@@ -36,3 +36,5 @@ class MessageAdmin(admin.ModelAdmin):
     search_fields = ("sender__email", "receiver__email", "content")
     list_filter = ("created_at",)
     ordering = ("-created_at",)  # 新しい順に表示
+    
+admin.site.register(MoveInfo)

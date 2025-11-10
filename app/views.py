@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.db.models import Count
 from .forms import CustomUserCreationForm, TaskForm
-from .models import Invite, Task, CustomUser, Message
+from .models import Invite, Task, CustomUser, Message, MoveInfo
 from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
 from datetime import date
@@ -35,7 +35,11 @@ def login_view(request):
 @login_required
 def home_view(request):
     user = request.user
-    move_date = user.move_date  # ← DBに登録されている日付を取得
+    move_info = MoveInfo.objects.first()
+    
+    move_date = None
+    if move_info and move_info.move_date:
+        move_date = move_info.move_date
     
     total_tasks = Task.objects.count()
     completed_tasks = Task.objects.filter(is_completed=True).count() # 完了済みタスク数
@@ -71,6 +75,7 @@ def mypage_view(request):
 def account_manage_view(request):
     """アカウント管理画面（名前・メール・引越し予定日を編集）"""
     user = request.user
+    move_info, created = MoveInfo.objects.get_or_create(id=1)  # 共通設定レコード
     
     if request.method == "POST" and request.headers.get("x-requested-with") == "XMLHttpRequest":
         full_name = request.POST.get("full_name", "").strip()
@@ -81,18 +86,25 @@ def account_manage_view(request):
     elif request.method == "POST":
         full_name = request.POST.get("full_name") or user.full_name
         email = request.POST.get("email") or user.email
-        move_date = request.POST.get("move_date") or user.move_date
+        move_date = request.POST.get("move_date")
         
         # 入力値を反映
         user.full_name = full_name
         user.email = email
-        user.move_date = move_date
         user.save()
+        
+        if move_date:
+            move_info.move_date = move_date
+            move_info.updated_by = user
+            move_info.save()
         
         messages.success(request, "アカウント情報を更新しました。")
         return redirect("account_manage")
     
-    return render(request, 'account_manage.html', {"user": user})
+    return render(request, 'account_manage.html', {
+        "user": user,
+        "move_date": move_info.move_date
+        })
 
 
 @login_required
@@ -329,9 +341,7 @@ def calendar_view(request):
     
     # 「全タスク」を取得（期間指定なし）
     tasks = (
-        Task.objects.filter(
-            created_by=request.user
-        )
+        Task.objects.all()
         .values('date', 'task_name', 'start_time', 'end_time', 'memo')
     )
     

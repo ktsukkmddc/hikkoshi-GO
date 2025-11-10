@@ -130,21 +130,21 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;              /* ← スクロールバーの太さ */
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f0f0f0;     /* ← 背景（トラック）色 */
+  background: #f0f0f0;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c0c0c0;     /* ← つまみ（バー）の色 */
+  background: #c0c0c0;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #999;        /* ← ホバー時の色 */
+  background: #999;
 }
 
 

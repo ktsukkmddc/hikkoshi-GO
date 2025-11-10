@@ -43,14 +43,14 @@
             id="move_date_display"
             placeholder="クリックして日付を選択"
             readonly
-            value="{% if user.move_date %}{{ user.move_date|date:'Y年n月j日' }}{% endif %}"
+            value="{% if move_date %}{{ move_date|date:'Y年n月j日' }}{% endif %}"
         >
 
         <input 
           type="hidden"
           id="move_date"
           name="move_date"
-          value="{{ user.move_date|date:'Y-m-d' }}"
+          value="{{ move_date|date:'Y-m-d' }}"
         >
 
         <button type="submit" class="btn-save">保存</button>
