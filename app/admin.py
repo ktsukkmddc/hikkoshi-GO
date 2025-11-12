@@ -1,7 +1,7 @@
 # app/admin.py
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, Invite, Message, MoveInfo
+from .models import CustomUser, Invite, Message, MoveInfo, Task
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
@@ -38,3 +38,9 @@ class MessageAdmin(admin.ModelAdmin):
     ordering = ("-created_at",)  # 新しい順に表示
     
 admin.site.register(MoveInfo)
+
+@admin.register(Task)
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ('created_by', 'task_name', 'is_completed', 'created_at')  # 表示カラムを指定
+    list_filter = ('is_completed',)
+    search_fields = ('task_name', 'created_by__email')
