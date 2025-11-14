@@ -26,12 +26,12 @@
       </div>
 
       <button type="submit" class="btn">ログイン</button>
-    
-      {% if form.errors %}
-        <p style="color:#d00; margin-top:8px;">メールアドレスまたはパスワードが違います。</p>
-      {% endif %}
     </form>
 
+      {% if form.errors %}
+        <p class="login-error">メールアドレスまたはパスワードが違います。</p>
+      {% endif %}
+    
     <div class="links">
       <a href="{% url 'signup' %}">新規アカウント登録</a><br>
       <a href="{% url 'password_reset' %}">パスワードを忘れた方はこちら</a>

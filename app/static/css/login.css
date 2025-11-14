@@ -12,19 +12,25 @@ body.login-page {
 /* ===== ログイン全体の枠（白いボックスなし） ===== */
 .login-wrapper {
   text-align: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 /* ===== タイトル ===== */
 .login-wrapper h2 {
   font-size: 30px;
   font-weight: bold;
-  margin: 100px 70px;
+  margin: 100px 0 30px;
 }
 
 /* ===== 入力フォーム ===== */
 .login-wrapper form {
-  display: inline-block;
+  display: block;
+  margin: 0 auto;
   text-align: left;
+  width: 400px;
+  max-width: 90%;
 }
 
 .login-wrapper label {
@@ -35,13 +41,23 @@ body.login-page {
 }
 
 .login-wrapper input {
-  width: 400px;
+  width: 100%;
   padding: 10px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 15px;
   box-sizing: border-box;
+}
+
+/* ログインエラー表示 */
+.login-error {
+  color: #d00;
+  margin: 15px auto;
+  text-align: center;
+  font-size: 14px;
+  display: block;
+  width: 100%;
 }
 
 /* ===== ログインボタン ===== */
@@ -66,19 +82,26 @@ body.login-page {
 /* ===== 下部リンク ===== */
 .links {
   text-align: center;
-  margin-top: 30px;
+  margin-top: 40px;
 }
 
 .links a {
   color: #333;
   text-decoration: underline;
   font-size: 14px;
+  display: block;
 }
+
 
 /* ===== スマホ対応 ===== */
 @media screen and (max-width: 768px) {
+  .login-wrapper form {
+    width: 90%;
+    max-width: 400px;
+  }
+
   .login-wrapper input {
-    width: 300px;
+    width: 100%;
   }
 
   .btn {
