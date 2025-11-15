@@ -3,6 +3,7 @@ body {
   font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
   color: #333;
   overflow-y: scroll; /* ← スクロールバーを常に右端に表示 */
+  padding-top: env(safe-area-inset-top); /* iPhone上部ノッチやアドレスバー用 */
 }
 
 /* === 全体 === */
@@ -107,7 +108,7 @@ body {
   background: #fff;
   border-radius: 10px;
   padding: 8px 15px;
-  border: 1px solid #da61fc;
+  border: 1px solid #02c0f5;
   transition: all 0.1s ease;
   text-align: left;
   cursor: pointer;
@@ -250,7 +251,7 @@ body {
   }
 
   .task-container {
-  margin-top: 100px;
+    margin-top: calc(140px + env(safe-area-inset-top));
 }
 
   .task-card {

@@ -16,7 +16,7 @@ body {
 
 .signup-wrapper h2 {
   text-align: center;
-  margin: 40px 70px;
+  margin: 25px 70px;
   font-size: 22px;
   font-weight: bold;
 }
@@ -47,7 +47,7 @@ body {
 .btn {
   display: block;
   width: 120px;
-  margin: 15px auto 0;
+  margin: 5px auto 0;
   padding: 10px;
   background-color: #50e3f6;
   border: 1px solid #ccc;
