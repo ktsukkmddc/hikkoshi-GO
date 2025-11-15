@@ -251,7 +251,7 @@ body {
   }
 
   .task-container {
-    margin-top: calc(140px + env(safe-area-inset-top));
+    margin-top: calc(200px + env(safe-area-inset-top));
 }
 
   .task-card {
