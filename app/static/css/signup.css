@@ -23,7 +23,7 @@ body {
 
 /* ===== 入力欄 ===== */
 .form-group {
-  margin-bottom: 11px;
+  margin-bottom: 10px;
 }
 
 .form-group label {
@@ -47,7 +47,7 @@ body {
 .btn {
   display: block;
   width: 120px;
-  margin: 25px auto 0;
+  margin: 15px auto 0;
   padding: 10px;
   background-color: #50e3f6;
   border: 1px solid #ccc;
@@ -112,7 +112,7 @@ body {
   border-radius: 6px;
   background-color: #fff;
   padding: 15px 20px;
-  margin-top: 25px;
+  margin-top: 15px;
   max-width: 350px;            /* 入力欄と同じ幅 */
   margin-left: auto;
   margin-right: auto;
