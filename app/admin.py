@@ -9,6 +9,8 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('email', 'full_name')
     ordering = ('email',)
     
+    readonly_fields = ('invite_code',)
+    
     # username を使わない構成に修正
     fieldsets = (
         (None, {'fields': ('email', 'password', 'full_name', 'invite_code')}),
