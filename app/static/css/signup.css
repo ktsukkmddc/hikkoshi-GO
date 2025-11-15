@@ -23,7 +23,7 @@ body {
 
 /* ===== 入力欄 ===== */
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 11px;
 }
 
 .form-group label {
@@ -54,6 +54,7 @@ body {
   border-radius: 8px;
   color: #333;
   font-size: 16px;
+  font-weight: 300;
   cursor: pointer;
 }
 
@@ -78,52 +79,9 @@ body {
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* ===== パスワードルール（全体のスタイル） ===== */
-.password-rules {
-  border: 1px solid #ccc;      /* 入力欄と同じ枠線 */
-  border-radius: 6px;          /* 角を丸める */
-  background-color: #fff;      /* 背景を白に */
-  padding: 15px 20px;          /* 内側の余白 */
-  margin-top: 25px;            /* 上の間隔 */
-  max-width: 400px;            /* 入力欄と同じ幅 */
-  margin-left: auto;
-  margin-right: auto;
-  list-style-position: inside; /* 箇条書きマークを内側に */
-  text-align: left;            /* 左寄せ */
-  font-size: 13px;             /* 少し小さめの文字サイズ */
-  color: #333;                 /* 文字色 */
-  line-height: 1.6;            /* 行間を広げる */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05); /* ほんの少し影を付ける */
-}
-
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-/* ===== スマホ対応 ===== */
-@media screen and (max-width: 768px) {
-  .signup-wrapper {
-    width: 90%;
-    padding: 30px 20px;
-  }
-
-  .btn {
-    width: 120px;
-  }
-}
-
-/* ===== ラベルと入力欄を中央寄せ ===== */
-.signup-wrapper form {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* 横方向中央寄せ */
-}
-
-/* ラベルと入力欄を同じ幅にする */
-.signup-wrapper .form-group {
-  width: 400px; /* 入力欄と同じ幅 */
-  text-align: left; /* ラベルは左揃え */
 }
 
 /* ラベルと入力欄の間隔を調整 */
@@ -136,21 +94,45 @@ body {
 .signup-wrapper form {
   display: flex;
   flex-direction: column;
-  align-items: center; /* 中央寄せ */
+  align-items: center;
 }
 
 .signup-wrapper .form-group {
-  width: 350px; /* 入力欄を少し狭く */
+  width: 350px;
   text-align: left;
 }
 
 .signup-wrapper .form-group input {
-  width: 100%; /* form-group内で全幅に */
+  width: 100%;
 }
+
+/* ===== パスワードルール（全体のスタイル） ===== */
+.password-rules {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  padding: 15px 20px;
+  margin-top: 25px;
+  max-width: 350px;            /* 入力欄と同じ幅 */
+  margin-left: auto;
+  margin-right: auto;
+  list-style-position: inside;
+  text-align: left;
+  font-size: 11px;
+  color: #333;
+  line-height: 1.6;
+}
+
 
 /* ===== スマホ対応 ===== */
 @media screen and (max-width: 768px) {
   .signup-wrapper .form-group {
     width: 90%; /* 画面幅に合わせて自動調整 */
+  }
+
+  .password-rules {
+    max-width: 90%;
+    font-size: 11px;
+    padding: 10px 14px;
   }
 }

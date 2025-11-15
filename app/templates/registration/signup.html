@@ -64,15 +64,14 @@
       {% endif %}
     </div>
 
+    {% include 'partials/password_rules.html' %}
+
     <button type="submit" class="btn">登録</button>
   </form>
-
 
   <p class="login-link">
       <a href="{% url 'login' %}">すでにアカウントをお持ちの方はこちら</a>
     </p>
-
-    {% include 'partials/password_rules.html' %}
 </div>
 
 <script>
