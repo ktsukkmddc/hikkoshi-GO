@@ -134,14 +134,26 @@ body {
 
 /* ===== スマホ（768px以下）対応 ===== */
 @media screen and (max-width: 768px) {
+  body {
+    display: block !important;
+    align-items: initial !important;
+    justify-content: initial !important;
+    height: auto !important;
+  }
+
+  .main-content {
+    padding-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
   .home-wrapper {
-    margin-top: 50px;  /* ← タイトル位置をさらに調整 */
+    margin-top: 70px;
     padding: 0 10px;
   }
 
   .home-wrapper h2 {
-    margin-top: 60px;     /* ← スマホでさらに詰める */
-    margin-bottom: 0px;  /* ← タイトルとカードの間もさらに狭く */
+    margin-top: 40px;
+    margin-bottom: 0px;
   }
 
   body {
@@ -152,6 +164,7 @@ body {
   .countdown-card {
     width: 110%;
     margin: 0px 10px;
+    padding: 30px 25px 1px;  /* 上 左右 下 */
   }
 
   .countdown-card h2 {
@@ -174,7 +187,7 @@ body {
     align-items: center;
     gap: 20px;
     width: 100%;
-    margin-top: 0px;
+    margin-top: -20px !important;
   }
 
   .countdown-box {
