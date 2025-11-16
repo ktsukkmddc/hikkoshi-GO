@@ -7,7 +7,7 @@
 h2 {
   text-align: center;
   margin: 10px auto;
-  margin-top: -10px;
+  margin-top: -30px;
   margin-bottom: 30px;
 }
 
@@ -34,6 +34,16 @@ textarea {
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
+}
+
+/* 日付フォームと時間フォームの間隔を狭める */
+#date_field_group {
+  margin-bottom: 12px !important;
+}
+
+/* 時間フォームとメモの間隔を狭める */
+#time_field_group {
+  margin-bottom: 12px !important;
 }
 
 /* タスク選択と自由入力の間隔を広げる */
@@ -73,6 +83,7 @@ textarea {
   cursor: pointer;
   transition: 0.2s;
   border: 1px solid #ccc;
+  font-size: 15px;
 }
 
 .btn-submit:hover {
