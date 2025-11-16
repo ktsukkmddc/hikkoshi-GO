@@ -19,12 +19,15 @@
   <nav class="navbar">
     <div class="logo">
       <a href="{% url 'home' %}" class="logo-link"><strong>引越しGO</strong></a>
-  </div>
+    </div>
+    
     <div class="nav-links">
-      <a href="{% url 'task_list' %}">タスク</a>
-      <a href="{% url 'message_list' %}">メッセージ</a>
-      <a href="{% url 'calendar' %}">カレンダー</a>
-      <a href="{% url 'mypage' %}">マイページ</a>
+      {% if user.is_authenticated %}
+          <a href="{% url 'task_list' %}">タスク</a>
+          <a href="{% url 'message_list' %}">メッセージ</a>
+          <a href="{% url 'calendar' %}">カレンダー</a>
+          <a href="{% url 'mypage' %}">マイページ</a>
+      {% endif %}
     </div>
   </nav>
 
