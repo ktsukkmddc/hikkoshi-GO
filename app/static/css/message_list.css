@@ -6,7 +6,7 @@
 }
 
 .message-list-wrapper h2 {
-  font-size: 26px;
+  font-size: 24px;
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -55,7 +55,7 @@
 .search-form input {
   padding: 8px 10px;
   width: 260px;
-  border: 1px solid #da61fc;
+  border: 1px solid #02c0f5;
   border-radius: 6px;
   margin-top: 20px;
 }
@@ -65,8 +65,8 @@
   justify-content: center;
   align-items: center;
   padding: 8px 12px;
-  background-color: #edcdf6;
-  border: 1px solid #da61fc;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
   border-radius: 6px;
   cursor: pointer;
   white-space: nowrap;
@@ -93,7 +93,7 @@
   border-radius: 10px;
   padding: 5px;
   text-align: left;
-  border: 1px solid #da61fc;
+  border: 1px solid #02c0f5;
 }
 
 .message-card:hover {
@@ -156,7 +156,7 @@ body {
   }
 
   .message-list-wrapper h2 {
-  font-size: 26px;
+  font-size: 22px;
   margin-top: 20px;
   margin-bottom: 10px;
 }

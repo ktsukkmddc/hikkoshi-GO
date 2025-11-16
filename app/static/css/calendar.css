@@ -16,6 +16,7 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 40px;
+  margin-top: -20px;
   position: relative;
 }
 
@@ -51,7 +52,7 @@
   flex-direction: column;
   background: #fff;
   border-radius: 8px;
-  border: 1px solid #da61fc;
+  border: 1px solid #02c0f5;
   padding: 10px;
 }
 
@@ -124,7 +125,7 @@
 .modal-content {
   background: #fff;
   padding: 25px 30px;
-  border: 1px solid #0c3bd5;
+  border: 1px solid #02c0f5;
   border-radius: 30px;
   width: 90%;
   max-width: 420px;
@@ -166,7 +167,7 @@
   border-radius: 10px;
   padding: 10px 10px !important;
   margin-bottom: 10px;
-  border: 1px solid #0ce26d;
+  border: 1px solid #02c0f5;
   padding: 8px 0;
 }
 

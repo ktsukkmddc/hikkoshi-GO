@@ -94,7 +94,7 @@ main {
   padding: 25px 30px;
   border-radius: 10px;
   border: 1px solid #02c0f5;
-  width: 82%;
+  width: 83%;
   max-width: 400px;
   text-align: center;
   box-sizing: border-box;
@@ -142,6 +142,7 @@ main {
   color: #333;
   border: 1px solid #ccc;
   width: 100px;
+  font-weight: 300;
 }
 
 .modal-buttons .btn-save:hover {
@@ -257,7 +258,7 @@ main {
 
 /* 保存ボタン（共通） */
 .date-row .btn-save {
-  background-color: #fff;
+  background-color: #f2f2f2;
   color: #555;
   border: 1px solid #ccc;
   border-radius: 6px;

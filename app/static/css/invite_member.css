@@ -1,11 +1,11 @@
 /* ===== 全体設定 ===== */
 .invite-wrapper {
   text-align: center;
-  margin-top: 80px;
+  margin-top: 60px;
 }
 
 .invite-wrapper h2 {
-  font-size: 26px;
+  font-size: 22px;
   margin-top: 10px;
   margin-bottom: 30px;
 }
@@ -18,7 +18,8 @@
 
 .invite-content h3 {
   font-size: 20px;
-  margin-bottom: 50px;
+  margin-top: 0;
+  margin-bottom: 40px;
 }
 
 .invite-content p {
@@ -51,8 +52,8 @@
   width: 230px;
   padding: 12px;
   margin: 25px auto 0;
-  background-color: #e6f5ec;
-  border: 1px solid #aaa;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
   border-radius: 8px;
   cursor: pointer;
   font-size: 13px;
@@ -60,7 +61,7 @@
 }
 
 .btn-copy:hover {
-  background-color: #c9f0d6;
+  background-color: #d1cfcf;
 }
 
 /* ===== メール共有ボタン ===== */
@@ -69,9 +70,9 @@
   width: 230px;
   max-width: 90%;
   padding: 12px;
-  margin: 10px auto 0;
-  background-color: #fbd8f8;
-  border: 1px solid #aaa;
+  margin: 12px auto 0;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
   border-radius: 8px;
   cursor: pointer;
   font-size: 13px;
@@ -104,7 +105,7 @@
   }
 
   .invite-wrapper h2 {
-  font-size: 24px;
+  font-size: 22px;
   margin-top: 60px;
   margin-bottom: 10px;
   }
