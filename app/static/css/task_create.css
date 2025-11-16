@@ -1,5 +1,5 @@
 .task-create-wrapper {
-  width: 90%;
+  width: 100%;
   max-width: 400px;
   margin: 60px auto;
 }
@@ -7,11 +7,12 @@
 h2 {
   text-align: center;
   margin: 10px auto;
-  margin-bottom: 40px;
+  margin-top: -10px;
+  margin-bottom: 30px;
 }
 
 .form-group {
-  margin-bottom: 27px;
+  margin-bottom: 25px;
   text-align: center;
 }
 
@@ -19,7 +20,7 @@ h2 {
   text-align: left;
   display: block;
   font-weight: 400;
-  margin-bottom: 3px;
+  margin-bottom: 5px;
   margin-left: 25px;
 }
 
@@ -28,27 +29,37 @@ input[type="date"],
 input[type="time"],
 select,
 textarea {
-  width: 90%;
+  width: 95%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
 }
 
+/* タスク選択と自由入力の間隔を広げる */
+#task_name {
+  margin-bottom: 15px !important;
+}
+
+#custom_task {
+  margin-bottom: 7px !important;
+}
 
 .time-group {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 3px;
   gap: 8px;
 }
 
 .time-group input[type="time"] {
-  width: 40%;
+  width: 43%;
   padding: 6px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
+  margin-top: 1px;
 }
 
 .btn-submit {
@@ -142,6 +153,52 @@ textarea {
 .btn-cancel:hover {
   background: #b5b5b5;
 }
+
+/* ==== ここから見た目統一処理（PC + スマホ共通） ==== */
+
+/* select を Safari でも PC と揃える */
+select {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background: #fff !important;
+  border: 1px solid #ccc !important;
+  border-radius: 6px !important;
+  padding: 10px !important;
+  font-size: 14px !important;
+  width: 95% !important;
+}
+
+/* time input の Safari 強制スタイルを解除 */
+input[type="time"] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background: #fff !important;
+  border: 1px solid #ccc !important;
+  border-radius: 6px !important;
+  padding: 10px !important;
+  width: 43% !important;
+}
+
+/* テキスト系も統一 */
+input[type="text"],
+textarea {
+  background: #fff !important;
+  border: 1px solid #ccc !important;
+  border-radius: 6px !important;
+  padding: 10px !important;
+  font-size: 14px !important;
+}
+
+/* フォーカス時の枠色も統一 */
+select:focus,
+input:focus,
+textarea:focus {
+  outline: none !important;
+  border-color: #04cde7 !important;
+  box-shadow: 0 0 4px rgba(0, 200, 255, 0.4);
+}
+
+/* ==== ここまで ==== */
 
 /* ===== スマホ対応（768px以下） ===== */
 @media screen and (max-width: 768px) {
