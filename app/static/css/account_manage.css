@@ -29,12 +29,12 @@ main {
 .info-group {
   margin-bottom: 70px;
   text-align: left;
-  border: 1px solid #d74a4a;          /* 枠線 */
-  border-radius: 10px;             /* 角を丸める */
-  padding: 20px 25px;              /* 内側の余白 */
-  margin: 30px auto;               /* 上下の間隔と中央寄せ */
-  max-width: 420px;                /* 幅を固定（フォームに合わせる） */
-  background-color: #fff;          /* 背景は白 */
+  border: 1px solid #02c0f5;
+  border-radius: 10px;
+  padding: 20px 25px;
+  margin: 30px auto;
+  max-width: 420px;
+  background-color: #fff;
 }
 
 .info-group label {
@@ -93,8 +93,8 @@ main {
   transform: translate(-50%, -50%);
   padding: 25px 30px;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  width: 90%;
+  border: 1px solid #02c0f5;
+  width: 82%;
   max-width: 400px;
   text-align: center;
   box-sizing: border-box;
@@ -112,7 +112,7 @@ main {
   padding: 8px 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 16px;
   box-sizing: border-box;
   margin-top: 15px;
   margin-bottom: 15px;
@@ -123,7 +123,7 @@ main {
 .modal-buttons {
   display: flex;
   justify-content: center;
-  gap: 50px;
+  gap: 20px;
   margin-top: 20px;
 }
 
@@ -139,9 +139,9 @@ main {
 /* ===== 保存ボタン（青系） ===== */
 .modal-buttons .btn-save {
   background-color: #50e3f6;
-  color: #000;
+  color: #333;
   border: 1px solid #ccc;
-  width: 110px;
+  width: 100px;
 }
 
 .modal-buttons .btn-save:hover {
@@ -203,11 +203,11 @@ main {
   align-items: center;
   justify-content: flex-start;
   gap: 15px;  /* ← ラベルとinputの横間隔をここで調整（10〜20pxが目安） */
-  border: 1px solid #d74a4a;
+  border: 1px solid #02c0f5;
   border-radius: 10px;
-  padding: 30px 25px;              /* 内側の余白 */
-  margin: 40px auto;               /* 上下の間隔と中央寄せ */
-  max-width: 420px;                /* 幅を固定（フォームに合わせる） */
+  padding: 30px 25px;
+  margin: 40px auto;
+  max-width: 420px;
   background-color: #fff;
   font-size: 12px;
 }
