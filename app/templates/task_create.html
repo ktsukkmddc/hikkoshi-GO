@@ -13,34 +13,51 @@
 
   <form method="POST">
     {% csrf_token %}
-    
-    <!-- ▼ タスク名（選択＋自由入力） -->
-    <div class="form-group">
-      <label for="task_name">タスク</label>
-      <select id="task_name" name="task_name">
-        <option value="">選択してください</option>
-        {% for value, label in form.fields.task_name.choices %}
-          <option value="{{ value }}">{{ label }}</option>
-        {% endfor %}
-      </select>
 
-      <input type="text" name="custom_task" id="custom_task" placeholder="任意のタスク入力">
+    <div class="form-group">
+      <label>タスク</label>
+
+      <!-- 選択式タスク -->
+      <div class="task-row">
+        <input type="radio" name="task_mode" value="select" id="task_mode_select">
+        <select name="task_name" class="task-select">
+          <option value="">選択してください</option>
+          {% for value, label in form.fields.task_name.choices %}
+            <option value="{{ value }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- 自由入力タスク -->
+      <div class="task-row">
+        <input type="radio" name="task_mode" value="custom" id="task_mode_custom">
+        <input type="text" name="custom_task" id="custom_task" placeholder="任意のタスク入力">
+      </div>
+
+      <!-- タスクエラー表示位置 -->
+      {% if form.non_field_errors %}
+        <p class="error-msg">{{ form.non_field_errors.0 }}</p>
+      {% endif %}
     </div>
 
   <!-- ▼ 日付 -->
-<div class="form-group" id="date_field_group">
-  <label for="task_date">日付</label>
-  <input 
-    type="text" 
-    id="task_date_display" 
-    placeholder="クリックして日付を選択" 
-    readonly
-  >
-  <input 
-    type="hidden" 
-    id="task_date" 
-    name="date"
-  >
+  <div class="form-group" id="date_field_group">
+    <label for="task_date">日付</label>
+    <input 
+      type="text" 
+      id="task_date_display" 
+      placeholder="クリックして日付を選択" 
+      readonly
+    >
+    <input 
+      type="hidden" 
+      id="task_date" 
+      name="date"
+    >
+
+  {% if form.date.errors %}
+    <p class="error">{{ form.date.errors.0 }}</p>
+  {% endif %}
 </div>
 
 <!-- ▼ カレンダーモーダル -->
@@ -63,6 +80,13 @@
         <span>〜</span>
         <input type="time" name="end_time">
       </div>
+
+      {% if form.start_time.errors %}
+        <p class="error">{{ form.start_time.errors.0 }}</p>
+      {% endif %}
+      {% if form.end_time.errors %}
+        <p class="error">{{ form.end_time.errors.0 }}</p>
+      {% endif %}
     </div>
 
     <!-- ▼ メモ -->
@@ -114,5 +138,37 @@
   window.addEventListener('click', (e) => {
     if (e.target === calendarModal) calendarModal.style.display = 'none';
   });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const radioSelect = document.getElementById("task_mode_select");
+    const radioCustom = document.getElementById("task_mode_custom");
+
+    const selectField = document.querySelector(".task-select"); 
+    const customField = document.getElementById("custom_task");
+
+    // ▼ 初期状態
+    updateFormState();
+
+    // ▼ ラジオボタン切り替えで処理
+    radioSelect.addEventListener("change", updateFormState);
+    radioCustom.addEventListener("change", updateFormState);
+
+    function updateFormState() {
+        if (radioSelect.checked) {
+            // 選択式 → セレクト有効 / テキスト無効
+            selectField.disabled = false;
+            customField.disabled = true;
+            customField.value = "";  // 入力クリア
+        } 
+        else if (radioCustom.checked) {
+            // 自由入力 → テキスト有効 / セレクト無効
+            selectField.disabled = true;
+            customField.disabled = false;
+            selectField.value = "";  // セレクトクリア
+        }
+    }
+});
 </script>
 {% endblock %}

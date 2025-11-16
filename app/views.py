@@ -276,10 +276,16 @@ def task_create_view(request):
         if form.is_valid():
             task = form.save(commit=False)
             task.created_by = request.user
-
-            # ▼ ここを修正：選択がなければ custom_task を使用
-            if not task.task_name and task.custom_task:
-                task.task_name = task.custom_task
+            
+            # ▼ ラジオボタンの選択に従って保存
+            task_mode = form.cleaned_data.get("task_mode")
+            
+            if task_mode == "select":
+                task.task_name = form.cleaned_data.get("task_name")
+                task.custom_task = ""
+                
+            elif task_mode == "custom":
+                task.task_name = form.cleaned_data.get("custom_task")
 
             task.save()
             return redirect('task_list')

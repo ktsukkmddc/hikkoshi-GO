@@ -67,9 +67,36 @@ class CustomUserCreationForm(UserCreationForm):
 class TaskForm(forms.ModelForm):
     task_name = forms.ChoiceField(
         choices=[('', '選択してください')] + Task.TASK_CHOICES,
+        required=False,
+    )
+    
+    custom_task = forms.CharField(
         required=False
     )
     
+    date = forms.DateField(
+        required=True,
+        error_messages={'required': '日付を入力してください。'},
+        widget=forms.DateInput(attrs={'type': 'date'})
+    )
+    
+    start_time = forms.TimeField(
+        required=True,
+        error_messages={'required': '開始時間を入力してください。'},
+        widget=forms.TimeInput(attrs={'type': 'time'})
+    )
+    
+    end_time = forms.TimeField(
+        required=True,
+        error_messages={'required': '終了時間を入力してください。'},
+        widget=forms.TimeInput(attrs={'type': 'time'})
+    )
+    
+    memo = forms.CharField(
+        required=False,
+        widget=forms.Textarea(attrs={'rows': 3})
+    )
+
     class Meta:
         model = Task
         fields = ['task_name', 'custom_task', 'date', 'start_time', 'end_time', 'memo']
@@ -78,3 +105,26 @@ class TaskForm(forms.ModelForm):
             'start_time': forms.TimeInput(attrs={'type': 'time'}),
             'end_time': forms.TimeInput(attrs={'type': 'time'}),
         }
+        
+    def clean(self):
+        cleaned_data = super().clean()
+    
+        task_mode = self.data.get("task_mode")  # ラジオボタン値
+        task_name = cleaned_data.get("task_name")
+        custom_task = cleaned_data.get("custom_task")
+
+        # どちらも未選択
+        if not task_mode:
+            raise forms.ValidationError("「選択式」か「自由入力」を選んでください。")
+
+        # 選択式の場合 → セレクトが必須
+        if task_mode == "select":
+            if not task_name:
+                self.add_error('task_name', "タスクを選択してください。")
+
+        # 自由入力の場合 → custom_task が必須
+        if task_mode == "custom":
+            if not custom_task:
+                self.add_error('custom_task', "タスクを入力してください。")
+
+        return cleaned_data
