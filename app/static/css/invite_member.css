@@ -91,7 +91,7 @@
   border: 1px solid #ccc;
   border-radius: 6px;
   background-color: #f9f9f9;
-  text-align: center; /* URL文字も中央寄せ（お好み） */
+  text-align: center;
 }
 
 /* ===== スマホ対応 ===== */
