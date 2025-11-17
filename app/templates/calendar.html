@@ -30,7 +30,7 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const today = new Date();
+  const serverToday = "{{ today|date:'Y-m-d' }}";
   const calendar = document.getElementById("calendar");
   const modal = document.getElementById("taskModal");
   const closeModal = document.getElementById("closeModal");
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cell.classList.add("has-task");
       }
 
-      if (d === todayStr) {
+      if (d === serverToday) {
         cell.classList.add("today");
       }
     });
@@ -165,7 +165,8 @@ document.addEventListener("DOMContentLoaded", () => {
   window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
 
   // 初期表示
-  renderCalendar(today.getFullYear(), today.getMonth());
+  const [ty, tm] = serverToday.split("-").map(Number);
+  renderCalendar(ty, tm - 1);
 });
 </script>
 {% endblock %}

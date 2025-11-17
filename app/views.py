@@ -337,7 +337,11 @@ def task_edit_view(request, task_id):
 @login_required
 def calendar_view(request):
     """全てのタスクをカレンダーに反映"""
-    today = date.today()
+    
+    from datetime import datetime, timedelta, timezone
+    JST = timezone(timedelta(hours=9))
+    today = datetime.now(JST).date()
+    
     year = int(request.GET.get('year', today.year))
     month = int(request.GET.get('month', today.month))
 

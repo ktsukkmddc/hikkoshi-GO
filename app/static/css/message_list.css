@@ -74,7 +74,7 @@
 }
 
 .search-form button:hover {
-  background-color: #e192f7;
+  background-color: #d3d3d3;
 }
 
 /* ===== カード表示 ===== */
@@ -176,6 +176,7 @@ body {
     width: 100%;
     margin-top: 1px;
     margin-bottom: 5px;
+    color: #333;
   }
 
   .btn-new-message {
