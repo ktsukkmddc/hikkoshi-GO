@@ -41,6 +41,7 @@
   font-size: 13px;
   text-align: center;
   transition: background 0.2s;
+  font: #333 !important;
 }
 
 .btn-generate:hover {
@@ -58,6 +59,7 @@
   cursor: pointer;
   font-size: 13px;
   transition: background 0.2s;
+  font: #333 !important;
 }
 
 .btn-copy:hover {
@@ -77,6 +79,7 @@
   cursor: pointer;
   font-size: 13px;
   transition: background 0.2s;
+  font: #333 !important;
 }
 
 .btn-share:hover {

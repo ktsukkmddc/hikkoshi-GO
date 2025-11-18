@@ -71,6 +71,9 @@
   cursor: pointer;
   white-space: nowrap;
   margin-top: 20px;
+  color: #333 !important;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .search-form button:hover {

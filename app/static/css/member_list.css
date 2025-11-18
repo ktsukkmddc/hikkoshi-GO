@@ -115,6 +115,7 @@ textarea {
   border-radius: 8px;
   cursor: pointer;
   width: 140px;
+  font: #333 !important;
 }
 
 #sendMessageBtn:hover {

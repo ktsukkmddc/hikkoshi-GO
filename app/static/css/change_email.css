@@ -14,7 +14,7 @@ body {
 }
 
 .change-email-wrapper h2 {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   margin-top: 50px;
   margin-bottom: 50px;
@@ -78,6 +78,7 @@ form {
   border-radius: 6px;
   font-size: 16px;
   cursor: pointer;
+  font: #333;
 }
 
 .save-btn:hover {
@@ -117,15 +118,16 @@ form {
 
 /* ===== confirm_email_done専用の調整 ===== */
 .confirm-page {
-  margin-top: 100px; /* ← h2タイトルを少し下げる */
+  margin-top: 100px;
 }
 
 .confirm-page h2 {
   margin-bottom: 70px;
+  font-size: 20px !important;
 }
 
 .confirm-page p {
-  font-size: 14px;   /* ← 通常より小さく */
+  font-size: 14px;
   color: #555;
   line-height: 1.6;
 }
