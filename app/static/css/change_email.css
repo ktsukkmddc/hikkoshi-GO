@@ -78,7 +78,8 @@ form {
   border-radius: 6px;
   font-size: 16px;
   cursor: pointer;
-  font: #333;
+  color: #333;
+  font-weight: 300;
 }
 
 .save-btn:hover {

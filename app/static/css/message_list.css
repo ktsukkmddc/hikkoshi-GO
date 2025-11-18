@@ -71,7 +71,9 @@
   cursor: pointer;
   white-space: nowrap;
   margin-top: 20px;
-  color: #333 !important;
+  color: #333;
+  font-size: 13px;
+  font-weight: 300;
   -webkit-appearance: none;
   appearance: none;
 }
