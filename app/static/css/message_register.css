@@ -65,13 +65,12 @@ textarea {
   font-size: 15px;
   transition: background 0.2s, border-color 0.2s;
   color: #333;
+  font-weight: 300;
 }
 
 .btn-register:hover {
-  background-color: #3acfe3;
   background-color: #04cde7;
 }
-
 
 
 /* ===== スマホ対応（768px以下） ===== */

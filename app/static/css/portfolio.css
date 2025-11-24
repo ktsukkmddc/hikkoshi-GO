@@ -11,6 +11,7 @@
 .portfolio-title {
   font-size: 28px;
   margin-bottom: 30px;
+  margin-top: 50px;
   color: #333;
 }
 
@@ -30,8 +31,9 @@
 .description {
   font-size: 15px;
   line-height: 1.9;
-  color: #444;
+  color: #333;
   margin: 30px 0;
+  padding: 0 5px;
 }
 
 /* リンク一覧 */
@@ -70,4 +72,68 @@
 
 .app-link:hover {
   background-color: #04cde7;
+}
+
+/*スマホ画面*/
+@media screen and (max-width: 768px) {
+
+  /* 全体 */
+  .portfolio-wrapper {
+    width: 92%;
+    margin: 25px auto;
+    padding: 0 5px;
+    text-align: center;
+  }
+
+  /* タイトル */
+  .portfolio-title {
+    font-size: 22px;
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+
+  /* メイン画像 */
+  .main-image-wrapper {
+    margin-bottom: 20px;
+  }
+
+  .main-image {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+
+  /* 説明文 */
+  .description {
+    font-size: 14px;
+    line-height: 1.8;
+    margin: 20px 0;
+    padding: 0 5px;
+    text-align: left;
+  }
+
+  /* リンク一覧（企画書 / 画面設計図 / 画面遷移図 / ER図） */
+  .links {
+    display: grid;                 /* スマホでは縦配置 */
+    grid-template-columns: 1fr 1fr; /* 2列にしてコンパクト */
+    gap: 15px 1px;
+    justify-items: center;
+    margin: 25px 0;
+  }
+
+  .links a {
+    font-size: 13px;
+  }
+
+  /* アプリアクセスボタン */
+  .app-link-wrapper {
+    margin-top: 25px;
+  }
+
+  .app-link {
+    padding: 12px 20px;
+    width: 55%;
+    font-size: 15px;
+    display: inline-block;
+  }
 }
