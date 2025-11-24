@@ -1,0 +1,40 @@
+{% extends "base_plain.html" %}
+{% load static %}
+
+{% block title %}作品No.1 引越しGO{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/portfolio.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="portfolio-wrapper">
+
+    <h1 class="portfolio-title">作品No.1. 引越しGO</h1>
+
+    <!-- ★ メイン画像（アプリのトップ画面スクショ） -->
+    <div class="main-image-wrapper">
+        <img src="{% static 'img/app_top_screenshot.png' %}" class="main-image" alt="アプリ画像">
+    </div>
+
+    <!-- ★ アプリ説明 -->
+    <p class="description">
+      引越しGOは、負担の大きい引越しという大きなイベントを確実かつスムーズに進めるためのサポートツールです。<br>
+      タスクの煩雑さや進捗の見えづらさ・作業の偏りなどの課題に対し、タスク管理やカレンダー管理・進捗の可視化を<br>
+      複数人での共有することによって解決します。
+    </p>
+
+    <!-- ★ 各資料リンク -->
+    <div class="links">
+        <a href="{% static 'img/企画書.pdf' %}" target="_blank">企画書</a>
+        <a href="{% static 'img/画面設計図.pdf' %}" target="_blank">画面設計図</a>
+        <a href="{% static 'img/画面遷移図.drawio.svg' %}" target="_blank">画面遷移図</a>
+        <a href="{% static 'img/ER図.drawio.svg' %}" target="_blank">ER図</a>
+    </div>
+
+    <!-- ★ アプリ本体のリンク -->
+    <div class="app-link-wrapper">
+        <a href="/login/" class="app-link">このアプリにアクセス</a>
+    </div>
+</div>
+{% endblock %}

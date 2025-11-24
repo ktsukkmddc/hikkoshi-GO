@@ -431,3 +431,7 @@ def message_list_view(request):
         )
 
     return render(request, "message_list.html", {"messages": messages})
+
+
+def portfolio_top_view(request):
+    return render(request, "portfolio_top.html")

@@ -1,0 +1,73 @@
+/* 全体 */
+.portfolio-wrapper {
+  width: 80%;
+  max-width: 950px;
+  margin: 40px auto;
+  text-align: center;
+  font-family: "Helvetica", "Arial", sans-serif;
+}
+
+/* タイトル */
+.portfolio-title {
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* メイン画像 */
+.main-image-wrapper {
+  margin-bottom: 30px;
+}
+
+.main-image {
+  width: 100%;
+  max-width: 850px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+/* 説明文 */
+.description {
+  font-size: 15px;
+  line-height: 1.9;
+  color: #444;
+  margin: 30px 0;
+}
+
+/* リンク一覧 */
+.links {
+  margin: 30px 0;
+  display: flex;
+  justify-content: center;
+  gap: 45px;
+}
+
+.links a {
+  color: #0382f9;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* アプリアクセスリンク */
+.app-link-wrapper {
+  margin-top: 40px;
+}
+
+.app-link {
+  display: inline-block;
+  padding: 12px 28px;
+  background-color: #50e3f6;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.app-link:hover {
+  background-color: #04cde7;
+}

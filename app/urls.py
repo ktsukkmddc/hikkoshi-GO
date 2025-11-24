@@ -41,9 +41,6 @@ urlpatterns = [
     path('change_email/done/', login_required(views.change_email_done_view), name='change_email_done'),
     path('confirm_email/<uuid:token>/', views.confirm_email_view, name='confirm_email'),
     
-    # === トップはログイン画面へ ===
-    path('', lambda request: redirect('login'), name='root_redirect'),
-    
     # === パスワードリセット ===
     path('password_reset/', auth_views.PasswordResetView.as_view(
         template_name='password_reset.html'
@@ -52,4 +49,7 @@ urlpatterns = [
     # === カレンダー ===
     path('calendar/', views.calendar_view, name='calendar'),
     path('calendar/day/', views.day_tasks_json, name='day_tasks_json'),
+    
+    # === トップはログイン画面へ ===
+    path('', lambda request: redirect('login'), name='root_redirect'),
 ]
