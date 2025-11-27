@@ -8,8 +8,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.db.models import Count
-from .forms import CustomUserCreationForm, TaskForm
-from .models import Invite, Task, CustomUser, Message, MoveInfo
+from .forms import CustomUserCreationForm, TaskForm, MoveGroupForm
+from .models import Invite, Task, CustomUser, Message, MoveInfo, MoveGroup
 from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
 from datetime import date
@@ -276,6 +276,7 @@ def task_create_view(request):
         if form.is_valid():
             task = form.save(commit=False)
             task.created_by = request.user
+            task.group = request.user.group
             
             # ▼ ラジオボタンの選択に従って保存
             task_mode = form.cleaned_data.get("task_mode")
@@ -299,7 +300,7 @@ def task_create_view(request):
 
 @login_required
 def task_list_view(request):
-    tasks = Task.objects.all().order_by('date')  # 全員のタスクを日付順に表示
+    tasks = Task.objects.filter(group=request.user.group).order_by('date')
     return render(request, 'task_list.html', {'tasks': tasks})
 
 
@@ -351,7 +352,7 @@ def calendar_view(request):
     
     # 「全タスク」を取得（期間指定なし）
     tasks = (
-        Task.objects.all()
+        Task.objects.filter(group=request.user.group)
         .values('date', 'task_name', 'start_time', 'end_time', 'memo')
     )
     
@@ -376,7 +377,7 @@ def day_tasks_json(request):
         return JsonResponse({'tasks': []})
 
     items = (
-        Task.objects.filter(created_by=request.user, date=ymd)
+        Task.objects.filter(created_by=request.user, date=ymd, group=request.user.group)
         .order_by('start_time', 'end_time', 'id')
     )
 
@@ -435,3 +436,27 @@ def message_list_view(request):
 
 def portfolio_top_view(request):
     return render(request, "portfolio_top.html")
+
+
+@login_required
+def create_group(request):
+    """
+    グループ作成ビュー
+    ログインユーザーを owner として MoveGroup を作成する
+    """
+    if request.method == "POST":
+        form = MoveGroupForm(request.POST)
+        if form.is_valid():
+            group = form.save(commit=False)
+            group.owner = request.user  # 作成者を紐づける！
+            group.save()
+
+            # 作成したグループに自分を所属させる
+            request.user.group = group
+            request.user.save()
+
+            return redirect("home")  # 完了後にホームへ（後で変更OK）
+    else:
+        form = MoveGroupForm()
+
+    return render(request, "group_create.html", {"form": form})

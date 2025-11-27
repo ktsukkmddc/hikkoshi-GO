@@ -4,6 +4,7 @@ from . import views
 from .forms import EmailAuthenticationForm
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from .views import create_group
 
 urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html',
@@ -21,6 +22,7 @@ urlpatterns = [
     path('calendar/', login_required(views.calendar_view), name='calendar'),
     path('mypage/', login_required(views.mypage_view), name='mypage'),
     path('account/', login_required(views.account_manage_view), name='account_manage'),
+    path('group/create/', create_group, name="create_group"),
     
     # === パスワード変更 ===
     path('password_change/', auth_views.PasswordChangeView.as_view(template_name='registration/password_change.html'), name='password_change'),
@@ -47,7 +49,7 @@ urlpatterns = [
     ), name='password_reset'),
     
     # === カレンダー ===
-    path('calendar/', views.calendar_view, name='calendar'),
+    #path('calendar/', views.calendar_view, name='calendar'),
     path('calendar/day/', views.day_tasks_json, name='day_tasks_json'),
     
     # === トップはログイン画面へ ===

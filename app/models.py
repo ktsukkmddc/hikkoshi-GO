@@ -147,6 +147,14 @@ class Task(models.Model):
         ('ガス開栓立ち会い', 'ガス開栓立ち会い'),
     ]
     
+    group = models.ForeignKey(
+        'MoveGroup',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='tasks'
+    )
+    
     created_by = models.ForeignKey(
         'CustomUser',
         on_delete=models.CASCADE,
