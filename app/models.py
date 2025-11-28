@@ -114,6 +114,14 @@ class Message(models.Model):
     )
     content = models.TextField(max_length=500)
     created_at = models.DateTimeField(default=timezone.now)
+    
+    group = models.ForeignKey(
+        'MoveGroup',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='messages'
+    )
 
     def __str__(self):
         return f"{self.sender} → {self.receiver}: {self.content[:15]}"
@@ -181,6 +189,14 @@ class Task(models.Model):
 # 引越し情報（全ユーザー共通）
 # ==========================
 class MoveInfo(models.Model):
+    group = models.OneToOneField(
+        'MoveGroup',
+        on_delete=models.CASCADE,
+        related_name='move_info',
+        null=True,
+        blank=True
+    )
+    
     move_date = models.DateField(null=True, blank=True)  # 共通の引越し日
     updated_by = models.ForeignKey(
         'CustomUser',
@@ -193,7 +209,7 @@ class MoveInfo(models.Model):
 
     def __str__(self):
         date = self.move_date.strftime("%Y-%m-%d") if self.move_date else "未設定"
-        return f"引越し日: {date}"
+        return f"[{self.group.name}] 引越し日: {date}"
     
 
 # ==========================

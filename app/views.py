@@ -35,14 +35,14 @@ def login_view(request):
 @login_required
 def home_view(request):
     user = request.user
-    move_info = MoveInfo.objects.first()
+    move_info = MoveInfo.objects.filter(group=request.user.group).first()
     
     move_date = None
     if move_info and move_info.move_date:
         move_date = move_info.move_date
     
-    total_tasks = Task.objects.count()
-    completed_tasks = Task.objects.filter(is_completed=True).count() # 完了済みタスク数
+    total_tasks = Task.objects.filter(group=user.group).count()
+    completed_tasks = Task.objects.filter(group=user.group, is_completed=True).count() # 完了済みタスク数
     
     # タスクが1件もない場合は0%にする
     if total_tasks == 0:
@@ -75,7 +75,7 @@ def mypage_view(request):
 def account_manage_view(request):
     """アカウント管理画面（名前・メール・引越し予定日を編集）"""
     user = request.user
-    move_info, created = MoveInfo.objects.get_or_create(id=1)  # 共通設定レコード
+    move_info, created = MoveInfo.objects.get_or_create(group=user.group)
     
     if request.method == "POST" and request.headers.get("x-requested-with") == "XMLHttpRequest":
         full_name = request.POST.get("full_name", "").strip()
@@ -397,7 +397,7 @@ def day_tasks_json(request):
 @login_required
 def message_register_view(request):
     """メッセージ登録画面"""
-    members = CustomUser.objects.exclude(id=request.user.id)  # 自分以外の全メンバー
+    members = CustomUser.objects.filter(group=request.user.group).exclude(id=request.user.id)  # 自分以外の全メンバー
 
     if request.method == "POST":
         receiver_id = request.POST.get("receiver")
@@ -408,7 +408,8 @@ def message_register_view(request):
             Message.objects.create(
                 sender=request.user,
                 receiver=receiver,
-                content=content
+                content=content,
+                group=request.user.group
             )
             return redirect("message_list")  # 一覧ページへ遷移
 
@@ -419,7 +420,7 @@ def message_register_view(request):
 def message_list_view(request):
     """メッセージ一覧（掲示板）"""
     query = request.GET.get("q")
-    messages = Message.objects.all().order_by('-created_at')  # 新しい順に表示
+    messages = Message.objects.filter(group=request.user.group).order_by('-created_at')  # 新しい順に表示
     
     # キーワードが入力された場合のみフィルタ
     if query:
