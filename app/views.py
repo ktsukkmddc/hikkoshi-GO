@@ -34,6 +34,9 @@ def login_view(request):
 # --- ホーム・共通画面 ---
 @login_required
 def home_view(request):
+    if request.user.group is None:
+        return redirect("create_group")
+
     user = request.user
     move_info = MoveInfo.objects.filter(group=request.user.group).first()
     
@@ -109,9 +112,16 @@ def account_manage_view(request):
 
 @login_required
 def member_list_view(request):
-    """登録メンバー一覧を表示"""
-    members = CustomUser.objects.exclude(id=request.user.id)  # 自分以外を表示
-    return render(request, 'member_list.html', {'members': members})
+    """登録メンバー一覧を表示（同じグループだけ）"""
+    
+    group = request.user.group
+    
+    if not group:
+        return redirect("create_group")
+    
+    members = CustomUser.objects.filter(group=group)
+    
+    return render(request, "member_list.html", { "members": members,})
 
 
 # --- メンバー招待ページ ---
@@ -173,10 +183,12 @@ def signup_view(request):
             user = form.save(commit=False)
             user.full_name = form.cleaned_data['full_name']
             
-            # invite_codeをユーザーにセット（保存前に）
-            if invite_code:
-                user.invite_code = invite_code
             user.save()
+            
+            # 招待リンク経由 → グループに参加させる
+            if invite:
+                user.group = invite.inviter.group
+                user.save()
             
             # 招待があれば使用済みにする
             if invite:
@@ -444,20 +456,30 @@ def create_group(request):
     """
     グループ作成ビュー
     ログインユーザーを owner として MoveGroup を作成する
+    すでにグループに所属している場合は旧グループを削除して新規作成
     """
+    user = request.user
+    old_group = user.group
+    
     if request.method == "POST":
         form = MoveGroupForm(request.POST)
         if form.is_valid():
-            group = form.save(commit=False)
-            group.owner = request.user  # 作成者を紐づける！
-            group.save()
-
-            # 作成したグループに自分を所属させる
-            request.user.group = group
-            request.user.save()
-
-            return redirect("home")  # 完了後にホームへ（後で変更OK）
+            # ① 新しいグループを作成
+            new_group = form.save(commit=False)
+            new_group.owner = user
+            new_group.save()
+            
+            # ② ユーザーを新グループに所属させる
+            user.group = new_group
+            user.save()
+            
+            # ③ 旧グループがあるなら削除（ただし自分が owner の場合のみ）
+            if old_group and old_group.owner == user:
+                old_group.delete()  # CASCADE で関連データも消える
+                
+            return redirect("home")
+        
     else:
         form = MoveGroupForm()
-
+            
     return render(request, "group_create.html", {"form": form})

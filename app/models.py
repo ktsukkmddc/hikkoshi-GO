@@ -208,8 +208,9 @@ class MoveInfo(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
+        group_name = self.group.name if self.group else "グループ未設定"
         date = self.move_date.strftime("%Y-%m-%d") if self.move_date else "未設定"
-        return f"[{self.group.name}] 引越し日: {date}"
+        return f"[{group_name}] 引越し日: {date}"
     
 
 # ==========================

@@ -2,18 +2,89 @@
 {% load static %}
 
 {% block content %}
-<div class="container mt-5" style="max-width: 500px;">
 
-    <h2 class="mb-4">グループ作成</h2>
+<style>
+/* ---- ページ全体レイアウト ---- */
+.main-content {
+    max-width: 100% !important;
+    padding: 0 20px;
+}
+
+/* 中央寄せの枠 */
+.group-create-wrapper {
+    max-width: 500px;           /* ←インプット幅に直接影響 */
+    margin: 100px auto;
+    text-align: left;           /* ←フォームは左寄せ */
+}
+
+/* タイトル（中央） */
+.group-create-wrapper h2 {
+    text-align: center;
+    margin-bottom: 50px;
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* ラベル */
+.group-create-wrapper label {
+    display: block;        /* ←インプットの上に来る */
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+/* 入力欄 */
+.group-create-wrapper input[type="text"] {
+    width: 100%;            /* ←枠いっぱいに広がる */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    box-sizing: border-box;
+    display: block;         /* ←横並び防止 */
+}
+
+/* ボタン */
+.group-create-wrapper button {
+    display: block;
+    margin: 20px auto 0 auto;   /* 中央寄せ */
+    width: 30%;
+    padding: 10px;
+    background-color: #50e3f6;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    color: #333;
+    cursor: pointer;
+}
+
+.group-create-wrapper button:hover {
+    background-color: #04cde7;
+}
+
+/* main-content のセンタリングを無効化して幅を持たせる */
+.group-create-wrapper {
+    width: 100%;             /* ← 親(main-content)内で最大幅を確保 */
+    max-width: 350px;        /* ← インプット幅をここで調整 */
+    margin: 100px auto;      /* ← 中央寄せ */
+    text-align: left;
+    align-self: center;      /* ← main-content の align-items を上書き */
+}
+
+</style>
+
+<div class="group-create-wrapper">
+    <h2>グループ作成</h2>
 
     <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
+        
+        <label for="id_name">グループ名:</label>
+        <input type="text" name="name" id="id_name" placeholder="例：A引越しチーム">
 
-        <button type="submit" class="btn btn-primary w-100">
-            作成する
-        </button>
+        <button type="submit">作成する</button>
     </form>
-
 </div>
+
 {% endblock %}
