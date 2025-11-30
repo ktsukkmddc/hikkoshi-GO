@@ -483,3 +483,76 @@ def create_group(request):
         form = MoveGroupForm()
             
     return render(request, "group_create.html", {"form": form})
+
+
+@login_required
+def invite_view(request, group_id):
+    # 招待先グループを取得
+    new_group = get_object_or_404(MoveGroup, id=group_id)
+
+    user = request.user
+
+    # すでに同じグループに所属している場合
+    if user.group_id == new_group.id:
+        messages.info(request, "すでにこのグループに所属しています。")
+        return redirect('home')
+
+    # 以前のグループを記録
+    old_group = user.group
+
+    # ① ユーザーのグループを新グループに切り替え
+    user.group = new_group
+    user.save()
+
+    # ② 古いグループ（owner のみ削除処理が必要）
+    if old_group:
+        # owner が抜けた → グループ削除
+        if old_group.owner_id == user.id:
+            old_group.delete()
+
+    messages.success(request, f"「{new_group.name}」に参加しました！")
+    return redirect('home')
+
+
+@login_required
+def send_invite_email(request):
+    """グループ招待メール送信"""
+    user = request.user
+    group = user.group
+
+    if not group:
+        messages.error(request, "先にグループを作成してください。")
+        return redirect("create_group")
+
+    if request.method == "POST":
+        invite_email = request.POST.get("invite_email")
+
+        # 招待リンク生成
+        invite_url = request.build_absolute_uri(
+            reverse("invite_group", args=[group.id])
+        )
+
+        # メール本文
+        subject = "【引越しGO】グループへの招待"
+        message = (
+            f"{user.full_name} さんからグループへの招待が届いています。\n\n"
+            f"以下のリンクをクリックすると参加できます：\n"
+            f"{invite_url}\n\n"
+            "※このメールに心当たりがない場合は無視してください。"
+        )
+
+        try:
+            send_mail(
+                subject=subject,
+                message=message,
+                from_email="noreply@hikkoshi-go.com",
+                recipient_list=[invite_email],
+            )
+            messages.success(request, f"{invite_email} へ招待メールを送信しました！")
+        except Exception as e:
+            messages.error(request, f"メール送信に失敗しました：{e}")
+
+        return redirect("invite_member")
+
+    # GET の場合は招待画面へ
+    return redirect("invite_member")

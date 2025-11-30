@@ -22,7 +22,8 @@ main {
 .account-wrapper h2 {
   font-size: 27px;
   font-weight: bold;
-  margin-bottom: 60px;
+  margin-top: -10px !important;
+  margin-bottom: 30px;
 }
 
 /* ===== 情報ブロック全体の枠 ===== */
@@ -32,7 +33,7 @@ main {
   border: 1px solid #02c0f5;
   border-radius: 10px;
   padding: 20px 25px;
-  margin: 30px auto;
+  margin: 20px auto;
   max-width: 420px;
   background-color: #fff;
 }
@@ -207,7 +208,7 @@ main {
   border: 1px solid #02c0f5;
   border-radius: 10px;
   padding: 30px 25px;
-  margin: 40px auto;
+  margin: 20px auto;
   max-width: 420px;
   background-color: #fff;
   font-size: 12px;
@@ -286,7 +287,7 @@ main {
   .form-group {
     width: 100%;
     max-width: 420px;
-    margin: 30px auto;
+    margin: 15px auto;
     padding: 20px 24px;
     font-size: 15px;
     border-radius: 10px;

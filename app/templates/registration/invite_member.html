@@ -12,7 +12,8 @@
   <h2>メンバー招待</h2>
 
   <div class="invite-content">
-    <h3>招待方法</h3>
+    <h3>新規メンバーの招待（アカウント未登録の方）</h3>
+    <p>このリンクはまだアカウントを持っていない人向けです。</p>
     <p>1. 招待URL発行ボタンをクリックしてリンクを表示します。</p>
     <p>2. リンクを招待するメンバーに共有し、登録してもらってください。</p>
 
@@ -20,6 +21,19 @@
     <input type="text" id="invite-url" readonly placeholder="ここに招待URLが表示されます">
     <button id="copy-btn" class="btn-copy">コピー</button>
     <button type="button" id="email-share-btn" class="btn-share">メールで共有</button>
+  </div>
+
+  <div class="invite-content">
+    <h3>既存メンバーの招待（すでにアカウントがある方）</h3>
+    <p>引越しGOのアカウントを持っているユーザーをグループに招待できます。</p>
+    <p>グループ参加リンクをメールで送信します。</p>
+
+    <form action="{% url 'send_invite_email' %}" method="POST">
+        {% csrf_token %}
+        <label>招待するメールアドレス：</label>
+        <input type="email" name="invite_email" required>
+        <button type="submit">招待メールを送る</button>
+    </form>
   </div>
 </div>
 

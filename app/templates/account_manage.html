@@ -77,6 +77,20 @@
       <a href="{% url 'password_change' %}" class="edit-link">変更する</a>
     </div>
   </div>
+
+  <div class="info-group">
+    <label>所属グループ</label>
+    <div class="info-row">
+      <span>
+        {% if user.group %}
+          {{ user.group.name }}
+        {% else %}
+          未設定
+        {% endif %}
+      </span>
+      <a href="{% url 'create_group' %}" class="edit-link">再作成する</a>
+    </div>
+  </div>
 </div>
 
 <div id="nameModal" class="modal">

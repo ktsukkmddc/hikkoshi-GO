@@ -54,4 +54,8 @@ urlpatterns = [
     
     # === トップはログイン画面へ ===
     path('', lambda request: redirect('login'), name='root_redirect'),
+    
+    # 招待リンク（グループ参加）
+    path('invite/<int:group_id>/', views.invite_view, name='invite_group'),
+    path('invite/send/', views.send_invite_email, name='send_invite_email'),
 ]

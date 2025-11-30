@@ -5,6 +5,34 @@
 
 <style>
 /* ---- ページ全体レイアウト ---- */
+
+.group-notice {
+    max-width: 450px;
+    margin: 0 auto 50px auto;
+    padding: 15px 20px;
+    background: #f0e6ee;
+    border: 1px solid #333;
+    border-radius: 6px;
+    color: #333;
+    font-size: 12px;
+}
+
+.group-notice h4 {
+    margin: 0 0 10px 0;
+    font-size: 13px;
+    font-weight: 300;
+}
+
+.group-notice ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.group-notice li {
+    margin-bottom: 6px;
+    line-height: 1.5;
+}
+
 .main-content {
     max-width: 100% !important;
     padding: 0 20px;
@@ -76,6 +104,16 @@
 
 <div class="group-create-wrapper">
     <h2>グループ作成</h2>
+
+    <div class="group-notice">
+      <h4><グループ再作成について></h4>
+      <ul>
+        <li>グループは 1 人 1 つまでです。</li>
+        <li>新しく作り直すと、あなたは今のグループから抜けます。</li>
+        <li>他のメンバーは自動では移動しません。</li>
+        <li>必要な場合は、再度招待してください。</li>
+      </ul>
+    </div>
 
     <form method="POST">
         {% csrf_token %}
