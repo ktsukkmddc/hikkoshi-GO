@@ -17,6 +17,13 @@ class GroupRequiredMiddleware:
 
     def __call__(self, request):
         user = request.user
+        
+    # ==========================================
+    # 　/admin はミドルウェア対象外
+    # ==========================================
+        if request.path.startswith('/admin'):
+            return self.get_response(request)
+    # ==========================================
 
         # 未ログインはスルー
         if not user.is_authenticated:
