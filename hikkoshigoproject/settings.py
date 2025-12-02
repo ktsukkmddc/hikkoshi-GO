@@ -129,6 +129,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'app', 'static')]
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
@@ -155,7 +157,7 @@ if IS_PRODUCTION:
     EMAIL_USE_TLS = False
     EMAIL_USE_SSL = False
     
-    DEFAULT_FROM_EMAIL = "webapp@ktsukkmddc.pythonanywhere.com"
+    DEFAULT_FROM_EMAIL = "no-reply@ktsukkmddc.pythonanywhere.com"
     
 else:
     #  開発（Mac → SendGrid）
