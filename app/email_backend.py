@@ -5,6 +5,7 @@ from sendgrid.helpers.mail import Mail
 from django.conf import settings
 from django.core.mail.backends.base import BaseEmailBackend
 
+print("=== SendGrid backend is being used ===")
 
 class SendGridAPIEmailBackend(BaseEmailBackend):
     """
