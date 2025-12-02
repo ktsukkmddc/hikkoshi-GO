@@ -15,6 +15,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from datetime import date
 import calendar as pycal
 import uuid, json
+from django.conf import settings
 
 
 # --- ログイン処理 ---
@@ -248,7 +249,7 @@ def change_email_view(request):
         send_mail(
             subject="【引越しGO】メールアドレス確認のお願い",
             message=f"{user.username} さん\n\n以下のリンクをクリックしてメールアドレス変更を完了してください。\n\n{confirm_url}\n\nこのメールに覚えがない場合は無視してください。",
-            from_email="noreply@hikkoshi-go.com",
+            from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[new_email],
         )
 
@@ -545,7 +546,7 @@ def send_invite_email(request):
             send_mail(
                 subject=subject,
                 message=message,
-                from_email="noreply@hikkoshi-go.com",
+                from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[invite_email],
             )
             messages.success(request, f"{invite_email} へ招待メールを送信しました！")

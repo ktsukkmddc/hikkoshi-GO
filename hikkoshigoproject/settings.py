@@ -146,27 +146,16 @@ LOGOUT_REDIRECT_URL = '/login/'      # ログアウト後に戻る先
 
 AUTH_USER_MODEL = 'app.CustomUser'
 
-# 本番/開発 自動切り替えフラグ
-IS_PRODUCTION = os.environ.get("DJANGO_PRODUCTION") == "true"
+# 認証関連の設定
+LOGIN_URL = '/login/'                # 未ログイン時にリダイレクトされる先（デフォルトは /accounts/login/）
+LOGIN_REDIRECT_URL = '/home/'        # ログイン成功後に移動する先
+LOGOUT_REDIRECT_URL = '/login/'      # ログアウト後に戻る先
 
-if IS_PRODUCTION:
-    #  本番（PythonAnywhere 内部SMTP）
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = "localhost"
-    EMAIL_PORT = 25
-    EMAIL_USE_TLS = False
-    EMAIL_USE_SSL = False
-    
-    DEFAULT_FROM_EMAIL = "no-reply@ktsukkmddc.pythonanywhere.com"
-    
-else:
-    #  開発（Mac → SendGrid）
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = "smtp.sendgrid.net"
-    EMAIL_PORT = 587
-    EMAIL_USE_TLS = True
-    
-    EMAIL_HOST_USER = "apikey"
-    EMAIL_HOST_PASSWORD = os.getenv("SENDGRID_API_KEY")
+AUTH_USER_MODEL = 'app.CustomUser'
 
-    DEFAULT_FROM_EMAIL = "hikkoshigo111@gmail.com"
+#  SendGrid API 用メール設定
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+
+EMAIL_BACKEND = "app.email_backend.SendGridAPIEmailBackend"
+
+DEFAULT_FROM_EMAIL = "hikkoshigo111@gmail.com"

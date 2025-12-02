@@ -1,1 +1,12 @@
-Django
+asgiref==3.9.2
+certifi==2025.11.12
+cffi==2.0.0
+cryptography==46.0.3
+Django==5.2.7
+MarkupSafe==3.0.3
+pycparser==2.23
+python-dotenv==1.2.1
+python-http-client==3.3.7
+sendgrid==6.12.5
+sqlparse==0.5.3
+Werkzeug==3.1.4
