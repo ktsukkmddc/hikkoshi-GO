@@ -1,9 +1,11 @@
 import re
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser, Task, MoveGroup
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 
 User = get_user_model()
 
@@ -137,3 +139,26 @@ class MoveGroupForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'})
         }
+        
+        
+class CustomPasswordResetForm(PasswordResetForm):
+
+    def send_mail(self, subject_template_name, email_template_name,
+                  context, from_email, to_email,
+                  html_email_template_name=None):
+
+        # 件名
+        subject = render_to_string(subject_template_name, context)
+        subject = "".join(subject.splitlines())
+
+        # 本文
+        body = render_to_string(email_template_name, context)
+
+        # EmailMessage を使う → SendGrid API が動く
+        email = EmailMessage(
+            subject=subject,
+            body=body,
+            from_email=from_email,
+            to=[to_email]
+        )
+        return email.send()
