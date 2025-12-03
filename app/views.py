@@ -10,7 +10,7 @@ from django.utils.safestring import mark_safe
 from django.db.models import Count
 from .forms import CustomUserCreationForm, TaskForm, MoveGroupForm
 from .models import Invite, Task, CustomUser, Message, MoveInfo, MoveGroup
-from django.core.mail import send_mail
+from django.core.mail import send_mail, BadHeaderError, EmailMessage
 from django.contrib.sites.shortcuts import get_current_site
 from datetime import date
 import calendar as pycal
@@ -245,20 +245,31 @@ def change_email_view(request):
         # 確認メール送信
         current_site = get_current_site(request)
         confirm_url = f"http://{current_site.domain}{reverse('confirm_email', args=[token])}"
-
-        send_mail(
+        
+    try:
+        email = EmailMessage(
             subject="【引越しGO】メールアドレス確認のお願い",
-            message=f"{user.username} さん\n\n以下のリンクをクリックしてメールアドレス変更を完了してください。\n\n{confirm_url}\n\nこのメールに覚えがない場合は無視してください。",
+            body=f"{user.username} さん\n\n以下のリンクをクリックしてメールアドレス変更を完了してください。\n\n{confirm_url}\n\nこのメールに覚えがない場合は無視してください。",
             from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[new_email],
+            to=[new_email],
         )
+        
+        result = email.send(fail_silently=False)
+        
+        if result == 0:
+            raise Exception("SendGrid API が 0 件送信と返しました")
+        
+    except Exception as e:
+        print("メール送信エラー:", e)
+        messages.error(request, f"メール送信に失敗しました: {e}")
+        return redirect("change_email")
 
-        # 確認メール送信（開発中はコンソール出力）
-        print(f"確認メールを {new_email} 宛に送信しました。")
+    # 確認メール送信（開発中はコンソール出力）
+    print(f"確認メールを {new_email} 宛に送信しました。")
 
-        # 成功メッセージを一時保存してリダイレクト
-        messages.success(request, f"{new_email} 宛に確認メールを送信しました。")
-        return redirect("change_email_done")
+    # 成功メッセージを一時保存してリダイレクト
+    messages.success(request, f"{new_email} 宛に確認メールを送信しました。")
+    return redirect("change_email_done")
 
     return render(request, "change_email.html", {"user": user})
 
