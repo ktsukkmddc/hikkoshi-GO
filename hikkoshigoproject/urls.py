@@ -23,12 +23,6 @@ from app.views_custom_auth import CustomPasswordResetView
 from app.forms import CustomPasswordResetForm
      
 urlpatterns = [
-    path("", portfolio_top_view, name="portfolio_top"),
-    path("portfolio/", portfolio_top_view, name="portfolio"),
-    path('admin/', admin.site.urls),
-    #path("accounts/", include("django.contrib.auth.urls")),
-    path('', include('app.urls')),
-    
     # パスワードリセット関連
     path('password_reset/', 
          CustomPasswordResetView.as_view(template_name='password_reset.html', form_class=CustomPasswordResetForm),
@@ -42,6 +36,13 @@ urlpatterns = [
     path('reset/done/', 
          auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'),
          name='password_reset_complete'),
+    
+    path("", portfolio_top_view, name="portfolio_top"),
+    path("portfolio/", portfolio_top_view, name="portfolio"),
+    path('admin/', admin.site.urls),
+    #path("accounts/", include("django.contrib.auth.urls")),
+    
+    path('', include('app.urls')),
     
     # パスワード変更(ログインユーザー用)追加
     path('password_change/',
