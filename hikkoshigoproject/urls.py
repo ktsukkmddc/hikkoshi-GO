@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from app.views import portfolio_top_view
+from app.views_custom_auth import CustomPasswordResetView
      
 urlpatterns = [
     path("", portfolio_top_view, name="portfolio_top"),
@@ -29,7 +30,7 @@ urlpatterns = [
     
     # パスワードリセット関連
     path('password_reset/', 
-         auth_views.PasswordResetView.as_view(template_name='password_reset.html'),
+         CustomPasswordResetView.as_view(template_name='password_reset.html'),
          name='password_reset'),
     path('password_reset_done/', 
          auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'),
