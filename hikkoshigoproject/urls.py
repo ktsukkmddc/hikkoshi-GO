@@ -25,7 +25,7 @@ urlpatterns = [
     path("", portfolio_top_view, name="portfolio_top"),
     path("portfolio/", portfolio_top_view, name="portfolio"),
     path('admin/', admin.site.urls),
-    path("accounts/", include("django.contrib.auth.urls")),
+    #path("accounts/", include("django.contrib.auth.urls")),
     path('', include('app.urls')),
     
     # パスワードリセット関連
