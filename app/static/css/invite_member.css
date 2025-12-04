@@ -143,6 +143,7 @@
   cursor: pointer;
   font-size: 11px;
   transition: background 0.2s;
+  color: #333;
 }
 
 .invite-content form button[type="submit"]:hover {
