@@ -19,7 +19,15 @@
               <input type="date" id="move-date">
           </div>
           <h2>引越しまであと</h2>
-          <p class="countdown"><span id="days-left">10</span>日！</p>
+          <p class="countdown">
+            {% if is_move_date_set %}
+              <span id="days-left">--</span>日！
+            {% else %}
+              <span class="countdown-message">
+                引っ越し日を登録してください
+              </span>
+            {% endif %}
+          </p>
       </section>
 
       <section class="progress-section">
@@ -42,24 +50,20 @@
       const dateInput = document.getElementById("move-date");
       const daysLeftDisplay = document.getElementById("days-left");
 
+      if (daysLeftDisplay) {
+
       const serverMoveDate = "{{ move_date|date:'Y-m-d'|default:'' }}";
 
       // ページ読み込み時に保存された日付を反映
       window.addEventListener("load", () => {
-          const savedDate = localStorage.getItem("moveDate");
-
           if (serverMoveDate) {
               dateInput.value = serverMoveDate;
               updateCountdown();
-          } else if (savedDate) {  
-              dateInput.value = savedDate;
-              updateCountdown();  // 差を再計算して「あと◯日」に反映
-          }
+          } 
       });
 
         // 日付変更時に保存・再計算
         dateInput.addEventListener("change", () => {
-            localStorage.setItem("moveDate", dateInput.value);  // 選んだ日付をブラウザ内に保存
             updateCountdown();  // 差を再計算して「あと◯日」に反映
       });
 
@@ -77,5 +81,6 @@
                 daysLeftDisplay.textContent = diff;
            }
       }
+    }
   </script>
 {% endblock %}

@@ -53,10 +53,13 @@ def home_view(request):
         progress_rate = 0
     else:
         progress_rate = int((completed_tasks / total_tasks) * 100)
+        
+    is_move_date_set = move_date is not None
     
     return render(request, 'home.html', {
         "move_date": move_date,
         "progress_rate": progress_rate,
+        "is_move_date_set": is_move_date_set,
     })
 
 

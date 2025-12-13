@@ -99,6 +99,8 @@
 
   .main-image {
     width: 100%;
+    max-width: 30vh;
+    object-fit: contain;
     border-radius: 8px;
     border: 1px solid #ddd;
   }

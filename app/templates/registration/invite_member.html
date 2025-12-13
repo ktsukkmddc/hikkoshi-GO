@@ -50,9 +50,6 @@ document.getElementById("generate-btn").addEventListener("click", function() {
     if (data.invite_url) {
       const input = document.getElementById("invite-url");
       input.value = data.invite_url;
-      input.select();
-      document.execCommand("copy"); // PCでは自動コピー
-      alert("招待URLをコピーしました!");
     } else {
       alert("URLの生成に失敗しました。");
     }

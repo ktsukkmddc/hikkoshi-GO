@@ -34,10 +34,11 @@
         <input type="text" name="custom_task" id="custom_task" placeholder="任意のタスク入力">
       </div>
 
-      <!-- タスクエラー表示位置 -->
-      {% if form.non_field_errors %}
-        <p class="error-msg">{{ form.non_field_errors.0 }}</p>
+      {% for error in form.non_field_errors %}
+      {% if "選択式" in error %}
+        <p class="error-msg">{{ error }}</p>
       {% endif %}
+    {% endfor %}
     </div>
 
   <!-- ▼ 日付 -->
@@ -87,6 +88,12 @@
       {% if form.end_time.errors %}
         <p class="error">{{ form.end_time.errors.0 }}</p>
       {% endif %}
+
+      {% for error in form.non_field_errors %}
+        {% if "終了時刻" in error %}
+          <p class="error-msg">{{ error }}</p>
+        {% endif %}
+      {% endfor %}
     </div>
 
     <!-- ▼ メモ -->

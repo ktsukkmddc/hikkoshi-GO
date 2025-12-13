@@ -86,6 +86,12 @@ body {
   letter-spacing: 1px;
 }
 
+.countdown-message {
+  font-size: 16px;
+  font-weight: 300;
+  color: #ff5555;
+}
+
 /* ===== 達成度バー ===== */
 .progress-area {
   text-align: center;

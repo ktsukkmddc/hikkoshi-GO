@@ -78,19 +78,17 @@ class TaskForm(forms.ModelForm):
     
     date = forms.DateField(
         required=True,
-        error_messages={'required': '日付を入力してください。'},
+        error_messages={'required': '日付を入力してください'},
         widget=forms.DateInput(attrs={'type': 'date'})
     )
     
     start_time = forms.TimeField(
-        required=True,
-        error_messages={'required': '開始時間を入力してください。'},
+        required=False,
         widget=forms.TimeInput(attrs={'type': 'time'})
     )
     
     end_time = forms.TimeField(
-        required=True,
-        error_messages={'required': '終了時間を入力してください。'},
+        required=False,
         widget=forms.TimeInput(attrs={'type': 'time'})
     )
     
@@ -114,20 +112,29 @@ class TaskForm(forms.ModelForm):
         task_mode = self.data.get("task_mode")  # ラジオボタン値
         task_name = cleaned_data.get("task_name")
         custom_task = cleaned_data.get("custom_task")
+        
+        start_time = cleaned_data.get("start_time")
+        end_time = cleaned_data.get("end_time")
 
         # どちらも未選択
         if not task_mode:
-            raise forms.ValidationError("「選択式」か「自由入力」を選んでください。")
+            raise forms.ValidationError("「選択式」か「自由入力」を選んでください")
 
         # 選択式の場合 → セレクトが必須
         if task_mode == "select":
             if not task_name:
-                self.add_error('task_name', "タスクを選択してください。")
+                self.add_error('task_name', "タスクを選択してください")
 
         # 自由入力の場合 → custom_task が必須
         if task_mode == "custom":
             if not custom_task:
-                self.add_error('custom_task', "タスクを入力してください。")
+                self.add_error('custom_task', "タスクを入力してください")
+                
+        if start_time and end_time:
+            if end_time <= start_time:
+                raise forms.ValidationError(
+                    "終了時刻は開始時刻より後の時間を指定してください"
+            )
 
         return cleaned_data
     

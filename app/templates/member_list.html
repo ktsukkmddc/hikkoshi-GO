@@ -10,54 +10,19 @@
 <div class="member-wrapper">
   <h2>登録メンバー</h2>
 
+  <p class="note">
+  ※ メッセージの送信は「メッセージ」画面から行います。
+  </p>
+
   <div class="member-list">
     {% for member in members %}
-    <div class="member-card" data-member="{{ member.full_name }}" data-email="{{ member.email }}">
+    <div class="member-card">
       <p>名前：{{ member.full_name|default:"未設定" }}</p>
       <p>メールアドレス：{{ member.email }}</p>
     </div>
     {% empty %}
-    <p>登録メンバーはいません。</p>
+      <p>登録メンバーはいません。</p>
     {% endfor %}
   </div>
-<div>
-
-<!-- ===== モーダル ===== -->
-<div id="messageModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h3>宛先：<span id="targetName"></span></h3>
-
-    <form id="messageForm" method="POST" action="{% url 'save_message' %}">
-      {% csrf_token %}
-      <input type="hidden" name="receiver_email" id="receiverEmail">
-      <textarea name="content" id="messageText" rows="4" placeholder="メッセージを入力してください" required></textarea>
-      <button type="submit" id="sendMessageBtn">登録</button>
-    </form>
-  </div>
 </div>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const modal = document.getElementById("messageModal");
-  const closeBtn = document.querySelector(".close");
-  const targetName = document.getElementById("targetName");
-  const receiverEmail = document.getElementById("receiverEmail");
-
-  // --- メンバークリックでモーダルを開く ---
-  document.querySelectorAll(".member-card").forEach(card => {
-    card.addEventListener("click", () => {
-      const name = card.dataset.member;
-      const email = card.dataset.email;
-      targetName.textContent = name;
-      receiverEmail.value = email;
-      modal.style.display = "flex";
-    });
-  });
-
-  // --- モーダルを閉じる処理 ---
-  closeBtn.onclick = () => modal.style.display = "none";
-  window.onclick = e => { if (e.target == modal) modal.style.display = "none"; };
-});
-</script>
 {% endblock %}
