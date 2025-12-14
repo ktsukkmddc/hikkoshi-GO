@@ -45,6 +45,15 @@ class CustomUser(AbstractUser):
     full_name = models.CharField(max_length=50, blank=True, null=True)  # フルネーム（漢字・かな対応）
     move_date = models.DateField(null=True, blank=True)
     
+    move_info = models.ForeignKey(
+        "MoveInfo",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="users"
+    )
+    
+    # ===== 旧 MoveGroup 設計（削除予定） =====
     group = models.ForeignKey(
         "MoveGroup",
         on_delete=models.SET_NULL,
@@ -74,10 +83,11 @@ class CustomUser(AbstractUser):
 class Invite(models.Model):
     """招待リンク管理モデル"""
     code = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
-    inviter = models.ForeignKey(
-        settings.AUTH_USER_MODEL,  # 誰が招待したか
+    
+    move_info = models.ForeignKey(
+        "MoveInfo",
         on_delete=models.CASCADE,
-        related_name='sent_invites'
+        related_name='invites'
     )
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField(blank=True, null=True)
@@ -94,8 +104,7 @@ class Invite(models.Model):
         return timezone.now() > self.expires_at
 
     def __str__(self):
-        inviter_email = self.inviter.email if self.inviter else "Unknown"
-        return f"{self.code}（by {self.inviter.email}）"
+        return f"Invite {self.code} (MoveInfo id={self.move_info_id})"
  
     
 # ==========================
@@ -115,11 +124,9 @@ class Message(models.Model):
     content = models.TextField(max_length=500)
     created_at = models.DateTimeField(default=timezone.now)
     
-    group = models.ForeignKey(
-        'MoveGroup',
+    move_info = models.ForeignKey(
+        'MoveInfo',
         on_delete=models.CASCADE,
-        null=True,
-        blank=True,
         related_name='messages'
     )
 
@@ -155,22 +162,19 @@ class Task(models.Model):
         ('ガス開栓立ち会い', 'ガス開栓立ち会い'),
     ]
     
-    group = models.ForeignKey(
-        'MoveGroup',
+    move_info = models.ForeignKey(
+        'MoveInfo',
         on_delete=models.CASCADE,
-        null=True,
-        blank=True,
         related_name='tasks'
     )
     
     created_by = models.ForeignKey(
         'CustomUser',
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="tasks"
+        related_name="created_tasks"
     )
-    #User, on_delete=models.SET_NULL, null=True, blank=True, related_name="tasks"
     
     task_name = models.CharField(max_length=100, blank=True)
     custom_task = models.CharField(max_length=100, blank=True, null=True)  # 自由入力
@@ -189,15 +193,13 @@ class Task(models.Model):
 # 引越し情報（全ユーザー共通）
 # ==========================
 class MoveInfo(models.Model):
-    group = models.OneToOneField(
-        'MoveGroup',
+    owner = models.ForeignKey(
+        'CustomUser',
         on_delete=models.CASCADE,
-        related_name='move_info',
-        null=True,
-        blank=True
+        related_name='owned_moveinfos',
     )
     
-    move_date = models.DateField(null=True, blank=True)  # 共通の引越し日
+    move_date = models.DateField(null=True, blank=True)
     updated_by = models.ForeignKey(
         'CustomUser',
         on_delete=models.SET_NULL,
@@ -208,9 +210,9 @@ class MoveInfo(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        group_name = self.group.name if self.group else "グループ未設定"
+        owner_name = self.owner.full_name if self.owner else "未設定"
         date = self.move_date.strftime("%Y-%m-%d") if self.move_date else "未設定"
-        return f"[{group_name}] 引越し日: {date}"
+        return f"[管理者: {owner_name}] 引越し日: {date}"
     
 
 # ==========================

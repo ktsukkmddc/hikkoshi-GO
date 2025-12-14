@@ -13,7 +13,7 @@ class CustomUserAdmin(UserAdmin):
     
     # username を使わない構成に修正
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'full_name', 'invite_code', 'group')}),
+        (None, {'fields': ('email', 'password', 'full_name', 'invite_code', 'move_info')}),
         ('Permissions', {'fields': ('is_staff', 'is_active')}),
     )
     
