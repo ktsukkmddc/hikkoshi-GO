@@ -13,7 +13,11 @@
 
   <div class="mypage-buttons">
     <a href="{% url 'account_manage' %}" class="btn">アカウント管理</a>
-    <a href="{% url 'invite_member' %}" class="btn">メンバー招待</a>
+
+    {% if request.user.move_info and request.user.move_info.owner == request.user %}
+        <a href="{% url 'invite_member' %}" class="btn">メンバー招待</a>
+    {% endif %}
+
     <a href="{% url 'member_list' %}" class="btn">登録メンバー照会</a>
     <button id="logout-btn" class="btn logout">ログアウト</button>
   </div>

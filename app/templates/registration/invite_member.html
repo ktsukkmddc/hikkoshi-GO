@@ -11,8 +11,6 @@
 <div class="invite-wrapper">
   <h2>メンバー招待</h2>
 
-  {% if request.user == request.user.move_info.owner %}
-
   <!-- ▼ owner 専用 -->
   <div class="invite-content">
     <h3>新規メンバーの招待（アカウント未登録の方）</h3>
@@ -25,22 +23,6 @@
     <button id="copy-btn" class="btn-copy">コピー</button>
     <button type="button" id="email-share-btn" class="btn-share">メールで共有</button>
   </div>
-
-  {% else %}
-
-  <!-- ▼ 招待された人用 -->
-  <div class="invite-content">
-    <p class="info">
-      この引越しは
-      <strong>{{ request.user.move_info.owner.full_name }}</strong>
-      さんが管理しています。
-    </p>
-    <p class="note">
-      招待リンクの発行は、引越しを最初に登録した人のみが行えます。
-    </p>
-  </div>
-
-  {% endif %}
 </div>
 
 <script>

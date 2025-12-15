@@ -39,15 +39,11 @@ def login_view(request):
 def home_view(request):
     user = request.user
     
-    # ユーザーが MoveInfo に紐づいていない場合（＝まだ招待されていない等）
-    if not user.move_info:
-        return redirect("invite_member")  # or ホーム用の案内ページ
+    move_info = user.move_info if user.move_info else None
+    move_date = move_info.move_date if move_info else None
     
-    move_info = user.move_info
-    move_date = move_info.move_date
-    
-    total_tasks = Task.objects.filter(move_info=move_info).count()
-    completed_tasks = Task.objects.filter(move_info=move_info, is_completed=True).count() # 完了済みタスク数
+    total_tasks = Task.objects.filter(move_info=move_info).count() if move_info else 0
+    completed_tasks = Task.objects.filter(move_info=move_info, is_completed=True).count() if move_info else 0
     
     # タスクが1件もない場合は0%にする
     if total_tasks == 0:
@@ -101,10 +97,10 @@ def account_manage_view(request):
         user.save()
         
         if move_date:
-            move_info.move_date = move_date
-            move_info.updated_by = user
-            move_info.save()
-        
+            request.POST = request.POST.copy()
+            request.POST["move_date"] = move_date
+            return set_move_date_view(request)
+
         messages.success(request, "アカウント情報を更新しました。")
         return redirect("account_manage")
     
@@ -132,12 +128,17 @@ def member_list_view(request):
 @login_required
 def invite_member_view(request):
     user = request.user
+
+    # MoveInfo がない → homeへ
     if not user.move_info:
         return redirect("home")
     
-    return render(request, 'registration/invite_member.html', {
-        "is_owner": user.move_info.owner == user
-    })
+    # owner 以外 → homeへ
+    if user.move_info.owner != user:
+        return redirect("home")
+    
+    # owner のみ到達できる
+    return render(request, 'registration/invite_member.html')
 
 
 # --- 招待URL生成（有効期限付き・一度限り） ---
@@ -479,3 +480,41 @@ def message_list_view(request):
 
 def portfolio_top_view(request):
     return render(request, "portfolio_top.html")
+
+
+@login_required
+def set_move_date_view(request):
+    """
+    引越し日を設定する共通View
+    - move_info がなければ作成
+    - あれば更新
+    """
+    if request.method != "POST":
+        return JsonResponse({"error": "POST only"}, status=405)
+
+    user = request.user
+    move_date = request.POST.get("move_date")
+
+    if not move_date:
+        return JsonResponse({"error": "move_date is required"}, status=400)
+
+    # move_info がない場合は新規作成
+    if user.move_info is None:
+        move_info = MoveInfo.objects.create(
+            owner=user,
+            move_date=move_date,
+            updated_by=user,
+        )
+        user.move_info = move_info
+        user.save(update_fields=["move_info"])
+
+    # すでにある場合は更新
+    else:
+        user.move_info.move_date = move_date
+        user.move_info.updated_by = user
+        user.move_info.save(update_fields=["move_date", "updated_by"])
+
+    return JsonResponse({
+        "status": "ok",
+        "move_date": move_date
+    })

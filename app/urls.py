@@ -52,4 +52,7 @@ urlpatterns = [
     
     # === トップはログイン画面へ ===
     path('', lambda request: redirect('login'), name='root_redirect'),
+    
+    # === ホーム画面の日付作成でmoveinfo作成 ===
+    path("set-move-date/", views.set_move_date_view, name="set_move_date"),
 ]

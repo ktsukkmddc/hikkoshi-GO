@@ -1,7 +1,7 @@
 # app/admin.py
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, Invite, Message, MoveInfo, Task, MoveGroup
+from .models import CustomUser, Invite, Message, MoveInfo, Task
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
@@ -20,11 +20,11 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'full_name', 'password1', 'password2', 'is_staff', 'is_active', 'group')}),
+            'fields': ('email', 'full_name', 'password1', 'password2', 'is_staff', 'is_active')}),
     )
 
 admin.site.register(CustomUser, CustomUserAdmin)
-admin.site.register(MoveGroup)
+#admin.site.register(MoveGroup)
 
 @admin.register(Invite)
 class InviteAdmin(admin.ModelAdmin):
