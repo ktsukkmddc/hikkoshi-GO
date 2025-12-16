@@ -49,24 +49,21 @@
   <script>
       const dateInput = document.getElementById("move-date");
       const daysLeftDisplay = document.getElementById("days-left");
-
-      if (daysLeftDisplay) {
-
       const serverMoveDate = "{{ move_date|date:'Y-m-d'|default:'' }}";
 
       // ページ読み込み時に保存された日付を反映
       window.addEventListener("load", () => {
-          if (serverMoveDate) {
-              dateInput.value = serverMoveDate;
-              updateCountdown();
-          } 
+        if (serverMoveDate && dateInput) {
+          dateInput.value = serverMoveDate;
+          updateCountdown();
+        } 
       });
 
-        // 日付変更時に保存・再計算
-        dateInput.addEventListener("change", () => {
+        // 日付変更時：保存してリロード
+        if (dateInput) {
+          dateInput.addEventListener("change", () => {
             if (!dateInput.value) return;
-            updateCountdown();  // 表示更新
-
+                
             fetch("{% url 'set_move_date' %}", {
               method: "POST",
               headers: {
@@ -79,18 +76,22 @@
             })
             .then(res => res.json())
             .then(data => {
-              if (data.status !== "ok") {
+              if (data.status === "ok") {
+                location.reload();
+              } else {
                 alert("引越し日の保存に失敗しました");
               }
             });
         });
-
+       }
 
         function updateCountdown() {
-            const moveDate = new Date(dateInput.value);
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);  // 時間をリセット
-            const diff = Math.ceil((moveDate - today) / (1000 * 60 * 60 * 24));
+          if (!daysLeftDisplay || !dateInput.value) return;
+
+          const moveDate = new Date(dateInput.value);
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);  // 時間をリセット
+          const diff = Math.ceil((moveDate - today) / (1000 * 60 * 60 * 24));
 
            if (isNaN(diff)) {
                 daysLeftDisplay.textContent = "？";
@@ -100,6 +101,5 @@
                 daysLeftDisplay.textContent = diff;
            }
       }
-    }
   </script>
 {% endblock %}

@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser, Task, MoveGroup
+from .models import CustomUser, Task
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 
@@ -137,15 +137,6 @@ class TaskForm(forms.ModelForm):
             )
 
         return cleaned_data
-    
-
-class MoveGroupForm(forms.ModelForm):
-    class Meta:
-        model = MoveGroup
-        fields = ['name']
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'})
-        }
         
         
 class CustomPasswordResetForm(PasswordResetForm):

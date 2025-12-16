@@ -74,11 +74,8 @@ def mypage_view(request):
 def account_manage_view(request):
     """アカウント管理画面（名前・メール・引越し予定日を編集）"""
     user = request.user
-    
-    if not user.move_info:
-        return redirect("invite_member")
 
-    move_info = user.move_info # MoveGroup 削除予定
+    move_info = user.move_info
     
     if request.method == "POST" and request.headers.get("x-requested-with") == "XMLHttpRequest":
         full_name = request.POST.get("full_name", "").strip()
@@ -97,16 +94,25 @@ def account_manage_view(request):
         user.save()
         
         if move_date:
-            request.POST = request.POST.copy()
-            request.POST["move_date"] = move_date
-            return set_move_date_view(request)
+            if not user.move_info:
+                move_info = MoveInfo.objects.create(
+                    owner=user,
+                    move_date=move_date,
+                    updated_by=user,
+                )
+                user.move_info = move_info
+                user.save(update_fields=["move_info"])
+            else:
+                user.move_info.move_date = move_date
+                user.move_info.updated_by = user
+                user.move_info.save(update_fields=["move_date", "updated_by"])
 
         messages.success(request, "アカウント情報を更新しました。")
         return redirect("account_manage")
     
     return render(request, 'account_manage.html', {
         "user": user,
-        "move_date": move_info.move_date
+        "move_date": move_info.move_date if move_info else None
         })
 
 
@@ -199,15 +205,14 @@ def signup_view(request):
             user = form.save(commit=False)
             user.full_name = form.cleaned_data['full_name']
             
-            # 招待コード必須（今回は invite 経由登録のみ想定）
-            if not invite:
-                return render(request, 'registration/invite_invalid.html')
+            if invite:
+                user.move_info = invite.move_info
             
-            user.move_info = invite.move_info
             user.save()
             
-            invite.is_used = True
-            invite.save(update_fields=['is_used'])
+            if invite:
+                invite.is_used = True
+                invite.save(update_fields=['is_used'])
             
             login(request, user)
             return redirect('home')    
