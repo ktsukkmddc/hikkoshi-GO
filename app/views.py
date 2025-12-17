@@ -309,7 +309,7 @@ def task_create_view(request):
     user = request.user
     
     if not user.move_info:
-        return redirect("invite_member")
+        return redirect("home")
     
     if request.method == 'POST':
         form = TaskForm(request.POST)
@@ -342,11 +342,12 @@ def task_create_view(request):
 def task_list_view(request):
     user = request.user
     
-    if not user.move_info:
-        return redirect("invite_member")
-    tasks = Task.objects.filter(move_info=user.move_info).order_by("date")
+    if user.move_info:
+        tasks = Task.objects.filter(move_info=user.move_info).order_by("date")
+    else:
+        tasks = Task.objects.none()
     
-    return render(request, 'task_list.html', {'tasks': tasks})
+    return render(request, 'task_list.html', {'tasks': tasks, 'has_move_info': bool(user.move_info)})
 
 
 @login_required

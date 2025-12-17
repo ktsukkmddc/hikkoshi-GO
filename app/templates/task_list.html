@@ -11,7 +11,11 @@
 <div class="task-list-wrapper">
   <div class="task-header">
     <h2>タスク一覧</h2>
-    <button class="new-task-btn" onclick="location.href='/task/create/'">新規登録</button>
+    {% if request.user.move_info %}
+        <a href="{% url 'task_create' %}" class="new-task-btn">新規登録</a>
+    {% else %}
+      <a href="{% url 'home' %}" class="new-task-btn">新規登録</a>
+    {% endif %}
   </div>
 
   <div class="task-scroll-area">

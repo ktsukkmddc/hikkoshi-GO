@@ -17,7 +17,11 @@
         <button type="submit">検索</button>
     </form>
 
-    <a href="{% url 'message_register' %}" class="btn-new-message">新規登録</a>
+    {% if request.user.move_info %}
+      <a href="{% url 'message_register' %}" class="btn-new-message">新規登録</a>
+    {% else %}
+      <a href="{% url 'home' %}" class="btn-new-message">新規登録</a>
+    {% endif %}
   </div>
 
   <!-- メッセージ一覧 -->
