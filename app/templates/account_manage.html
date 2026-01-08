@@ -12,7 +12,7 @@
   <h2>アカウント管理</h2>
 
   <div class="info-group">
-    <label>名前（フルネーム）</label>
+    <label>名前</label>
     <div class="info-row">
       <span id="display-fullname">
         {% if user.full_name and user.full_name != 'None' %}
@@ -52,11 +52,11 @@
           name="move_date"
           value="{{ move_date|date:'Y-m-d' }}"
         >
-
-        <p class="auto-save-note">
-          ※入力内容は自動的に保存されます
-        </p>
       </div>
+
+      <p class="auto-save-note">
+          ※入力内容は自動的に保存されます
+      </p>
     </div>
 
   <!-- カレンダーモーダル -->

@@ -114,7 +114,7 @@ body {
 }
 
 .progress-bar {
-  background: linear-gradient(to right, #f9dede, #d47b7b);
+  background: linear-gradient(to right, #efeeee, #898989);
   height: 22px;
   border-radius: 15px;
   overflow: hidden;
@@ -124,7 +124,7 @@ body {
 
 .progress-section .progress{
   height: 100%;
-  background: linear-gradient(to right, #6fe7dd, #3498db);
+  background: linear-gradient(to right, #f9dfd8, #f65656);
   border-radius: 15px;
   transition: width 0.4s ease-in-out; 
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -215,7 +215,7 @@ body {
   }
 
   .progress-bar {
-    background: linear-gradient(to right, #f9dede, #d47b7b);  /* ← PCと同じ */;
+    background: linear-gradient(to right, #efeeee, #898989);  /* ← PCと同じ */;
     height: 20px;
     border-radius: 12px;
     overflow: hidden;

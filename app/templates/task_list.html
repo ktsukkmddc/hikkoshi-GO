@@ -27,10 +27,24 @@
 
           <!-- タスクカード -->
           <div class="task-card {% if task.is_completed %}completed{% endif %}"
-               onclick="openModal('{{ task.id }}', '{{ task.custom_task|default:task.task_name }}', '{{ task.date|date:'Y年n月j日' }}', '{{ task.start_time }}〜{{ task.end_time }}', '{{ task.memo|default:'（なし）' }}')">
+               onclick="openModal(
+               '{{ task.id }}',
+               '{{ task.custom_task|default:task.task_name }}',
+               '{{ task.date|date:'Y年n月j日' }}',
+               '{% if task.start_time and task.end_time %}{{ task.start_time }}〜{{ task.end_time }}{% endif %}',
+               '{% if task.memo %}{{ task.memo }}{% endif %}'
+               )">
             <p><strong>{{ task.custom_task|default:task.task_name }}</strong></p>
-            <p>{{ task.date|date:"Y年n月j日" }}　{{ task.start_time }}〜{{ task.end_time }}</p>
-            <p>{{ task.memo|default:"（なし）" }}</p>
+            <p>
+              {{ task.date|date:"Y年n月j日" }}
+              {% if task.start_time and task.end_time %}
+                {{ task.start_time }}〜{{ task.end_time }}
+              {% endif %}
+            </p>
+
+            {% if task.memo %}
+              <p>{{ task.memo }}</p>
+            {% endif %}
           </div>
 
           <!-- 削除ボタン（カードの外） -->
