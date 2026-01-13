@@ -59,10 +59,10 @@
   font-size: 14px;
 }
 
-.member-card:hover {
+/*.member-card:hover {
   transform: scale(1.02);
   background-color: #f0e6ee;
-}
+}*/
 
 /* ===== スマホ対応（768px以下） ===== */
 @media screen and (max-width: 768px) {

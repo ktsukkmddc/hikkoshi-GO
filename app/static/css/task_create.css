@@ -24,6 +24,12 @@ h2 {
   margin-left: 25px;
 }
 
+.required {
+  color: #e53935;   /* 赤 */
+  font-size: 12px;
+  margin-left: 4px;
+}
+
 input[type="text"],
 input[type="date"],
 input[type="time"],
@@ -113,6 +119,11 @@ textarea {
 
 .btn-submit:hover {
   background: #04cde7;
+}
+
+.required-note {
+  font-size: 14px;
+  color: #e53935;
 }
 
 /* ===== カレンダーモーダル ===== */

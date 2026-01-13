@@ -15,7 +15,7 @@
     {% csrf_token %}
 
     <div class="form-group">
-      <label>タスク</label>
+      <label>タスク <span class="required">※</span></label>
 
       <!-- 選択式タスク -->
       <div class="task-row">
@@ -43,7 +43,7 @@
 
   <!-- ▼ 日付 -->
   <div class="form-group" id="date_field_group">
-    <label for="task_date">日付</label>
+    <label for="task_date">日付 <span class="required">※</span></label>
     <input 
       type="text" 
       id="task_date_display" 
@@ -101,6 +101,8 @@
       <label>メモ</label>
       <textarea name="memo" rows="3" placeholder="メモを入力してください"></textarea>
     </div>
+
+    <p class="required-note">※ は必須項目です</p>
 
     <!-- ▼ 登録ボタン -->
     <div class="form-buttons">

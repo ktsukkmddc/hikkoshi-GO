@@ -193,6 +193,12 @@ body {
   margin: 8px 0;
   font-size: 14px;
 }
+
+/* モーダル内のメモ（改行対応） */
+#modal-task-memo {
+  white-space: pre-wrap;
+}
+
 .modal-buttons {
   margin-top: 20px;
   display: flex;
@@ -228,6 +234,11 @@ body {
   background-color: #F2F2F2;
   color: #333;
   border: 1px solid #ccc;
+}
+
+.task-memo {
+  white-space: pre-wrap;
+  display: block;
 }
 
 /* ===== スマホ対応（768px以下） ===== */
