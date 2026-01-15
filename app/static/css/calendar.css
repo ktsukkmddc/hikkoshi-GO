@@ -35,11 +35,11 @@
   background-color: #50e3f6;
   color: #333;
   border: 1px solid #ccc;
-  padding: 6px 12px;
+  padding: 6px 15px;
   border-radius: 6px;
   text-decoration: none;
-  transition: 0.2s;
-  font-size: 13px;
+  transition: background-color 0.2s;
+  font-size: 16px;
   margin-top: 60px;
 }
 
