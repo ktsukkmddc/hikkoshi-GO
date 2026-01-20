@@ -51,7 +51,13 @@
           <button class="delete-btn" data-id="{{ task.id }}">削除</button>
         </div>
       {% empty %}
-        <p>まだタスクが登録されていません。</p>
+        {% if not request.user.move_info %}
+          <p class="need-moveinfo">
+            <span class="need-moveinfo-emphasis">タスクを使うには、先にホーム画面で引越し日を登録してください。</span>
+          </p>
+        {% else %}
+          <p>まだタスクはありません。</p>
+        {% endif %}
       {% endfor %}
     </div>
   </div>

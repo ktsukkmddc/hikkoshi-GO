@@ -41,27 +41,31 @@ class CustomUserCreationForm(UserCreationForm):
     
     # パスワードのバリデーションを追加    
     def clean_password1(self):
-        password = self.cleaned_data.get("password1")
+        password = self.cleaned_data.get("password1") or ""
+        errors = []
         
         # 10文字以上
         if len(password) < 10:
-            raise forms.ValidationError("パスワードは10文字以上で入力してください。")
+            errors.append("パスワードは10文字以上で入力してください。")
         
         # 大文字
         if not re.search(r"[A-Z]", password):
-            raise forms.ValidationError("パスワードに大文字を含めてください。")
+            errors.append("パスワードに大文字を含めてください。")
         
         # 小文字
         if not re.search(r"[a-z]", password):
-            raise forms.ValidationError("パスワードに小文字を含めてください。")
+            errors.append("パスワードに小文字を含めてください。")
         
         # 数字
         if not re.search(r"\d", password):
-            raise forms.ValidationError("パスワードに数字を含めてください。")
+            errors.append("パスワードに数字を含めてください。")
         
         # 記号
         if not re.search(r"[!%@$#&]", password):
-            raise forms.ValidationError("パスワードに記号（!, %, @, #, $, &）を含めてください。")
+            errors.append("パスワードに記号（!, %, @, #, $, &）を含めてください。")
+            
+        if errors:
+            raise forms.ValidationError(errors)
         
         return password
             

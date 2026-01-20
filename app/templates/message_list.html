@@ -38,7 +38,13 @@
       {% endfor %}
     </div>
   {% else %}
-    <p class="no-message">まだメッセージはありません。</p>
+    {% if not request.user.move_info %}
+      <p class="need-moveinfo">
+        <span class="need-moveinfo-emphasis">メッセージを使うには、先にホーム画面で引越し日を登録してください。</span>
+      </p>
+    {% else %}
+      <p class="no-message">まだメッセージはありません。</p>
+    {% endif %}
   {% endif %}
 </div>
 {% endblock %}

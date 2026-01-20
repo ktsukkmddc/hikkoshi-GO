@@ -82,6 +82,11 @@
   background-color: #d3d3d3;
 }
 
+.need-moveinfo-emphasis {
+  color: #e74c3c;   /* 赤系（注意喚起） */
+  font-weight: bold;
+}
+
 /* ===== カード表示 ===== */
 .message-cards {
   display: flex;
