@@ -15,7 +15,7 @@
     {% csrf_token %}
 
     <div class="form-group">
-      <label>タスク</label>
+      <label>タスク <span class="required">※</span></label>
 
       <!-- 選択式タスク -->
       <div class="task-row">
@@ -49,38 +49,22 @@
       {% endif %}
     </div>
 
-    <!-- ▼ 日付 -->
-  <div class="form-group" id="date_field_group">
-    <label for="task_date">日付</label>
-    <input 
-      type="text" 
-      id="task_date_display" 
-      placeholder="クリックして日付を選択" 
-      readonly
-    >
-    <input 
-      type="hidden" 
-      id="task_date" 
-      name="date"
-      value="{{ form.instance.date|date:'Y-m-d' }}"
-    >
+      <!-- ▼ 日付 -->
+    <div class="form-group" id="date_field_group">
+      <label for="id_date">日付 <span class="required">※</span></label>
 
-  {% if form.date.errors %}
-    <p class="error">{{ form.date.errors.0 }}</p>
-  {% endif %}
-</div>
+      <input
+        type="date"
+        id="id_date"
+        name="date"
+        value="{% if request.POST.date %}{{ request.POST.date }}{% else %}{{ form.instance.date|date:'Y-m-d' }}{% endif %}"
+        required
+      >
 
-<!-- ▼ カレンダーモーダル -->
-<div id="calendarModal" class="modal">
-  <div class="modal-content calendar-content">
-    <h3>日付を選択してください</h3>
-    <input type="date" id="calendarInput">
-    <div class="modal-buttons">
-      <button type="button" id="selectDate" class="btn-save">決定</button>
-      <button type="button" id="cancelCalendar" class="btn-cancel">キャンセル</button>
+      {% if form.date.errors %}
+        <p class="error">{{ form.date.errors.0 }}</p>
+      {% endif %}
     </div>
-  </div>
-</div>
 
     <!-- ▼ 時間 -->
     <div class="form-group" id="time_field_group">
@@ -108,6 +92,8 @@
       <label>メモ</label>
       <textarea name="memo" rows="3" placeholder="メモを入力してください">{{ form.instance.memo }}</textarea>
     </div>
+
+    <p class="required-note">※ は必須項目です</p>
 
     <!-- ▼ 登録ボタン -->
     <div class="form-buttons">

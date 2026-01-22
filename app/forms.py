@@ -124,21 +124,15 @@ class TaskForm(forms.ModelForm):
         if not task_mode:
             raise forms.ValidationError("「選択式」か「自由入力」を選んでください")
 
-        # 選択式の場合 → セレクトが必須
-        if task_mode == "select":
-            if not task_name:
-                self.add_error('task_name', "タスクを選択してください")
-
-        # 自由入力の場合 → custom_task が必須
-        if task_mode == "custom":
-            if not custom_task:
-                self.add_error('custom_task', "タスクを入力してください")
+        # ★タスク未入力を1つのエラーにまとめる
+        if task_mode == "select" and not task_name:
+            raise forms.ValidationError("タスクを入力してください")
+        if task_mode == "custom" and not custom_task:
+            raise forms.ValidationError("タスクを入力してください")
                 
         if start_time and end_time:
             if end_time <= start_time:
-                raise forms.ValidationError(
-                    "終了時刻は開始時刻より後の時間を指定してください"
-            )
+                self.add_error("end_time", "終了時刻は開始時刻より後の時間を指定してください")
 
         return cleaned_data
         

@@ -29,10 +29,10 @@
           <div class="task-card {% if task.is_completed %}completed{% endif %}"
                onclick="openModal(
                '{{ task.id }}',
-               '{{ task.custom_task|default:task.task_name }}',
+               '{{ task.custom_task|default:task.task_name|escapejs }}',
                '{{ task.date|date:'Y年n月j日' }}',
                '{% if task.start_time and task.end_time %}{{ task.start_time }}〜{{ task.end_time }}{% endif %}',
-               '{% if task.memo %}{{ task.memo }}{% endif %}'
+               '{% if task.memo %}{{ task.memo|escapejs }}{% endif %}'
                )">
             <p><strong>{{ task.custom_task|default:task.task_name }}</strong></p>
             <p>
