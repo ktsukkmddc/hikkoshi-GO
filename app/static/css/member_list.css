@@ -59,6 +59,22 @@
   font-size: 14px;
 }
 
+.btn-remove {
+  margin: 8px;
+  margin-left: 200px;
+  padding: 4px 10px;
+  font-size: 12px;
+  border: 1px solid #e57373;
+  background-color: #fff;
+  color: #e53935;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-remove:hover {
+  background-color: #fdecea;
+}
+
 /*.member-card:hover {
   transform: scale(1.02);
   background-color: #f0e6ee;

@@ -127,7 +127,17 @@ def member_list_view(request):
     
     members = CustomUser.objects.filter(move_info=user.move_info)
     
-    return render(request, "member_list.html", { "members": members,})
+    is_owner = (user == user.move_info.owner)
+    
+    return render(
+        request,
+        "member_list.html",
+        {
+            "members": members,
+            "is_owner": is_owner,
+            "current_user": user,
+        }
+    )
 
 
 # --- メンバー招待ページ ---
@@ -145,6 +155,42 @@ def invite_member_view(request):
     
     # owner のみ到達できる
     return render(request, 'registration/invite_member.html')
+
+
+@login_required
+def member_remove_view(request, user_id):
+    user = request.user
+
+    # POST以外は拒否
+    if request.method != "POST":
+        return redirect("member_list")
+
+    # move_info がない人は不可
+    if not user.move_info:
+        return redirect("home")
+
+    # オーナー以外は不可
+    if user != user.move_info.owner:
+        return redirect("member_list")
+
+    # 対象ユーザー取得（同じ move_info の人限定）
+    try:
+        target = CustomUser.objects.get(
+            id=user_id,
+            move_info=user.move_info
+        )
+    except CustomUser.DoesNotExist:
+        return redirect("member_list")
+
+    # オーナー本人は解除不可
+    if target == user:
+        return redirect("member_list")
+
+    # 解除（削除ではない！）
+    target.move_info = None
+    target.save()
+
+    return redirect("member_list")
 
 
 # --- 招待URL生成（有効期限付き・一度限り） ---
@@ -173,10 +219,48 @@ def generate_invite_url(request):
     
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
+@login_required
+def accept_invite_view(request):
+    """ログイン済みユーザーが招待コードで MoveInfo に参加する"""
+    invite_code = request.GET.get("invite")
+    if not invite_code:
+        return render(request, "registration/invite_invalid.html")
+    
+    try:
+        uuid.UUID(invite_code)
+        invite = Invite.objects.select_related("move_info").get(code=invite_code)
+    
+    except (ValueError, ValidationError, Invite.DoesNotExist):
+        return render(request, "registration/invite_invalid.html")
+    
+    if invite.is_expired():
+        return render(request, "registration/invite_expired.html")
+    
+    if invite.is_used:
+        return render(request, "registration/invite_used.html")
+    
+    # すでに同じ MoveInfo に参加していたらそのまま
+    if request.user.move_info_id == invite.move_info_id:
+        return redirect("home")
+    
+    # 参加（move_info付与）
+    request.user.move_info = invite.move_info
+    request.user.save(update_fields=["move_info"])
+    
+    # 招待は1回限りにする
+    invite.is_used = True
+    invite.save(update_fields=["is_used"])
+    
+    return redirect("home")
+
 
 # --- 新規登録（招待コード付き対応） ---
 def signup_view(request):
-    """新規登録ビュー（招待コード付き対応）"""
+    """新規登録ビュー（招待コード付き対応）
+    - 未ログイン: 新規登録フォーム
+    - ログイン済み: 招待リンクを踏んだらその場で参加（move_info付与）して home へ
+    """
+    
     invite_code = request.GET.get('invite')  # URLの?invite=UUIDを取得
     invite = None
 
@@ -196,7 +280,22 @@ def signup_view(request):
         # 使用済みチェック
         if invite.is_used:
             return render(request, 'registration/invite_used.html')
-
+        
+        # ログイン済みなら、今のユーザーをその MoveInfo に参加させる
+        if request.user.is_authenticated:
+            # すでに同じ move_info に参加済みならそのまま home
+            if request.user.move_info_id == invite.move_info_id:
+                return redirect('home')
+            
+            # 参加処理（既存アカウントに move_info を付与）
+            request.user.move_info = invite.move_info
+            request.user.save(update_fields=["move_info"])
+        
+            # 招待リンクを使用済みにする（1回限り運用）
+            invite.is_used = True
+            invite.save(update_fields=['is_used'])
+        
+            return redirect('home')
 
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)

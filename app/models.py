@@ -53,16 +53,6 @@ class CustomUser(AbstractUser):
         related_name="users"
     )
     
-    # ===== 旧 MoveGroup 設計（削除予定） =====
-    #group = models.ForeignKey(
-        #"MoveGroup",
-        #on_delete=models.SET_NULL,
-        #null=True,
-        #blank=True,
-        #related_name="members",
-        #verbose_name="所属グループ"
-    #)
-    
     # メール変更用
     new_email = models.EmailField(null=True, blank=True)
     email_change_token = models.UUIDField(default=uuid.uuid4, null=True, blank=True)
@@ -213,21 +203,3 @@ class MoveInfo(models.Model):
         owner_name = self.owner.full_name if self.owner else "未設定"
         date = self.move_date.strftime("%Y-%m-%d") if self.move_date else "未設定"
         return f"[管理者: {owner_name}] 引越し日: {date}"
-    
-
-# ==========================
-# グループ情報
-# ==========================    
-#class MoveGroup(models.Model):
-    #"""引越し用のグループ（1つの引越し単位）"""
-    #name = models.CharField("グループ名", max_length=100)
-    #owner = models.ForeignKey(
-        #settings.AUTH_USER_MODEL,
-        #on_delete=models.CASCADE,
-        #related_name="owned_groups",
-        #verbose_name="作成者"
-    #)
-    #created_at = models.DateTimeField(auto_now_add=True)
-
-    #def __str__(self):
-        #return self.name

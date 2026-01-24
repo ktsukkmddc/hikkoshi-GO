@@ -74,8 +74,16 @@
   </form>
 
   <p class="login-link">
-      <a href="{% url 'login' %}">すでにアカウントをお持ちの方はこちら</a>
-    </p>
+    {% if invite_code %}
+      <a href="{% url 'login' %}?next={% url 'accept_invite' %}%3Finvite%3D{{ invite_code }}">
+        すでにアカウントをお持ちの方はこちら
+      </a>
+    {% else %}
+      <a href="{% url 'login' %}">
+        すでにアカウントをお持ちの方はこちら
+      </a>
+    {% endif %}
+  </p>
 </div>
 
 <script>

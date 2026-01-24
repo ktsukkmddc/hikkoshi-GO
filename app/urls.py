@@ -30,6 +30,8 @@ urlpatterns = [
     path('invite_member/', login_required(views.invite_member_view), name='invite_member'),
     path('generate_invite_url/', login_required(views.generate_invite_url), name='generate_invite_url'),
     path('member_list/', login_required(views.member_list_view), name='member_list'),
+    path("members/remove/<int:user_id>/", views.member_remove_view, name="member_remove"),
+    path("invite/accept/", views.accept_invite_view, name="accept_invite"),
     
     # === メッセージ関連 ===
     path('message/register/', login_required(views.message_register_view), name='message_register'),

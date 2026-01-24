@@ -88,7 +88,7 @@ body {
 .nav-links a {
   text-decoration: underline;
   color: #555;
-  font-size: 15px;
+  font-size: 14px;
   white-space: nowrap; /* ← 改行を防ぐ */
 }
 

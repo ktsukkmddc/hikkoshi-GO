@@ -16,10 +16,19 @@
 
   <div class="member-list">
     {% for member in members %}
-    <div class="member-card">
-      <p>名前：{{ member.full_name|default:"未設定" }}</p>
-      <p>メールアドレス：{{ member.email }}</p>
-    </div>
+      <div class="member-card">
+        <p>名前：{{ member.full_name|default:"未設定" }}</p>
+        <p>メールアドレス：{{ member.email }}</p>
+
+        {% if is_owner and member != current_user %}
+          <form method="post" action="{% url 'member_remove' member.id %}">
+            {% csrf_token %}
+            <button class="btn-remove" type="submit">
+              引越しから解除
+            </button>
+          </form>
+        {% endif %}
+      </div>
     {% empty %}
       <p>登録メンバーはいません。</p>
     {% endfor %}
