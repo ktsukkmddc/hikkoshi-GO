@@ -119,6 +119,8 @@ class Message(models.Model):
         on_delete=models.CASCADE,
         related_name='messages'
     )
+    
+    is_read = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.sender} → {self.receiver}: {self.content[:15]}"

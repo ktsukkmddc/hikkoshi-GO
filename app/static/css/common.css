@@ -96,6 +96,21 @@ body {
   text-decoration: underline;
 }
 
+.nav-message {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-message .badge {
+  position: absolute;
+  top: -4px;
+  right: -10px;
+  width: 9px;
+  height: 9px;
+  background: #e53935;
+  border-radius: 50%;
+}
+
 /* ===== メインコンテンツとの余白 ===== */
 .main-content {
   padding-top: 70px; /* ナビバーの高さ分の余白を確保 */

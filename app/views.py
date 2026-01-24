@@ -558,7 +558,8 @@ def message_register_view(request):
                 sender=request.user,
                 receiver=receiver,
                 content=content,
-                move_info=request.user.move_info
+                move_info=request.user.move_info,
+                is_read=False,
             )
             return redirect("message_list")
 
@@ -567,6 +568,14 @@ def message_register_view(request):
 
 @login_required
 def message_list_view(request):
+    
+    if request.user.move_info:
+        Message.objects.filter(
+            receiver=request.user,
+            move_info=request.user.move_info,
+            is_read=False
+        ).update(is_read=True)
+    
     """メッセージ一覧（掲示板）"""
     query = request.GET.get("q")
     

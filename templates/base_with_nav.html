@@ -24,7 +24,12 @@
     <div class="nav-links">
       {% if user.is_authenticated %}
           <a href="{% url 'task_list' %}">タスク</a>
-          <a href="{% url 'message_list' %}">メッセージ</a>
+          <a href="{% url 'message_list' %}" class="nav-message">
+            メッセージ
+            {% if unread_message_count > 0 %}
+              <span class="badge"></span>
+            {% endif %}
+          </a>
           <a href="{% url 'calendar' %}">カレンダー</a>
           <a href="{% url 'mypage' %}">マイページ</a>
       {% endif %}
