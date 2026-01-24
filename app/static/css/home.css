@@ -222,7 +222,7 @@ body {
   }
 
   .progress-bar {
-    background: linear-gradient(to right, #efeeee, #898989);  /* ← PCと同じ */;
+    background: linear-gradient(to right, #d3fdd4, #3cfb27);  /* ← PCと同じ */;
     height: 20px;
     border-radius: 12px;
     overflow: hidden;
