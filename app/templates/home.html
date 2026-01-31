@@ -4,7 +4,7 @@
 {% block title %}引越しGO | 引越しGO{% endblock %}
 
 {% block extra_css %}
-  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}?v=20260201">
 {% endblock %}
 
 {% block content %}
@@ -56,8 +56,8 @@
       const daysLeftDisplay = document.getElementById("days-left");
       const serverMoveDate = "{{ move_date|date:'Y-m-d'|default:'' }}";
 
-      // 追加：ピッカーを開く前の値を覚える
       let beforeOpenValue = "";
+      let confirmedByUser = false;
 
       // ページ読み込み時に保存された日付を反映
       window.addEventListener("load", () => {
@@ -69,8 +69,12 @@
 
         // 日付変更時：保存してリロード
         if (dateInput) {
+          dateInput.addEventListener("input", () => {
+            confirmedByUser = true;
+          });
+
           // 「開く前の値」を記録（focusだけでなくclickでも）
-          const markBefore = () => { beforeOpenValue = dateInput.value || ""; };
+          const markBefore = () => { beforeOpenValue = dateInput.value || ""; confirmedByUser = false;};
 
           dateInput.addEventListener("focus", markBefore);
           dateInput.addEventListener("click", markBefore);
@@ -78,6 +82,9 @@
 
           dateInput.addEventListener("change", () => {
             if (!dateInput.value) return;
+
+            // ★ ユーザー操作がない change は保存しない（iOS対策）
+             if (!confirmedByUser) return;
 
             // ★ 開いた瞬間に勝手に入った値（= before と同じ/空→今日 等）を弾く
             // 「値が変わった時だけ保存」
