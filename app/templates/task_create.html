@@ -22,7 +22,6 @@
         <input type="radio" name="task_mode" value="select" id="task_mode_select"
           {% if request.POST.task_mode != "custom" %}checked{% endif %}>
         <select name="task_name" class="task-select">
-          <option value="">選択してください</option>
           {% for value, label in form.fields.task_name.choices %}
             <option value="{{ value }}"
               {% if request.POST.task_name == value %}selected{% endif %}>

@@ -18,7 +18,7 @@
     </form>
 
     {% if request.user.move_info %}
-      <a href="{% url 'message_register' %}" class="btn-new-message">メッセージに書き込む</a>
+      <a href="{% url 'message_register' %}" class="btn-new-message">メッセージを送る</a>
     {% else %}
       <a href="{% url 'home' %}" class="btn-new-message">新規登録</a>
     {% endif %}

@@ -56,6 +56,9 @@
       const daysLeftDisplay = document.getElementById("days-left");
       const serverMoveDate = "{{ move_date|date:'Y-m-d'|default:'' }}";
 
+      // 追加：ピッカーを開く前の値を覚える
+      let beforeOpenValue = "";
+
       // ページ読み込み時に保存された日付を反映
       window.addEventListener("load", () => {
         if (serverMoveDate && dateInput) {
@@ -66,8 +69,19 @@
 
         // 日付変更時：保存してリロード
         if (dateInput) {
+          // 「開く前の値」を記録（focusだけでなくclickでも）
+          const markBefore = () => { beforeOpenValue = dateInput.value || ""; };
+
+          dateInput.addEventListener("focus", markBefore);
+          dateInput.addEventListener("click", markBefore);
+          dateInput.addEventListener("pointerdown", markBefore);
+
           dateInput.addEventListener("change", () => {
             if (!dateInput.value) return;
+
+            // ★ 開いた瞬間に勝手に入った値（= before と同じ/空→今日 等）を弾く
+            // 「値が変わった時だけ保存」
+            if ((dateInput.value || "") === (beforeOpenValue || "")) return;
                 
             fetch("{% url 'set_move_date' %}", {
               method: "POST",
@@ -91,7 +105,7 @@
        }
 
         function updateCountdown() {
-          if (!daysLeftDisplay || !dateInput.value) return;
+          if (!daysLeftDisplay || !dateInput || !dateInput.value) return;
 
           const moveDate = new Date(dateInput.value);
           const today = new Date();
