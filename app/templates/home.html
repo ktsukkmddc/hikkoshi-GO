@@ -57,11 +57,21 @@
       const serverMoveDate = "{{ move_date|date:'Y-m-d'|default:'' }}";
 
       let beforeOpenValue = "";
-      let confirmedByUser = false;
+      let openedAt = 0;
+
+      let pendingValue = null;
+
+      function todayYmdLocal() {
+        const d = new Date();
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${y}-${m}-${day}`;
+      }
 
       // ページ読み込み時に保存された日付を反映
       window.addEventListener("load", () => {
-        if (serverMoveDate && dateInput) {
+        if (dateInput && serverMoveDate) {
           dateInput.value = serverMoveDate;
           updateCountdown();
         } 
@@ -69,26 +79,29 @@
 
         // 日付変更時：保存してリロード
         if (dateInput) {
-          dateInput.addEventListener("input", () => {
-            confirmedByUser = true;
-          });
-
-          // 「開く前の値」を記録（focusだけでなくclickでも）
-          const markBefore = () => { beforeOpenValue = dateInput.value || ""; confirmedByUser = false;};
-
+          const markBefore = () => {
+            beforeOpenValue = dateInput.value || "";
+            openedAt = Date.now();
+            pendingValue = null;
+          };
           dateInput.addEventListener("focus", markBefore);
           dateInput.addEventListener("click", markBefore);
           dateInput.addEventListener("pointerdown", markBefore);
 
           dateInput.addEventListener("change", () => {
             if (!dateInput.value) return;
+            updateCountdown();
+            pendingValue = dateInput.value;
+          });
 
-            // ★ ユーザー操作がない change は保存しない（iOS対策）
-             if (!confirmedByUser) return;
+          dateInput.addEventListener("blur", () => {
+            if (!pendingValue) return;
 
-            // ★ 開いた瞬間に勝手に入った値（= before と同じ/空→今日 等）を弾く
-            // 「値が変わった時だけ保存」
-            if ((dateInput.value || "") === (beforeOpenValue || "")) return;
+            if (pendingValue === beforeOpenValue) return;
+
+            const tooFast = (Date.now() - openedAt) < 1200;
+            const isAutoToday = (beforeOpenValue === "") && (pendingValue === todayYmdLocal()) && tooFast;
+            if (isAutoToday) return;
                 
             fetch("{% url 'set_move_date' %}", {
               method: "POST",
@@ -97,7 +110,7 @@
                 "X-CSRFToken": "{{ csrf_token }}",
               },
               body: new URLSearchParams({
-                move_date: dateInput.value
+                move_date: pendingValue
               })
             })
             .then(res => res.json())
