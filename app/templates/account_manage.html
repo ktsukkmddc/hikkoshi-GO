@@ -166,15 +166,37 @@
   // 決定ボタンで反映
   selectBtn.addEventListener('click', () => {
     const selected = calendarInput.value;
-    if (selected) {
-      // 送信用 hidden input に保存
-      document.getElementById('move_date').value = selected;
 
+    hiddenInput.value = selected;
+
+    if (selected) {
       // 表示用 input に「2025年11月8日」形式で反映
       const date = new Date(selected);
       const formatted = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
-      document.getElementById('move_date_display').value = formatted;
+      displayInput.value = formatted;
+    } else {
+      displayInput.value = "";
     }
+
+    fetch("{% url 'set_move_date' %}", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": "{{ csrf_token }}",
+      },
+      body: new URLSearchParams({
+        move_date: selected
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "ok") {
+        location.reload();
+      } else {
+        alert("引越し日の保存に失敗しました");
+      }
+    });
+
     calendarModal.style.display = 'none';
   });
 

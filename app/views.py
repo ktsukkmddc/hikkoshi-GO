@@ -607,10 +607,11 @@ def set_move_date_view(request):
         return JsonResponse({"error": "POST only"}, status=405)
 
     user = request.user
-    move_date = request.POST.get("move_date")
-
-    if not move_date:
-        return JsonResponse({"error": "move_date is required"}, status=400)
+    move_date = request.POST.get("move_date", "").strip()
+    
+    # move_info が無い & 削除（空）要求 → 何もしないでOK返す
+    if not move_date and user.move_info is None:
+        return JsonResponse({"status": "ok", "move_date": None})
 
     # move_info がない場合は新規作成
     if user.move_info is None:
@@ -621,12 +622,19 @@ def set_move_date_view(request):
         )
         user.move_info = move_info
         user.save(update_fields=["move_info"])
-
-    # すでにある場合は更新
-    else:
-        user.move_info.move_date = move_date
+        return JsonResponse({"status": "ok", "move_date": move_date})
+    
+    # move_info がある & 削除（空）要求 → None を保存（削除）
+    if not move_date:
+        user.move_info.move_date = None
         user.move_info.updated_by = user
         user.move_info.save(update_fields=["move_date", "updated_by"])
+        return JsonResponse({"status": "ok", "move_date": None})
+
+    # move_info がある & 日付あり → 更新
+    user.move_info.move_date = move_date
+    user.move_info.updated_by = user
+    user.move_info.save(update_fields=["move_date", "updated_by"])
 
     return JsonResponse({
         "status": "ok",

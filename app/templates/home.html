@@ -28,7 +28,7 @@
             {% if is_move_date_set %}
               <span id="days-left">--</span>日！
             {% else %}
-              <span class="countdown-message">
+              <span class="countdown-message" id="countdown-message">
                 引越し日を登録してください
               </span>
             {% endif %}
@@ -89,13 +89,13 @@
           dateInput.addEventListener("pointerdown", markBefore);
 
           dateInput.addEventListener("change", () => {
-            if (!dateInput.value) return;
+            // if (!dateInput.value) return;
             updateCountdown();
             pendingValue = dateInput.value;
           });
 
           dateInput.addEventListener("blur", () => {
-            if (!pendingValue) return;
+            if (pendingValue === null) return;
 
             if (pendingValue === beforeOpenValue) return;
 
@@ -125,7 +125,19 @@
        }
 
         function updateCountdown() {
-          if (!daysLeftDisplay || !dateInput || !dateInput.value) return;
+          if (!dateInput) return;
+
+          const msg = document.getElementById("countdown-message");
+
+          if (!dateInput.value) {
+            if (daysLeftDisplay) daysLeftDisplay.textContent = "--";
+            if (msg) msg.style.display = "inline";
+            return;
+          }
+
+          if (msg) msg.style.display = "none";
+
+          if (!daysLeftDisplay) return;
 
           const moveDate = new Date(dateInput.value);
           const today = new Date();
