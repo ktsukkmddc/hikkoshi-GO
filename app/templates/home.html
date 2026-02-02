@@ -25,13 +25,15 @@
 
           <h2>引越しまであと</h2>
           <p class="countdown">
-            {% if is_move_date_set %}
-              <span id="days-left">--</span>日！
-            {% else %}
-              <span class="countdown-message" id="countdown-message">
-                引越し日を登録してください
-              </span>
-            {% endif %}
+            <!-- 数字表示（is_move_date_set の時だけ表示） -->
+            <span id="days-left" {% if not is_move_date_set %}style="display:none"{% endif %}>--</span>
+            <span id="days-suffix" {% if not is_move_date_set %}style="display:none"{% endif %}>日！</span>
+
+            <!-- 登録してください（is_move_date_set の時は非表示） -->
+            <span class="countdown-message" id="countdown-message"
+                  {% if is_move_date_set %}style="display:none"{% endif %}>
+              引越し日を登録してください
+            </span>
           </p>
       </section>
 
@@ -88,6 +90,10 @@
           dateInput.addEventListener("click", markBefore);
           dateInput.addEventListener("pointerdown", markBefore);
 
+          dateInput.addEventListener("input", () => {
+            updateCountdown();
+          });
+
           dateInput.addEventListener("change", () => {
             // if (!dateInput.value) return;
             updateCountdown();
@@ -128,20 +134,22 @@
           if (!dateInput) return;
 
           const msg = document.getElementById("countdown-message");
+          const suffix = document.getElementById("days-suffix");
 
           if (!dateInput.value) {
-            if (daysLeftDisplay) daysLeftDisplay.textContent = "--";
+            if (daysLeftDisplay) daysLeftDisplay.style.display = "none";
+            if (suffix) suffix.style.display = "none";
             if (msg) msg.style.display = "inline";
             return;
           }
 
           if (msg) msg.style.display = "none";
-
-          if (!daysLeftDisplay) return;
+          if (daysLeftDisplay) daysLeftDisplay.style.display = "inline";
+          if (suffix) suffix.style.display = "inline";
 
           const moveDate = new Date(dateInput.value);
           const today = new Date();
-          today.setHours(0, 0, 0, 0);  // 時間をリセット
+          today.setHours(0, 0, 0, 0);
           const diff = Math.ceil((moveDate - today) / (1000 * 60 * 60 * 24));
 
            if (isNaN(diff)) {
