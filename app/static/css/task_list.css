@@ -79,6 +79,7 @@ body {
 /* === タスク行 === */
 .task-row {
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: center;
   gap: 12px;
@@ -87,6 +88,7 @@ body {
 
 /* === チェックボックス === */
 .task-checkbox {
+  flex: 0 0 auto;
   width: 18px;
   height: 18px;
   accent-color: #555;
@@ -109,7 +111,10 @@ body {
 
 /* === タスクカード === */
 .task-card {
-  flex-grow: 1;
+  flex: 0 0 300px;
+  width: 300px;
+  max-width: 300px;
+  box-sizing: border-box;
   background: #fff;
   border-radius: 10px;
   padding: 8px 15px;
@@ -271,7 +276,10 @@ body {
 }
 
   .task-card {
-    width: 92%;
+    flex: 0 0 auto;
+    width: min(250px, 88vw);
+    max-width: 250px;
+    box-sizing: border-box;
     padding: 5px 12px 10px;
     font-size: 16px;
     line-height: 1.0;
