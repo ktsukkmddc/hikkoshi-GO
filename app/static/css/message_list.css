@@ -98,6 +98,7 @@
 
 .message-card {
   width: 100%;
+  max-width: 420px;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -121,6 +122,9 @@
   margin-top: 8px;
   font-size: 12px;
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  max-width: 100%;
 }
 
 .message-date {
@@ -178,6 +182,12 @@ body {
     align-items: center;
     gap: 10px;
     margin-bottom: 10px;
+  }
+
+  .message-card {
+    width: 100%;
+    max-width: 330px;
+    box-sizing: border-box;
   }
 
   .search-form {

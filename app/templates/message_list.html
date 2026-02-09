@@ -28,12 +28,19 @@
   {% if messages %}
     <div class="message-cards">
       {% for msg in messages %}
-        <div class="message-card">
-          <p class="message-from">
-            {{ msg.sender.full_name }} → @{{ msg.receiver.full_name }}
-          </p>
-          <p class="message-content">{{ msg.content }}</p>
-          <p class="message-date">{{ msg.created_at|date:"Y/m/d H:i" }}</p>
+        <div class="message-row" data-id="{{ msg.id }}">
+          <div class="message-card">
+            <p class="message-from">
+              {{ msg.sender.full_name }} → @{{ msg.receiver.full_name }}
+            </p>
+            <p class="message-content">{{ msg.content }}</p>
+            <p class="message-date">{{ msg.created_at|date:"Y/m/d H:i" }}</p>
+          </div>
+
+          <!-- 削除ボタン -->
+          <button class="delete-btn message-delete-btn" data-id="{{ msg.id }}">
+            削除
+          </button>
         </div>
       {% endfor %}
     </div>
@@ -47,4 +54,56 @@
     {% endif %}
   {% endif %}
 </div>
+
+<script>
+  // CSRF（Djangoテンプレで csrf_token を使う）
+  const CSRF_TOKEN = "{{ csrf_token }}";
+
+  // クリック貫通を止める：削除ボタンは pointerdown でも止める（スマホ/PC安定）
+  document.addEventListener("pointerdown", (e) => {
+    const btn = e.target.closest(".message-delete-btn");
+    if (!btn) return;
+    e.stopPropagation();
+  }, true); // ← capture重要
+
+  document.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".message-delete-btn");
+    if (!btn) return;
+
+    // ここでも止める（二重で保険）
+    e.preventDefault();
+    e.stopPropagation();
+
+    const messageId = btn.dataset.id;
+    if (!messageId) return;
+
+    if (!confirm("このメッセージを削除しますか？")) return;
+
+    try {
+      const res = await fetch(`/message/delete/${messageId}/`, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": CSRF_TOKEN,
+        },
+      });
+
+      if (!res.ok) {
+        alert("削除に失敗しました");
+        return;
+      }
+
+      const data = await res.json();
+
+      if (data.status === "ok") {
+        const row = btn.closest(".message-row");
+        if (row) row.remove();
+      } else {
+        alert("削除に失敗しました");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("通信エラーが発生しました");
+    }
+  }, true); // ← captureにして“先に”拾うと貫通しにくい
+</script>
 {% endblock %}

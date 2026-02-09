@@ -153,55 +153,38 @@ function openModal(id, name, date, time, memo) {
   editTaskBtn.onclick = () => location.href = `/task/edit/${id}/`;
   modal.style.display = 'block';
 }
-/*closeModalBtn.onclick = () => modal.style.display = 'none';
-window.onclick = e => { if (e.target === modal) modal.style.display = 'none'; };*/
 
 const modalContent = modal.querySelector('.modal-content');
 
-let swallowNextClick = false;
+// モーダル内クリックは外へ漏らさない
+if (modalContent) {
+  modalContent.addEventListener('pointerdown', (e) => e.stopPropagation());
+  modalContent.addEventListener('click', (e) => e.stopPropagation());
+}
 
-// “閉じた直後の1回だけ” クリックを握りつぶす（captureで先に取る）
-document.addEventListener('click', (e) => {
-  if (!swallowNextClick) return;
-  e.preventDefault();
-  e.stopPropagation();
-  swallowNextClick = false;
-}, true); // ← captureが重要
-
+// 閉じるボタン：pointerdownは「止めるだけ」（閉じない！）
 closeModalBtn.addEventListener('pointerdown', (e) => {
   e.preventDefault();
   e.stopPropagation();
-  swallowNextClick = true;
-  modal.style.display = 'none';
 });
 
-// 閉じるボタン：下に伝播させない（超重要）
+// 閉じるボタン：閉じるのは click のみ（1フレーム遅らせる）
 closeModalBtn.addEventListener('click', (e) => {
   e.preventDefault();
   e.stopPropagation();
-  swallowNextClick = true;
-  modal.style.display = 'none';
-});
-
-// iOS対策：clickより前の段階でも止めるとさらに安定
-closeModalBtn.addEventListener('pointerdown', (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-});
-
-// 背景（オーバーレイ）クリックで閉じる：伝播させない
-modal.addEventListener('click', (e) => {
-  if (e.target === modal) {
-    e.stopPropagation();
+  requestAnimationFrame(() => {
     modal.style.display = 'none';
-  }
+  });
 });
 
-// モーダルの中身をクリックしても外へ漏らさない
-if (modalContent) {
-  modalContent.addEventListener('click', (e) => e.stopPropagation());
-  modalContent.addEventListener('pointerdown', (e) => e.stopPropagation());
-}
+// 背景（オーバーレイ）クリックで閉じる
+modal.addEventListener('click', (e) => {
+  if (e.target !== modal) return;
+  e.stopPropagation();
+  requestAnimationFrame(() => {
+    modal.style.display = 'none';
+  });
+});
 
 /* ✅ 削除モーダル */
 const deleteModal = document.getElementById('deleteModal');

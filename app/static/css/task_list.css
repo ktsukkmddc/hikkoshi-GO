@@ -139,14 +139,23 @@ body {
 }
 
 /* --- 下段（日付・時間・メモを横並び） --- */
-.task-card p:nth-child(2),
-.task-card p:nth-child(3) {
+.task-card p:nth-child(2){
+/*.task-card p:nth-child(3)*/
   display: inline-block;
   margin: 0;
   margin-right: 25px;
   font-size: 13px;
   color: #555;
   vertical-align: middle;
+}
+
+.task-card p.task-memo {
+  font-size: 13px;
+  display: block;              /* ← これで必ず1行を専有 */
+  white-space: pre-wrap;       /* 改行も維持 */
+  overflow-wrap: anywhere;     /* 長い英数字でも折り返す */
+  word-break: break-word;
+  margin: 0;      /* 念のため保険 */
 }
 
 /* --- 完了時 --- */
@@ -208,6 +217,8 @@ body {
 /* モーダル内のメモ（改行対応） */
 #modal-task-memo {
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .modal-buttons {

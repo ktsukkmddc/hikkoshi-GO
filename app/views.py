@@ -13,6 +13,7 @@ from .models import Invite, Task, CustomUser, Message, MoveInfo
 from django.core.mail import send_mail, BadHeaderError, EmailMessage
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
+from django.views.decorators.http import require_POST
 from datetime import date
 import calendar as pycal
 import uuid, json
@@ -594,6 +595,21 @@ def message_list_view(request):
 
 def portfolio_top_view(request):
     return render(request, "portfolio_top.html")
+
+
+@login_required
+@require_POST
+def delete_message_view(request, message_id):
+    msg = Message.objects.filter(id=message_id).first()
+    if not msg:
+        return JsonResponse({"error": "not found"}, status=404)
+    
+    # 自分が関係するメッセージだけ削除許可（安全）
+    if msg.sender != request.user and msg.receiver != request.user:
+        return JsonResponse({"error": "forbidden"}, status=403)
+    
+    msg.delete()
+    return JsonResponse({"status": "ok"})
 
 
 @login_required
