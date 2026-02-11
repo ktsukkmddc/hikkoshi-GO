@@ -13,10 +13,21 @@
 
   <!-- ▼ owner 専用 -->
   <div class="invite-content">
-    <h3>新規メンバーの招待</h3>
-    <p>このリンクはまだアカウントを持っていない人向けです。</p>
-    <p>1. 招待URL発行ボタンをクリックしてリンクを表示します。</p>
-    <p>2. リンクを招待するメンバーに共有し、登録してもらってください。</p>
+    <p class="invite-note">
+      この招待URLは、すでにアカウントをお持ちの方も<br>利用できます。
+    </p>
+
+    <p>1. 招待URL発行ボタンをクリックしてリンクを<br>表示します。</p>
+    <p>2. リンクを招待するメンバーに共有し、登録して<br>もらってください。</p>
+
+    <div class="invite-description">
+      <p class="invite-item">
+        ⚪︎<strong>アカウントを持っていない方</strong>：<br>招待URLから登録すると、この引越しグループに参加できます。</p>
+      <p class="invite-item">
+        ⚪︎<strong>アカウントを持っているが未ログインの方</strong>：<br>招待URL → ログイン → 参加できます。</p>
+      <p class="invite-item">
+        ⚪︎<strong>すでにログイン中の方</strong>：<br>招待URLを開くだけで参加できます。</p>
+    </div>
 
     <button id="generate-btn" class="btn-generate">招待URLを発行</button>
     <input type="text" id="invite-url" readonly placeholder="ここに招待URLが表示されます">

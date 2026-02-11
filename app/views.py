@@ -350,7 +350,11 @@ def change_email_view(request):
 
         if password != password_confirm:
             messages.error(request, "パスワードが一致しません。")
-            return render(request, "change_email.html")
+            return render(request, "change_email.html", {"user": user})
+        
+        if not user.check_password(password):
+            messages.error(request, "パスワードが正しくありません。")
+            return render(request, "change_email.html", {"user": user})
         
         # トークン生成
         token = uuid.uuid4()
