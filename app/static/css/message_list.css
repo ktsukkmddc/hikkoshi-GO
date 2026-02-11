@@ -92,17 +92,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
-  max-height: 400px;
+  gap: 0;
+  /*max-height: 400px;*/
 }
 
 .message-card {
   width: 100%;
-  max-width: 420px;
+  max-width: 370px;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 10px;
-  padding: 5px;
+  padding: 0 15px;
   text-align: left;
   border: 1px solid #02c0f5;
 }
@@ -110,6 +110,16 @@
 .message-card:hover {
   transform: scale(1.02);
   background-color: #f0e6ee;
+}
+
+.message-row {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .message-from {
@@ -137,6 +147,102 @@
   margin-top: 40px;
   color: #666;
   font-size: 16px;
+}
+
+.message-delete-btn {
+  flex: 0 0 auto;
+  align-self: center;
+  padding: 6px 12px;
+  background-color: #fb669d;
+  color: #fff;
+  border: 1px solid #fb669d;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.message-delete-btn:hover {
+  background-color: #e74c3c;
+  color: white;
+}
+
+/* === モーダル === */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(153, 152, 152, 0.4);
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid #02c0f5;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  width: 340px;
+  text-align: center; 
+}
+
+.modal-content h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+.modal-content p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+/* モーダル内のメモ（改行対応） */
+#modal-task-memo {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+.modal-btn {
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.modal-delete {
+  background-color: #fb669d;
+  color: #fff;
+  border: 1px solid #fb669d;
+}
+
+.modal-cancel {
+  background-color: #F2F2F2;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.modal-edit {
+  background-color: #50e3f6;
+  color: #333;
+  border: 1px solid #ccc;
+}
+.modal-close {
+  background-color: #F2F2F2;
+  color: #333;
+  border: 1px solid #ccc;
 }
 
 /* ===== スクロールエリア ===== */
@@ -186,8 +292,16 @@ body {
 
   .message-card {
     width: 100%;
-    max-width: 330px;
+    max-width: 280px;
     box-sizing: border-box;
+  }
+
+  .message-row {
+  display: flex;
+  align-items: flex-start; /* 高さが増えてもボタンが上で揃う */
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
   }
 
   .search-form {

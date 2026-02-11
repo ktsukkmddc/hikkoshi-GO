@@ -55,48 +55,69 @@
   {% endif %}
 </div>
 
+<!-- ✅ メッセージ削除確認モーダル -->
+<div id="messageDeleteModal" class="modal">
+  <div class="modal-content">
+    <p>内容を削除します。</p>
+    <div class="modal-buttons">
+      <button id="messageConfirmDelete" class="modal-btn modal-delete">削除</button>
+      <button id="messageCancelDelete" class="modal-btn modal-cancel">キャンセル</button>
+    </div>
+  </div>
+</div>
+
 <script>
-  // CSRF（Djangoテンプレで csrf_token を使う）
+document.addEventListener("DOMContentLoaded", () => {
   const CSRF_TOKEN = "{{ csrf_token }}";
 
-  // クリック貫通を止める：削除ボタンは pointerdown でも止める（スマホ/PC安定）
-  document.addEventListener("pointerdown", (e) => {
+  const deleteModal  = document.getElementById("messageDeleteModal");
+  const confirmBtn   = document.getElementById("messageConfirmDelete");
+  const cancelBtn    = document.getElementById("messageCancelDelete");
+  const modalContent = deleteModal?.querySelector(".modal-content");
+
+  // ✅ 取れてなかったらここで止めて、原因が分かるようにする
+  if (!deleteModal || !confirmBtn || !cancelBtn) {
+    console.log("modal elements missing:", { deleteModal, confirmBtn, cancelBtn });
+    return;
+  }
+
+  let targetMessageId = null;
+  let targetRow = null;
+
+  // ✅ 削除ボタンを押したらモーダルを開く（イベント委任）
+  document.addEventListener("click", (e) => {
     const btn = e.target.closest(".message-delete-btn");
     if (!btn) return;
-    e.stopPropagation();
-  }, true); // ← capture重要
 
-  document.addEventListener("click", async (e) => {
-    const btn = e.target.closest(".message-delete-btn");
-    if (!btn) return;
-
-    // ここでも止める（二重で保険）
     e.preventDefault();
     e.stopPropagation();
 
-    const messageId = btn.dataset.id;
-    if (!messageId) return;
+    targetMessageId = btn.dataset.id;
+    targetRow = btn.closest(".message-row");
+    if (!targetMessageId || !targetRow) return;
 
-    if (!confirm("このメッセージを削除しますか？")) return;
+    deleteModal.style.display = "block";
+  }, true);
+
+  // ✅ 削除実行
+  confirmBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!targetMessageId) return;
 
     try {
-      const res = await fetch(`/message/delete/${messageId}/`, {
+      const res = await fetch(`/message/delete/${targetMessageId}/`, {
         method: "POST",
-        headers: {
-          "X-CSRFToken": CSRF_TOKEN,
-        },
+        headers: { "X-CSRFToken": CSRF_TOKEN },
       });
-
-      if (!res.ok) {
-        alert("削除に失敗しました");
-        return;
-      }
 
       const data = await res.json();
 
-      if (data.status === "ok") {
-        const row = btn.closest(".message-row");
-        if (row) row.remove();
+      if (res.ok && data.status === "ok") {
+        targetRow?.remove();
+        deleteModal.style.display = "none";
+        targetMessageId = null;
+        targetRow = null;
       } else {
         alert("削除に失敗しました");
       }
@@ -104,6 +125,39 @@
       console.error(err);
       alert("通信エラーが発生しました");
     }
-  }, true); // ← captureにして“先に”拾うと貫通しにくい
+  });
+
+  // ✅ キャンセル
+  cancelBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    deleteModal.style.display = "none";
+    targetMessageId = null;
+    targetRow = null;
+  });
+
+  // ✅ 背景クリックで閉じる
+  deleteModal.addEventListener("click", (e) => {
+    if (e.target === deleteModal) {
+      e.stopPropagation();
+      deleteModal.style.display = "none";
+      targetMessageId = null;
+      targetRow = null;
+    }
+  });
+
+  // ✅ モーダル内クリックは外へ漏らさない（貫通防止）
+  if (modalContent) {
+    modalContent.addEventListener("click", (e) => e.stopPropagation());
+    modalContent.addEventListener("pointerdown", (e) => e.stopPropagation(), true);
+  }
+
+  // ✅ 削除ボタンの pointerdown でも止める
+  document.addEventListener("pointerdown", (e) => {
+    const btn = e.target.closest(".message-delete-btn");
+    if (!btn) return;
+    e.stopPropagation();
+  }, true);
+});
 </script>
 {% endblock %}
