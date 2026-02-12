@@ -1,6 +1,6 @@
 import re
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, PasswordChangeForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser, Task
@@ -67,6 +67,28 @@ class CustomUserCreationForm(UserCreationForm):
         if errors:
             raise forms.ValidationError(errors)
         
+        return password
+
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    def clean_new_password1(self):
+        password = self.cleaned_data.get("new_password1") or ""
+        errors = []
+
+        if len(password) < 10:
+            errors.append("パスワードは10文字以上で入力してください。")
+        if not re.search(r"[A-Z]", password):
+            errors.append("パスワードに大文字を含めてください。")
+        if not re.search(r"[a-z]", password):
+            errors.append("パスワードに小文字を含めてください。")
+        if not re.search(r"\d", password):
+            errors.append("パスワードに数字を含めてください。")
+        if not re.search(r"[!%@$#&]", password):
+            errors.append("パスワードに記号（!, %, @, #, $, &）を含めてください。")
+
+        if errors:
+            raise forms.ValidationError(errors)
+
         return password
             
 
