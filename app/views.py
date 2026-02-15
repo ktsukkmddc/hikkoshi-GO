@@ -2,13 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import PasswordChangeView
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.db.models import Count, Q
-from .forms import CustomUserCreationForm, TaskForm
+from .forms import CustomUserCreationForm, TaskForm, CustomPasswordChangeForm
 from .models import Invite, Task, CustomUser, Message, MoveInfo
 from django.core.mail import send_mail, BadHeaderError, EmailMessage
 from django.contrib.sites.shortcuts import get_current_site
@@ -660,3 +661,14 @@ def set_move_date_view(request):
         "status": "ok",
         "move_date": move_date
     })
+    
+    
+    class CustomPasswordChangeView(PasswordChangeView):
+        form_class = CustomPasswordChangeForm
+        template_name = "registration/password_change.html"
+        success_url = reverse_lazy("password_change_done")
+        
+        def form_valid(self, form):
+            response = super().form_valid(form)
+            update_session_auth_hash(self.request, form.user)
+            return response

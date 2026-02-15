@@ -61,7 +61,8 @@
 
 .app-link {
   display: inline-block;
-  padding: 12px 28px;
+  max-width: 200px;
+  padding: 10px 25px;
   background-color: #50e3f6;
   color: #333;
   border: 1px solid #ccc;
@@ -109,7 +110,7 @@
   .description {
     font-size: 14px;
     line-height: 1.8;
-    margin: 20px 0;
+    margin: 15px 0;
     padding: 0 5px;
     text-align: left;
   }
@@ -120,7 +121,7 @@
     grid-template-columns: 1fr 1fr; /* 2列にしてコンパクト */
     gap: 15px 1px;
     justify-items: center;
-    margin: 25px 0;
+    margin: 20px 0;
   }
 
   .links a {
@@ -134,7 +135,7 @@
 
   .app-link {
     padding: 12px 20px;
-    width: 55%;
+    max-width: 150px;
     font-size: 15px;
     display: inline-block;
   }
