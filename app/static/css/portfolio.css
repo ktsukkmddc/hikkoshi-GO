@@ -134,9 +134,11 @@
   }
 
   .app-link {
+    display: block;
+    width: 55%;
     padding: 12px 20px;
     max-width: 150px;
+    margin: 0 auto;
     font-size: 15px;
-    display: inline-block;
   }
 }

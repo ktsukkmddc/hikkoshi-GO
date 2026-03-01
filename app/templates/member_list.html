@@ -21,7 +21,10 @@
         <p>メールアドレス：{{ member.email }}</p>
 
         {% if is_owner and member != current_user %}
-          <form method="post" action="{% url 'member_remove' member.id %}">
+          <form method="post"
+                action="{% url 'member_remove' member.id %}"
+                class="member-remove-form"
+                data-member-name="{{ member.full_name|default:member.email }}">
             {% csrf_token %}
             <button class="btn-remove" type="submit">
               引越しから解除
@@ -34,4 +37,73 @@
     {% endfor %}
   </div>
 </div>
+<!-- ✅ メンバー解除確認モーダル -->
+<div id="memberRemoveModal" class="modal">
+  <div class="modal-content">
+    <p id="memberRemoveText">このメンバーを解除しますか？</p>
+    <div class="modal-buttons">
+      <button id="memberRemoveConfirm" type="button" class="modal-btn modal-delete">解除する</button>
+      <button id="memberRemoveCancel" type="button" class="modal-btn modal-cancel">キャンセル</button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("memberRemoveModal");
+  const text  = document.getElementById("memberRemoveText");
+  const ok    = document.getElementById("memberRemoveConfirm");
+  const ng    = document.getElementById("memberRemoveCancel");
+  const modalContent = modal?.querySelector(".modal-content");
+
+  if (!modal || !ok || !ng || !text) return;
+
+  let targetForm = null;
+  let bypass = false;
+
+  // 解除ボタン（フォーム送信）を横取り
+  document.addEventListener("submit", (e) => {
+    const form = e.target.closest(".member-remove-form");
+    if (!form) return;
+
+    if (bypass) {
+      bypass = false;
+      return;
+    }    
+
+    e.preventDefault(); // ← ここでワンタップ解除を止める
+    targetForm = form;
+
+    const name = form.dataset.memberName || "このメンバー";
+    text.textContent = `${name} を引越しグループから解除します。`;
+
+    modal.classList.add("is-open");
+  }, true);
+
+  ok.addEventListener("click", () => {
+    if (!targetForm) return;
+    modal.classList.remove("is-open");
+
+    bypass = true;
+    targetForm.submit(); // ✅ OKのときだけ送信
+    targetForm = null;
+  });
+
+  ng.addEventListener("click", () => {
+    modal.classList.remove("is-open");
+    targetForm = null;
+  });
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.remove("is-open");
+      targetForm = null;
+    }
+  });
+
+  if (modalContent) {
+    modalContent.addEventListener("click", (e) => e.stopPropagation());
+  }
+});
+</script>
 {% endblock %}
