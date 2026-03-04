@@ -11,7 +11,7 @@
   <h2>メッセージ</h2>
   <p class="sub-text">メッセージを入力して登録できます。</p>
 
-  <form method="POST" action="">
+  <form method="POST" action="" id="messageForm">
     {% csrf_token %}
 
     <div class="form-group">
@@ -29,7 +29,20 @@
       <textarea id="content" name="content" rows="4" placeholder="メッセージ内容を入力" required></textarea>
     </div>
 
-    <button type="submit" class="btn-register">登録</button>    
+    <button type="submit" id="sendBtn" class="btn-register">登録</button>
   </form>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("messageForm");
+  const btn = document.getElementById("sendBtn");
+
+  if (!form || !btn) return;
+
+  form.addEventListener("submit", () => {
+    btn.disabled = true;   // 二重送信防止
+  });
+});
+</script>
 {% endblock %}

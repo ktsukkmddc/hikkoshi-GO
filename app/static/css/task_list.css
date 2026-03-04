@@ -1,4 +1,5 @@
-body {
+html, body  {
+  height: 100%;
   background-color: #fafafa;
   color: #333;
   overflow-y: auto;
@@ -7,7 +8,7 @@ body {
 
 /* === 全体 === */
 .task-list-wrapper {
-  position: relative;
+  position: sticky;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,33 +21,35 @@ body {
 }
 
 .task-header {
-  position: fixed;
+  position: sticky;
   top: 55px; /* ナビバー分 */
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   background-color: #fafafa;
   width: 100%;
   max-width: 600px;
-  padding: 5px 20px 40px;
+  margin: 0 auto;
+  padding: 10px 16px;
   z-index: 1000;
+  gap: 12px;
 }
 
 .task-header h2 {
   text-align: center;
   font-size: 22px;
   font-weight: bold;
-  margin: 0;
-  margin-top: 50px;
+  margin: 0 auto;
 }
 
 /* === 新規登録ボタン === */
 .new-task-btn {
-  position: fixed; /* ← 固定 */
-  top: 80px; /* タイトルと揃える */
-  right: calc(50% - 300px); /* ← タスク一覧右端に揃うよう調整（600px幅の半分） */
+  justify-self: center;
+  grid-column: 2;
+  /*position: fixed; /* ← 固定 */
+  /*top: 80px; /* タイトルと揃える */
+  /*right: calc(50% - 300px); /* ← タスク一覧右端に揃うよう調整（600px幅の半分） */
   background-color: #50e3f6;
   color: #333;
   border: 1px solid #ccc;
@@ -57,6 +60,8 @@ body {
   transition: background-color 0.2s;
   z-index: 1000;
   text-decoration: none;
+  align-self: flex-end;
+  margin-top: 8px;
 }
 
 .new-task-btn:hover {
@@ -72,9 +77,13 @@ body {
 .task-container {
   width: 100%;
   max-width: 600px;
-  margin: 100px auto 0; /* ← タイトル＋ボタン分の余白確保 */
+  margin: 50px auto ; /* ← タイトル＋ボタン分の余白確保 */
+  padding-top: 10px;
   padding-right: 10px;
   overflow-y: visible;
+  max-height: none;
+  overscroll-behavior: auto;
+  margin-top: 30px;
 }
 
 /* === タスク行 === */
@@ -266,7 +275,9 @@ body {
 /* ===== スマホ対応（768px以下） ===== */
 @media screen and (max-width: 768px) {
   .task-header {
-    top: 55px; /* ← スマホのナビバーが低い場合に調整 */
+    position: sticky;
+    top: 80px; /* ← スマホのナビバーが低い場合に調整 */
+    display: flex;
     flex-direction: column;
     gap: 2px;
     padding-bottom: 15px;
@@ -284,7 +295,8 @@ body {
   }
 
   .task-container {
-    margin-top: calc(200px + env(safe-area-inset-top));
+    margin-top: 60px;
+    max-height: calc(100dvh - 230px);
 }
 
   .task-card {
@@ -300,6 +312,18 @@ body {
   .task-card:hover {
     transform: scale(1.02);
     background-color: #f0e6ee;
+  }
+
+  /* タッチ端末では hover を発生させない（iOSのhover残り対策） */
+  @media (hover: none) and (pointer: coarse) {
+    .task-card:hover {
+      background-color: #fff;  /* hover色を無効 */
+      transform: none;
+    }
+  /* 代わりに押してる間だけ色を出したいなら */
+    .task-card:active {
+      background-color: #f0e6ee;
+    }
   }
 
   .task-card p:first-child {
