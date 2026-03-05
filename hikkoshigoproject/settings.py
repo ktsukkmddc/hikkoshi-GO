@@ -147,3 +147,14 @@ SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 EMAIL_BACKEND = "app.email_backend.SendGridAPIEmailBackend"
 
 DEFAULT_FROM_EMAIL = "hikkoshigo111@gmail.com"
+
+# ===== Gmail SMTP（テスト用）=====
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'hikkoshigo111@gmail.com'
+EMAIL_HOST_PASSWORD = 'zdstdcnalcililnj'
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
