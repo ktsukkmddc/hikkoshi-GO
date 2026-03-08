@@ -11,6 +11,10 @@
 <div class="change-email-wrapper">
   <h2>メールアドレス変更</h2>
 
+  {% if error_message %}
+    <p class="error-message">{{ error_message }}</p>
+  {% endif %}
+
   <form method="POST">
     {% csrf_token %}
     <div class="form-group">

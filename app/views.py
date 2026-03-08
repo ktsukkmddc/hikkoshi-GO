@@ -350,12 +350,16 @@ def change_email_view(request):
         password_confirm = request.POST.get("password_confirm")
 
         if password != password_confirm:
-            messages.error(request, "パスワードが一致しません。")
-            return render(request, "change_email.html", {"user": user})
+            return render(request, "change_email.html", {
+                "user": user,
+                "error_message": "パスワードが一致しません。"
+            })
         
         if not user.check_password(password):
-            messages.error(request, "パスワードが正しくありません。")
-            return render(request, "change_email.html", {"user": user})
+            return render(request, "change_email.html", {
+                "user": user,
+                "error_message": "パスワードが正しくありません。"
+            })
         
         # トークン生成
         token = uuid.uuid4()
@@ -364,8 +368,9 @@ def change_email_view(request):
         user.save()
 
         # 確認メール送信
-        current_site = get_current_site(request)
-        confirm_url = f"http://{current_site.domain}{reverse('confirm_email', args=[token])}"
+        confirm_url = request.build_absolute_uri(
+            reverse('confirm_email', args=[token])
+        )
         
         try:
             email = EmailMessage(

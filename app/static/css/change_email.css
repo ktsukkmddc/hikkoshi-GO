@@ -20,6 +20,18 @@ body {
   margin-bottom: 50px;
 }
 
+.error-message {
+  width: 90%;
+  margin: 0 auto 20px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background-color: #fdeaea;
+  color: #c62828;
+  border: 1px solid #f5b5b5;
+  font-size: 14px;
+  text-align: left;
+}
+
 /* ===== フォーム全体 ===== */
 form {
   display: flex;
