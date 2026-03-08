@@ -8,21 +8,17 @@ html, body  {
 
 /* === 全体 === */
 .task-list-wrapper {
-  position: sticky;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 0;
-  padding-top: 30px;
+  margin-top: 20px;
+  padding-top: 0;
   text-align: center;
   width: 100%;
-  min-height: calc(100svh - 70px);
 }
 
 .task-header {
-  position: sticky;
-  top: 55px; /* ナビバー分 */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -30,9 +26,8 @@ html, body  {
   background-color: #fafafa;
   width: 100%;
   max-width: 600px;
-  margin: 0 auto;
-  padding: 10px 16px;
-  z-index: 1000;
+  margin: 0 auto 10px;
+  padding: 0 16px;
   gap: 12px;
 }
 
@@ -47,9 +42,6 @@ html, body  {
 .new-task-btn {
   justify-self: center;
   grid-column: 2;
-  /*position: fixed; /* ← 固定 */
-  /*top: 80px; /* タイトルと揃える */
-  /*right: calc(50% - 300px); /* ← タスク一覧右端に揃うよう調整（600px幅の半分） */
   background-color: #50e3f6;
   color: #333;
   border: 1px solid #ccc;
@@ -58,7 +50,6 @@ html, body  {
   font-size: 14px;
   cursor: pointer;
   transition: background-color 0.2s;
-  z-index: 1000;
   text-decoration: none;
   align-self: flex-end;
   margin-top: 8px;
@@ -77,13 +68,12 @@ html, body  {
 .task-container {
   width: 100%;
   max-width: 600px;
-  margin: 50px auto ; /* ← タイトル＋ボタン分の余白確保 */
-  padding-top: 10px;
+  margin: 0 auto ; /* ← タイトル＋ボタン分の余白確保 */
+  padding-top: 0;
   padding-right: 10px;
   overflow-y: visible;
   max-height: none;
   overscroll-behavior: auto;
-  margin-top: 30px;
 }
 
 /* === タスク行 === */
@@ -275,12 +265,22 @@ html, body  {
 /* ===== スマホ対応（768px以下） ===== */
 @media screen and (max-width: 768px) {
   .task-header {
-    position: sticky;
-    top: 80px; /* ← スマホのナビバーが低い場合に調整 */
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    padding-bottom: 15px;
+    align-items: center;
+    gap: 8px;
+    padding: 0 16px 10px;
+  }
+
+  .task-header h2 {
+    display: block;
+    margin: 20px 0 0;
+    text-align: center;
+    font-size: 22px;
+  }
+
+  .task-list-wrapper {
+    margin-top: 70px;
   }
 
   .new-task-btn {
@@ -295,8 +295,8 @@ html, body  {
   }
 
   .task-container {
-    margin-top: 60px;
-    max-height: calc(100dvh - 230px);
+    margin-top: 0;
+    max-height: none;
 }
 
   .task-card {

@@ -32,7 +32,8 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'ktsukkmddc.pythonanywhere.com',
-    '192.168.150.37',
+    '192.168.150.32',
+    '*'
 ]
 
 
