@@ -10,7 +10,11 @@
 {% block content %}
 <div class="change-email-wrapper confirm-page">
   <h2>メールアドレスの変更が完了しました</h2>
-  <p>新しいメールアドレスが正常に登録されました。</p>
-  <a href="{% url 'account_manage' %}" class="return-link">アカウント管理に戻る</a>
+
+  <p>
+  新しいメールアドレスが登録されました。<br>
+  ログイン状態によっては、次にログイン画面が表示される場合があります。
+  </p>
+  <a href="{% url 'account_manage' %}" class="return-link">ログインしてアカウント管理へ</a>
 </div>
 {% endblock %}
